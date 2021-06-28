@@ -8,7 +8,7 @@ namespace OptimaSync.Confiugration
 {
     public class PathSetup
     {
-        private string compilationSourcePath { get; set; }
+        public string compilationSourcePath { get; set; }
         private string compilationDestPath { get; set; }
         private string compilationSOAPath { get; set; }
 

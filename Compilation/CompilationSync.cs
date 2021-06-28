@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,14 +11,30 @@ namespace OptimaSync.Compilation
     public class CompilationSync
     {
         PathSetup pathSetup = new PathSetup();
-        public void DownloadLastCompilation(String compilationSourcePath)
-        {
-          compilationSourcePath = pathSetup.GetCompilationSourcePath;
 
-            if (string.IsNullOrEmpty(compilationSourcePath){
+        const string compilationSourcePath = @"H:\OptimaSync\KatalogKompilacji\";
+        const string compilationDestPath = @"H:\OptimaSync\KomputerPracownika\";
+
+        public void DownloadLatestCompilation()
+        {
+            var dir = FindLastCompilation();
+
+            dir.MoveTo(compilationDestPath + dir.Name);
+        }
+
+        private DirectoryInfo FindLastCompilation()
+        {
+
+            if (string.IsNullOrEmpty(compilationSourcePath))
+            {
                 throw new NullReferenceException("Ustaw lokalizację z której chcesz pobierać pliki kompilacji");
             }
+            var directory = new DirectoryInfo(compilationSourcePath);
+            var lastCompilation = directory.GetDirectories()
+                .OrderByDescending(f => f.LastWriteTime)
+                .First();
 
+            return lastCompilation;
         }
     }
 }
