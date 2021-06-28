@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OptimaSync.UI;
 using OptimaSync.ConfigurationApp;
+using System.Configuration;
+using System.Reflection;
 
 namespace OptimaSync
 {
@@ -18,9 +20,13 @@ namespace OptimaSync
         CompilationSync compilationSync = new CompilationSync();
         SyncUI syncUI = new SyncUI();
         Settings settings = new Settings();
+        Configuration config = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
         public Form1()
         {
             InitializeComponent();
+            this.SourcePathTextBox.Text = config.AppSettings.Settings["SourcePath"].Value;
+            this.DestTextBox.Text = config.AppSettings.Settings["DestPath"].Value;
+            this.OptimaSOATextBox.Text = config.AppSettings.Settings["OptimaSOAPath"].Value;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)

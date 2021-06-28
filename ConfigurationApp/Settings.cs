@@ -16,7 +16,7 @@ namespace OptimaSync.ConfigurationApp
             config.AppSettings.Settings["SourcePath"].Value = SourcePath;
             config.AppSettings.Settings["DestPath"].Value = DestPath;
             config.AppSettings.Settings["OptimaSOAPath"].Value = OptimaSOAPath;
-            config.Save();
+            config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }
     }
