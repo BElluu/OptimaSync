@@ -49,11 +49,6 @@ namespace OptimaSync
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void buttonSourceDirectory_Click(object sender, EventArgs e)
         {
             syncUI.PathToTextbox(SourcePathTextBox);

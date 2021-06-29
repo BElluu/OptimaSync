@@ -31,6 +31,8 @@ namespace OptimaSync.Compilation
             }
             var directory = new DirectoryInfo(compilationSourcePath);
             var lastCompilation = directory.GetDirectories()
+                .Where(q => !q.Name.Contains("CIV", StringComparison.InvariantCultureIgnoreCase) ||
+                            !q.Name.Contains("SQL", StringComparison.InvariantCultureIgnoreCase))
                 .OrderByDescending(f => f.LastWriteTime)
                 .First();
 

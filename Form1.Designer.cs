@@ -34,6 +34,7 @@ namespace OptimaSync
             this.SOACheckBox = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.SettingsTab = new System.Windows.Forms.TabPage();
+            this.saveSettingsButton = new System.Windows.Forms.Button();
             this.buttonOptimaSOADirectory = new System.Windows.Forms.Button();
             this.buttonDestinationDirectory = new System.Windows.Forms.Button();
             this.buttonSourceDirectory = new System.Windows.Forms.Button();
@@ -44,7 +45,6 @@ namespace OptimaSync
             this.DestTextBox = new System.Windows.Forms.TextBox();
             this.SourcePathTextBox = new System.Windows.Forms.TextBox();
             this.HelpTab = new System.Windows.Forms.TabPage();
-            this.saveSettingsButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.SyncTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
@@ -78,7 +78,7 @@ namespace OptimaSync
             // SOACheckBox
             // 
             this.SOACheckBox.AutoSize = true;
-            this.SOACheckBox.Location = new System.Drawing.Point(242, 99);
+            this.SOACheckBox.Location = new System.Drawing.Point(13, 12);
             this.SOACheckBox.Name = "SOACheckBox";
             this.SOACheckBox.Size = new System.Drawing.Size(164, 19);
             this.SOACheckBox.TabIndex = 1;
@@ -87,7 +87,7 @@ namespace OptimaSync
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(38, 130);
+            this.button1.Location = new System.Drawing.Point(13, 37);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(116, 23);
             this.button1.TabIndex = 0;
@@ -114,6 +114,16 @@ namespace OptimaSync
             this.SettingsTab.TabIndex = 1;
             this.SettingsTab.Text = "Ustawienia";
             this.SettingsTab.UseVisualStyleBackColor = true;
+            // 
+            // saveSettingsButton
+            // 
+            this.saveSettingsButton.Location = new System.Drawing.Point(30, 204);
+            this.saveSettingsButton.Name = "saveSettingsButton";
+            this.saveSettingsButton.Size = new System.Drawing.Size(127, 23);
+            this.saveSettingsButton.TabIndex = 9;
+            this.saveSettingsButton.Text = "Zapisz Ustawienia";
+            this.saveSettingsButton.UseVisualStyleBackColor = true;
+            this.saveSettingsButton.Click += new System.EventHandler(this.saveSettingsButton_Click);
             // 
             // buttonOptimaSOADirectory
             // 
@@ -162,7 +172,6 @@ namespace OptimaSync
             this.label2.Size = new System.Drawing.Size(94, 15);
             this.label2.TabIndex = 4;
             this.label2.Text = "Folder docelowy";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label1
             // 
@@ -202,16 +211,6 @@ namespace OptimaSync
             this.HelpTab.TabIndex = 2;
             this.HelpTab.Text = "Pomoc";
             this.HelpTab.UseVisualStyleBackColor = true;
-            // 
-            // saveSettingsButton
-            // 
-            this.saveSettingsButton.Location = new System.Drawing.Point(30, 204);
-            this.saveSettingsButton.Name = "saveSettingsButton";
-            this.saveSettingsButton.Size = new System.Drawing.Size(127, 23);
-            this.saveSettingsButton.TabIndex = 9;
-            this.saveSettingsButton.Text = "Zapisz Ustawienia";
-            this.saveSettingsButton.UseVisualStyleBackColor = true;
-            this.saveSettingsButton.Click += new System.EventHandler(this.saveSettingsButton_Click);
             // 
             // Form1
             // 
