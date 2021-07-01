@@ -17,7 +17,22 @@ namespace OptimaSync.ConfigurationApp
             config.AppSettings.Settings["DestPath"].Value = DestPath;
             config.AppSettings.Settings["OptimaSOAPath"].Value = OptimaSOAPath;
             config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
+            ConfigurationManager.RefreshSection("configuration/appSettings"); // TODO Refresh do not work in runtime. Need to restart app...
+        }
+
+        public string GetSourcePath()
+        {
+            return config.AppSettings.Settings["SourcePath"].Value;
+        }
+
+        public string GetDestPath()
+        {
+            return config.AppSettings.Settings["DestPath"].Value;
+        }
+
+        public string GetOptimaSOAPath()
+        {
+            return config.AppSettings.Settings["OptimaSOAPath"].Value;
         }
     }
 }
