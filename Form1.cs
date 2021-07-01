@@ -34,9 +34,16 @@ namespace OptimaSync
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void downloadBuildButton_Click(object sender, EventArgs e)
         {
-            compilationSync.DownloadLatestCompilation();
+            if (SOACheckBox.Checked && string.IsNullOrEmpty(OptimaSOATextBox.Text))
+            {
+                MessageBox.Show("Chcesz wykorzystać SOA. Ścieżka instalacyjna Optimy musi być uzupełniona!");
+            }
+            else
+            {
+                compilationSync.DownloadLatestCompilation();
+            }
         }
 
         private void SyncTab_Click(object sender, EventArgs e)
@@ -66,7 +73,14 @@ namespace OptimaSync
 
         private void saveSettingsButton_Click(object sender, EventArgs e)
         {
-            settings.SetPaths(SourcePathTextBox.Text, DestTextBox.Text, OptimaSOATextBox.Text);
+            if (string.IsNullOrEmpty(SourcePathTextBox.Text))
+            {
+                MessageBox.Show("Ścieżka kompilacji nie może być pusta!");
+            }
+            else
+            {
+                settings.SetPaths(SourcePathTextBox.Text, DestTextBox.Text, OptimaSOATextBox.Text);
+            }
         }
     }
 }

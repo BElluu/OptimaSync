@@ -32,7 +32,7 @@ namespace OptimaSync
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SyncTab = new System.Windows.Forms.TabPage();
             this.SOACheckBox = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.downloadBuildButton = new System.Windows.Forms.Button();
             this.SettingsTab = new System.Windows.Forms.TabPage();
             this.saveSettingsButton = new System.Windows.Forms.Button();
             this.buttonOptimaSOADirectory = new System.Windows.Forms.Button();
@@ -65,7 +65,7 @@ namespace OptimaSync
             // SyncTab
             // 
             this.SyncTab.Controls.Add(this.SOACheckBox);
-            this.SyncTab.Controls.Add(this.button1);
+            this.SyncTab.Controls.Add(this.downloadBuildButton);
             this.SyncTab.Location = new System.Drawing.Point(4, 24);
             this.SyncTab.Name = "SyncTab";
             this.SyncTab.Padding = new System.Windows.Forms.Padding(3);
@@ -85,15 +85,15 @@ namespace OptimaSync
             this.SOACheckBox.Text = "Kompilacja z obsługą SOA";
             this.SOACheckBox.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // downloadBuildButton
             // 
-            this.button1.Location = new System.Drawing.Point(13, 37);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(116, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Pobierz kompilację";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.downloadBuildButton.Location = new System.Drawing.Point(13, 37);
+            this.downloadBuildButton.Name = "downloadBuildButton";
+            this.downloadBuildButton.Size = new System.Drawing.Size(116, 23);
+            this.downloadBuildButton.TabIndex = 0;
+            this.downloadBuildButton.Text = "Pobierz kompilację";
+            this.downloadBuildButton.UseVisualStyleBackColor = true;
+            this.downloadBuildButton.Click += new System.EventHandler(this.downloadBuildButton_Click);
             // 
             // SettingsTab
             // 
@@ -234,7 +234,7 @@ namespace OptimaSync
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage SyncTab;
         private System.Windows.Forms.TabPage SettingsTab;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button downloadBuildButton;
         private System.Windows.Forms.TabPage HelpTab;
         private System.Windows.Forms.CheckBox SOACheckBox;
         private System.Windows.Forms.Label label2;
