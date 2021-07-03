@@ -1,17 +1,8 @@
 ﻿using OptimaSync.Compilation;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using OptimaSync.UI;
 using OptimaSync.ConfigurationApp;
-using System.Configuration;
-using System.Reflection;
 
 namespace OptimaSync
 {
@@ -19,14 +10,13 @@ namespace OptimaSync
     {
         CompilationSync compilationSync = new CompilationSync();
         SyncUI syncUI = new SyncUI();
-        Settings settings = new Settings();
-        Configuration config = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
+        AppSettings appSettings = new AppSettings();
         public Form1()
         {
             InitializeComponent();
-            this.SourcePathTextBox.Text = config.AppSettings.Settings["SourcePath"].Value;
-            this.DestTextBox.Text = config.AppSettings.Settings["DestPath"].Value;
-            this.OptimaSOATextBox.Text = config.AppSettings.Settings["OptimaSOAPath"].Value;
+            this.SourcePathTextBox.Text = Properties.Settings.Default.BuildSourcePath;
+            this.DestTextBox.Text = Properties.Settings.Default.BuildDestPath;
+            this.OptimaSOATextBox.Text = Properties.Settings.Default.BuildSOAPath;
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -79,7 +69,7 @@ namespace OptimaSync
             }
             else
             {
-                settings.SetPaths(SourcePathTextBox.Text, DestTextBox.Text, OptimaSOATextBox.Text);
+                appSettings.SetPaths(SourcePathTextBox.Text, DestTextBox.Text, OptimaSOATextBox.Text);
             }
         }
     }
