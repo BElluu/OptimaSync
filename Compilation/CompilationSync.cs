@@ -11,27 +11,23 @@ namespace OptimaSync.Compilation
 {
     public class CompilationSync
     {
-        PathSetup pathSetup = new PathSetup();
-        Settings settings = new Settings();
-
-/*        const string compilationSourcePath = @"H:\OptimaSync\KatalogKompilacji\";
-        const string compilationDestPath = @"H:\OptimaSync\KomputerPracownika\";*/
+        AppSettings appSettings = new AppSettings();
 
         public void DownloadLatestCompilation()
         {
             var dir = FindLastCompilation();
 
-            dir.MoveTo(settings.GetDestPath() + "\\" + dir.Name);
+            dir.MoveTo(appSettings.GetDestPath() + "\\" + dir.Name);
         }
 
         private DirectoryInfo FindLastCompilation()
         {
 
-            if (string.IsNullOrEmpty(settings.GetSourcePath()))
+            if (string.IsNullOrEmpty(appSettings.GetSourcePath()))
             {
                 throw new NullReferenceException("Ustaw lokalizację z której chcesz pobierać pliki kompilacji");
             }
-            var directory = new DirectoryInfo(settings.GetSourcePath());
+            var directory = new DirectoryInfo(appSettings.GetSourcePath());
             var lastCompilation = directory.GetDirectories()
                 .Where(q => !q.Name.Contains("CIV", StringComparison.InvariantCultureIgnoreCase) &&
                             !q.Name.Contains("SQL", StringComparison.InvariantCultureIgnoreCase))

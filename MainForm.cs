@@ -1,37 +1,22 @@
 ﻿using OptimaSync.Compilation;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using OptimaSync.UI;
 using OptimaSync.ConfigurationApp;
-using System.Configuration;
-using System.Reflection;
 
 namespace OptimaSync
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         CompilationSync compilationSync = new CompilationSync();
         SyncUI syncUI = new SyncUI();
-        Settings settings = new Settings();
-        Configuration config = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
-        public Form1()
+        AppSettings appSettings = new AppSettings();
+        public MainForm()
         {
             InitializeComponent();
-            this.SourcePathTextBox.Text = config.AppSettings.Settings["SourcePath"].Value;
-            this.DestTextBox.Text = config.AppSettings.Settings["DestPath"].Value;
-            this.OptimaSOATextBox.Text = config.AppSettings.Settings["OptimaSOAPath"].Value;
-        }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            this.SourcePathTextBox.Text = Properties.Settings.Default.BuildSourcePath;
+            this.DestTextBox.Text = Properties.Settings.Default.BuildDestPath;
+            this.OptimaSOATextBox.Text = Properties.Settings.Default.BuildSOAPath;
         }
 
         private void downloadBuildButton_Click(object sender, EventArgs e)
@@ -44,16 +29,6 @@ namespace OptimaSync
             {
                 compilationSync.DownloadLatestCompilation();
             }
-        }
-
-        private void SyncTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void buttonSourceDirectory_Click(object sender, EventArgs e)
@@ -79,7 +54,7 @@ namespace OptimaSync
             }
             else
             {
-                settings.SetPaths(SourcePathTextBox.Text, DestTextBox.Text, OptimaSOATextBox.Text);
+                appSettings.SetPaths(SourcePathTextBox.Text, DestTextBox.Text, OptimaSOATextBox.Text);
             }
         }
     }
