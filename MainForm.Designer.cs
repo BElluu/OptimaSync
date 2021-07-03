@@ -1,7 +1,7 @@
 ﻿
 namespace OptimaSync
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -60,7 +60,6 @@ namespace OptimaSync
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(799, 488);
             this.tabControl1.TabIndex = 0;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // SyncTab
             // 
@@ -73,7 +72,6 @@ namespace OptimaSync
             this.SyncTab.TabIndex = 0;
             this.SyncTab.Text = "Sync";
             this.SyncTab.UseVisualStyleBackColor = true;
-            this.SyncTab.Click += new System.EventHandler(this.SyncTab_Click);
             // 
             // SOACheckBox
             // 
@@ -212,13 +210,13 @@ namespace OptimaSync
             this.HelpTab.Text = "Pomoc";
             this.HelpTab.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(826, 499);
             this.Controls.Add(this.tabControl1);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "OptimaSync";
             this.tabControl1.ResumeLayout(false);
             this.SyncTab.ResumeLayout(false);

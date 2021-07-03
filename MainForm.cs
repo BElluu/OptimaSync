@@ -6,22 +6,17 @@ using OptimaSync.ConfigurationApp;
 
 namespace OptimaSync
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         CompilationSync compilationSync = new CompilationSync();
         SyncUI syncUI = new SyncUI();
         AppSettings appSettings = new AppSettings();
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             this.SourcePathTextBox.Text = Properties.Settings.Default.BuildSourcePath;
             this.DestTextBox.Text = Properties.Settings.Default.BuildDestPath;
             this.OptimaSOATextBox.Text = Properties.Settings.Default.BuildSOAPath;
-        }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void downloadBuildButton_Click(object sender, EventArgs e)
@@ -34,16 +29,6 @@ namespace OptimaSync
             {
                 compilationSync.DownloadLatestCompilation();
             }
-        }
-
-        private void SyncTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void buttonSourceDirectory_Click(object sender, EventArgs e)
