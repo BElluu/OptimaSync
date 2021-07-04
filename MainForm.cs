@@ -1,4 +1,4 @@
-﻿using OptimaSync.Compilation;
+﻿using OptimaSync.Service;
 using System;
 using System.Windows.Forms;
 using OptimaSync.UI;
@@ -55,7 +55,7 @@ namespace OptimaSync
             }
             else
             {
-                appSettings.SetPaths(SourcePathTextBox.Text, DestTextBox.Text, OptimaSOATextBox.Text);
+             appSettings.SetPaths(SourcePathTextBox.Text, DestTextBox.Text, OptimaSOATextBox.Text);
             }
         }
     }

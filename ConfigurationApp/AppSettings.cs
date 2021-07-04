@@ -1,4 +1,5 @@
 ﻿using OptimaSync.Confiugration;
+using System;
 
 namespace OptimaSync.ConfigurationApp
 {
@@ -7,11 +8,17 @@ namespace OptimaSync.ConfigurationApp
         PathSetup pathSetup = new PathSetup();
         public void SetPaths(string SourcePath, string DestPath, string OptimaSOAPath)
         {
-            Properties.Settings.Default.BuildSourcePath = SourcePath;
-            Properties.Settings.Default.BuildDestPath = DestPath;
-            Properties.Settings.Default.BuildSOAPath = OptimaSOAPath;
+            try
+            {
+                Properties.Settings.Default.BuildSourcePath = SourcePath;
+                Properties.Settings.Default.BuildDestPath = DestPath;
+                Properties.Settings.Default.BuildSOAPath = OptimaSOAPath;
 
-            Properties.Settings.Default.Save();
+                Properties.Settings.Default.Save();
+            }catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace); // TODO logger
+            }
         }
 
         public string GetSourcePath()
