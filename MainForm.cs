@@ -3,6 +3,7 @@ using System;
 using System.Windows.Forms;
 using OptimaSync.UI;
 using OptimaSync.ConfigurationApp;
+using OptimaSync.Constants;
 
 namespace OptimaSync
 {
@@ -23,7 +24,7 @@ namespace OptimaSync
         {
             if (SOACheckBox.Checked && string.IsNullOrEmpty(OptimaSOATextBox.Text))
             {
-                MessageBox.Show("Chcesz wykorzystać SOA. Ścieżka instalacyjna Optimy musi być uzupełniona!");
+                MessageBox.Show(Messages.SOA_PATH_CANNOT_BE_EMPTY, Messages.SOA_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
@@ -50,7 +51,7 @@ namespace OptimaSync
         {
             if (string.IsNullOrEmpty(SourcePathTextBox.Text))
             {
-                MessageBox.Show("Ścieżka kompilacji nie może być pusta!");
+                MessageBox.Show(Messages.BUILD_PATH_CANNOT_BE_EMPTY, Messages.BUILD_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
