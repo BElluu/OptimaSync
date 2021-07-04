@@ -15,4 +15,4 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
  
     - name: Build 
-      run: msbuild microsoft/setup-msbuild@v1.0.2
+      run: dotnet build
