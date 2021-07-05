@@ -10,7 +10,7 @@ namespace OptimaSync
 {
     public partial class MainForm : Form
     {
-        BuildSync buildSync = new BuildSync();
+        BuildSyncService buildSync = new BuildSyncService();
         SyncUI syncUI = new SyncUI();
         AppSettings appSettings = new AppSettings();
         public MainForm()

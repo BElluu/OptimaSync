@@ -6,8 +6,9 @@ using Serilog;
 
 namespace OptimaSync.Service
 {
-    public class BuildSync
+    public class BuildSyncService
     {
+        WindowsService windowsService = new WindowsService();
         public void DownloadLatestBuild()
         {
             var dir = FindLastBuild();
@@ -30,6 +31,8 @@ namespace OptimaSync.Service
 
         public void DownloadLatestBuildWithSOA()
         {
+            windowsService.StopSOAService();
+
             var dir = FindLastBuild();
 
             if (string.IsNullOrEmpty(Properties.Settings.Default.BuildSOAPath))
@@ -73,6 +76,11 @@ namespace OptimaSync.Service
                 Log.Error(ex.Message);
                 return null;
             }
+        }
+
+        private void RegisterOptima(string path)
+        {
+
         }
     }
 }
