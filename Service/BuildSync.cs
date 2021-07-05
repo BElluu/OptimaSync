@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using OptimaSync.ConfigurationApp;
 using OptimaSync.Constants;
 using Serilog;
 
@@ -9,11 +8,15 @@ namespace OptimaSync.Service
 {
     public class BuildSync
     {
-        AppSettings appSettings = new AppSettings();
-
-        public void DownloadLatestCompilation()
+        public void DownloadLatestBuild()
         {
-            var dir = FindLastCompilation();
+            var dir = FindLastBuild();
+
+            if (string.IsNullOrEmpty(Properties.Settings.Default.BuildDestPath))
+            {
+                Log.Error(Messages.DEST_PATH_CANNOT_BE_EMPTY);
+                throw new NullReferenceException(Messages.DEST_PATH_CANNOT_BE_EMPTY);
+            }
 
             try
             {
@@ -25,7 +28,26 @@ namespace OptimaSync.Service
             }
         }
 
-        private DirectoryInfo FindLastCompilation()
+        public void DownloadLatestBuildWithSOA()
+        {
+            var dir = FindLastBuild();
+
+            if (string.IsNullOrEmpty(Properties.Settings.Default.BuildSOAPath))
+            {
+                Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+                throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+            }
+
+            try
+            {
+                dir.MoveTo(Properties.Settings.Default.BuildSOAPath + "\\" + dir.Name);
+            }catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+            }
+        }
+
+        private DirectoryInfo FindLastBuild()
         {
 
             if (string.IsNullOrEmpty(Properties.Settings.Default.BuildSourcePath))

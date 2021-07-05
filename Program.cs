@@ -1,4 +1,3 @@
-using OptimaSync.ConfigurationApp;
 using Serilog;
 using System;
 using System.IO;
@@ -28,7 +27,7 @@ namespace OptimaSync
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
-                .WriteTo.File(logFile, rollingInterval: RollingInterval.Day, fileSizeLimitBytes: 520, retainedFileCountLimit: 7)
+                .WriteTo.File(logFile, rollingInterval: RollingInterval.Day, fileSizeLimitBytes: 2097152, retainedFileCountLimit: 7)
                 .CreateLogger();
         }
     }

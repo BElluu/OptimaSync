@@ -10,7 +10,7 @@ namespace OptimaSync
 {
     public partial class MainForm : Form
     {
-        BuildSync compilationSync = new BuildSync();
+        BuildSync buildSync = new BuildSync();
         SyncUI syncUI = new SyncUI();
         AppSettings appSettings = new AppSettings();
         public MainForm()
@@ -23,14 +23,29 @@ namespace OptimaSync
 
         private void downloadBuildButton_Click(object sender, EventArgs e)
         {
-            if (SOACheckBox.Checked && string.IsNullOrEmpty(OptimaSOATextBox.Text))
+            if (SOACheckBox.Checked)
             {
-                MessageBox.Show(Messages.SOA_PATH_CANNOT_BE_EMPTY, Messages.SOA_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+                if (string.IsNullOrEmpty(OptimaSOATextBox.Text))
+                {
+                    MessageBox.Show(Messages.SOA_PATH_CANNOT_BE_EMPTY, Messages.SOA_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+                }
+                else
+                {
+                    buildSync.DownloadLatestBuildWithSOA();
+                }
             }
-            else
+            if (!SOACheckBox.Checked)
             {
-                compilationSync.DownloadLatestCompilation();
+                if (string.IsNullOrEmpty(DestTextBox.Text))
+                {
+                    MessageBox.Show(Messages.DEST_PATH_CANNOT_BE_EMPTY, Messages.DEST_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Log.Error(Messages.DEST_PATH_CANNOT_BE_EMPTY);
+                }
+                else
+                {
+                    buildSync.DownloadLatestBuild();
+                }
             }
         }
 
@@ -58,7 +73,7 @@ namespace OptimaSync
             }
             else
             {
-             appSettings.SetPaths(SourcePathTextBox.Text, DestTextBox.Text, OptimaSOATextBox.Text);
+             appSettings.SetPaths(SourcePathTextBox.Text.ToString(), DestTextBox.Text, OptimaSOATextBox.Text);
             }
         }
     }
