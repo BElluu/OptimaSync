@@ -4,12 +4,13 @@ using System.Windows.Forms;
 using OptimaSync.UI;
 using OptimaSync.ConfigurationApp;
 using OptimaSync.Constants;
+using Serilog;
 
 namespace OptimaSync
 {
     public partial class MainForm : Form
     {
-        CompilationSync compilationSync = new CompilationSync();
+        BuildSync compilationSync = new BuildSync();
         SyncUI syncUI = new SyncUI();
         AppSettings appSettings = new AppSettings();
         public MainForm()
@@ -25,6 +26,7 @@ namespace OptimaSync
             if (SOACheckBox.Checked && string.IsNullOrEmpty(OptimaSOATextBox.Text))
             {
                 MessageBox.Show(Messages.SOA_PATH_CANNOT_BE_EMPTY, Messages.SOA_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY_TITLE);
             }
             else
             {
@@ -52,6 +54,7 @@ namespace OptimaSync
             if (string.IsNullOrEmpty(SourcePathTextBox.Text))
             {
                 MessageBox.Show(Messages.BUILD_PATH_CANNOT_BE_EMPTY, Messages.BUILD_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Error(Messages.BUILD_PATH_CANNOT_BE_EMPTY_TITLE);
             }
             else
             {

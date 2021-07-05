@@ -1,5 +1,6 @@
 ﻿using OptimaSync.Confiugration;
 using System;
+using Serilog;
 
 namespace OptimaSync.ConfigurationApp
 {
@@ -17,7 +18,7 @@ namespace OptimaSync.ConfigurationApp
                 Properties.Settings.Default.Save();
             }catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace); // TODO logger
+                Log.Error(ex.Message);
             }
         }
 

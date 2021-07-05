@@ -2,10 +2,11 @@
 using System.IO;
 using System.Linq;
 using OptimaSync.ConfigurationApp;
+using Serilog;
 
 namespace OptimaSync.Service
 {
-    public class CompilationSync
+    public class BuildSync
     {
         AppSettings appSettings = new AppSettings();
 
@@ -19,7 +20,7 @@ namespace OptimaSync.Service
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace); // TODO logger
+                Log.Error(ex.Message);
             }
         }
 
@@ -44,7 +45,7 @@ namespace OptimaSync.Service
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace); // TODO logger
+                Log.Error(ex.Message);
                 return null;
             }
         }
