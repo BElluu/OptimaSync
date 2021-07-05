@@ -1,14 +1,16 @@
-﻿using OptimaSync.Compilation;
+﻿using OptimaSync.Service;
 using System;
 using System.Windows.Forms;
 using OptimaSync.UI;
 using OptimaSync.ConfigurationApp;
+using OptimaSync.Constants;
+using Serilog;
 
 namespace OptimaSync
 {
     public partial class MainForm : Form
     {
-        CompilationSync compilationSync = new CompilationSync();
+        BuildSync buildSync = new BuildSync();
         SyncUI syncUI = new SyncUI();
         AppSettings appSettings = new AppSettings();
         public MainForm()
@@ -21,13 +23,29 @@ namespace OptimaSync
 
         private void downloadBuildButton_Click(object sender, EventArgs e)
         {
-            if (SOACheckBox.Checked && string.IsNullOrEmpty(OptimaSOATextBox.Text))
+            if (SOACheckBox.Checked)
             {
-                MessageBox.Show("Chcesz wykorzystać SOA. Ścieżka instalacyjna Optimy musi być uzupełniona!");
+                if (string.IsNullOrEmpty(OptimaSOATextBox.Text))
+                {
+                    MessageBox.Show(Messages.SOA_PATH_CANNOT_BE_EMPTY, Messages.SOA_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+                }
+                else
+                {
+                    buildSync.DownloadLatestBuildWithSOA();
+                }
             }
-            else
+            if (!SOACheckBox.Checked)
             {
-                compilationSync.DownloadLatestCompilation();
+                if (string.IsNullOrEmpty(DestTextBox.Text))
+                {
+                    MessageBox.Show(Messages.DEST_PATH_CANNOT_BE_EMPTY, Messages.DEST_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Log.Error(Messages.DEST_PATH_CANNOT_BE_EMPTY);
+                }
+                else
+                {
+                    buildSync.DownloadLatestBuild();
+                }
             }
         }
 
@@ -50,11 +68,12 @@ namespace OptimaSync
         {
             if (string.IsNullOrEmpty(SourcePathTextBox.Text))
             {
-                MessageBox.Show("Ścieżka kompilacji nie może być pusta!");
+                MessageBox.Show(Messages.BUILD_PATH_CANNOT_BE_EMPTY, Messages.BUILD_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Error(Messages.BUILD_PATH_CANNOT_BE_EMPTY);
             }
             else
             {
-                appSettings.SetPaths(SourcePathTextBox.Text, DestTextBox.Text, OptimaSOATextBox.Text);
+             appSettings.SetPaths(SourcePathTextBox.Text.ToString(), DestTextBox.Text, OptimaSOATextBox.Text);
             }
         }
     }
