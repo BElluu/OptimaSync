@@ -15,12 +15,10 @@ namespace OptimaSync.Service
         {
             if (withSoa)
             {
-                /*DownloadLatestBuildWithSOA();*/
                 RegisterOptima(DownloadLatestBuildWithSOA(), true);
             }
             else
             {
-                /*DownloadLatestBuild();*/
                 RegisterOptima(DownloadLatestBuild(), false);
             }
         }
@@ -38,7 +36,7 @@ namespace OptimaSync.Service
             try
             {
                 dir.MoveTo(dirDest);
-                Log.Information(Messages.COPIED + dir.Name);
+                Log.Information("Skopiowano " + dir.Name);
                 return dirDest;
             }
             catch (Exception ex)
@@ -62,7 +60,7 @@ namespace OptimaSync.Service
             try
             {
                 dir.MoveTo(dirDestSOA);
-                Log.Information(Messages.COPIED + dir.Name);
+                Log.Information("Skopiowano " + dir.Name);
                 return dirDestSOA;
                 
             }
@@ -103,7 +101,7 @@ namespace OptimaSync.Service
 
         private void RegisterOptima(string path, bool withSoa)
         {
-            Process proc = null;
+            Process proc;
 
             if (withSoa) {
                 windowsService.StopSOAService();
@@ -116,7 +114,7 @@ namespace OptimaSync.Service
                 proc.StartInfo.CreateNoWindow = false;
                 proc.Start();
                 proc.WaitForExit();
-                Log.Information("Optima została zarejestrowana");
+                Log.Information(Messages.OPTIMA_REGISTERED);
             }
             catch (Exception ex)
             {
