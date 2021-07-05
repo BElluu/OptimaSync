@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using OptimaSync.Constants;
@@ -6,11 +7,25 @@ using Serilog;
 
 namespace OptimaSync.Service
 {
-    public class BuildSync
+    public class BuildSyncService
     {
-        public void DownloadLatestBuild()
+        WindowsService windowsService = new WindowsService();
+
+        public void PrepareOptimaBuild(bool withSoa)
+        {
+            if (withSoa)
+            {
+                RegisterOptima(DownloadLatestBuildWithSOA(), true);
+            }
+            else
+            {
+                RegisterOptima(DownloadLatestBuild(), false);
+            }
+        }
+        public string DownloadLatestBuild()
         {
             var dir = FindLastBuild();
+            var dirDest = Properties.Settings.Default.BuildDestPath + "\\" + dir.Name;
 
             if (string.IsNullOrEmpty(Properties.Settings.Default.BuildDestPath))
             {
@@ -20,17 +35,21 @@ namespace OptimaSync.Service
 
             try
             {
-                dir.MoveTo(Properties.Settings.Default.BuildDestPath + "\\" + dir.Name);
+                dir.MoveTo(dirDest);
+                Log.Information("Skopiowano " + dir.Name);
+                return dirDest;
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
+                return null;
             }
         }
 
-        public void DownloadLatestBuildWithSOA()
+        public string DownloadLatestBuildWithSOA()
         {
             var dir = FindLastBuild();
+            var dirDestSOA = Properties.Settings.Default.BuildSOAPath + "\\" + dir.Name;
 
             if (string.IsNullOrEmpty(Properties.Settings.Default.BuildSOAPath))
             {
@@ -40,10 +59,15 @@ namespace OptimaSync.Service
 
             try
             {
-                dir.MoveTo(Properties.Settings.Default.BuildSOAPath + "\\" + dir.Name);
-            }catch (Exception ex)
+                dir.MoveTo(dirDestSOA);
+                Log.Information("Skopiowano " + dir.Name);
+                return dirDestSOA;
+                
+            }
+            catch (Exception ex)
             {
                 Log.Error(ex.Message);
+                return null;
             }
         }
 
@@ -72,6 +96,29 @@ namespace OptimaSync.Service
             {
                 Log.Error(ex.Message);
                 return null;
+            }
+        }
+
+        private void RegisterOptima(string path, bool withSoa)
+        {
+            Process proc;
+
+            if (withSoa) {
+                windowsService.StopSOAService();
+            }
+            try
+            {
+                proc = new Process();
+                proc.StartInfo.WorkingDirectory = path;
+                proc.StartInfo.FileName = "rejestr.bat";
+                proc.StartInfo.CreateNoWindow = false;
+                proc.Start();
+                proc.WaitForExit();
+                Log.Information(Messages.OPTIMA_REGISTERED);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
             }
         }
     }

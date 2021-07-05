@@ -10,7 +10,7 @@ namespace OptimaSync
 {
     public partial class MainForm : Form
     {
-        BuildSync buildSync = new BuildSync();
+        BuildSyncService buildSyncService = new BuildSyncService();
         SyncUI syncUI = new SyncUI();
         AppSettings appSettings = new AppSettings();
         public MainForm()
@@ -32,7 +32,7 @@ namespace OptimaSync
                 }
                 else
                 {
-                    buildSync.DownloadLatestBuildWithSOA();
+                    buildSyncService.PrepareOptimaBuild(true);
                 }
             }
             if (!SOACheckBox.Checked)
@@ -44,7 +44,7 @@ namespace OptimaSync
                 }
                 else
                 {
-                    buildSync.DownloadLatestBuild();
+                    buildSyncService.PrepareOptimaBuild(false);
                 }
             }
         }

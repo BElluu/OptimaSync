@@ -1,4 +1,5 @@
 ﻿using System;
+using OptimaSync.Constants;
 using Serilog;
 
 namespace OptimaSync.ConfigurationApp
@@ -14,6 +15,7 @@ namespace OptimaSync.ConfigurationApp
                 Properties.Settings.Default.BuildSOAPath = OptimaSOAPath;
 
                 Properties.Settings.Default.Save();
+                Log.Information(Messages.PATHS_SAVED);
             }catch (Exception ex)
             {
                 Log.Error(ex.Message);
