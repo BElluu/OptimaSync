@@ -26,7 +26,7 @@ namespace OptimaSync
             if (SOACheckBox.Checked && string.IsNullOrEmpty(OptimaSOATextBox.Text))
             {
                 MessageBox.Show(Messages.SOA_PATH_CANNOT_BE_EMPTY, Messages.SOA_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY_TITLE);
+                Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
             }
             else
             {
@@ -54,7 +54,7 @@ namespace OptimaSync
             if (string.IsNullOrEmpty(SourcePathTextBox.Text))
             {
                 MessageBox.Show(Messages.BUILD_PATH_CANNOT_BE_EMPTY, Messages.BUILD_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Log.Error(Messages.BUILD_PATH_CANNOT_BE_EMPTY_TITLE);
+                Log.Error(Messages.BUILD_PATH_CANNOT_BE_EMPTY);
             }
             else
             {

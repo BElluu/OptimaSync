@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using OptimaSync.ConfigurationApp;
+using OptimaSync.Constants;
 using Serilog;
 
 namespace OptimaSync.Service
@@ -16,7 +17,7 @@ namespace OptimaSync.Service
 
             try
             {
-                dir.MoveTo(appSettings.GetDestPath() + "\\" + dir.Name);
+                dir.MoveTo(Properties.Settings.Default.BuildDestPath + "\\" + dir.Name);
             }
             catch (Exception ex)
             {
@@ -27,13 +28,15 @@ namespace OptimaSync.Service
         private DirectoryInfo FindLastCompilation()
         {
 
-            if (string.IsNullOrEmpty(appSettings.GetSourcePath()))
+            if (string.IsNullOrEmpty(Properties.Settings.Default.BuildSourcePath))
             {
-                throw new NullReferenceException("Ustaw lokalizację z której chcesz pobierać pliki kompilacji");
+                Log.Error(Messages.BUILD_PATH_CANNOT_BE_EMPTY);
+                throw new NullReferenceException(Messages.BUILD_PATH_CANNOT_BE_EMPTY);
+                
             }
             try
             {
-                var directory = new DirectoryInfo(appSettings.GetSourcePath());
+                var directory = new DirectoryInfo(Properties.Settings.Default.BuildSourcePath);
                 var lastCompilation = directory.GetDirectories()
                     .Where(q => !q.Name.Contains("CIV", StringComparison.InvariantCultureIgnoreCase) &&
                                 !q.Name.Contains("SQL", StringComparison.InvariantCultureIgnoreCase))
