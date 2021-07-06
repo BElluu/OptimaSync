@@ -23,29 +23,6 @@ namespace OptimaSync.Service
                 RegisterOptima(DownloadLatestBuild(), false);
             }
         }
-
-/*        public string DLB()
-        {
-            var dir = FindLastBuild();
-            var dirDest = Properties.Settings.Default.BuildDestPath + "\\" + dir.Name;
-
-            if (string.IsNullOrEmpty(Properties.Settings.Default.BuildDestPath))
-            {
-                Log.Error(Messages.DEST_PATH_CANNOT_BE_EMPTY);
-                throw new NullReferenceException(Messages.DEST_PATH_CANNOT_BE_EMPTY);
-            }
-            try
-            {
-                Directory.Move(dir.ToString(), dirDest);
-                Log.Information("Skopiowano " + dir.Name);
-                return dirDest;
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.Message);
-                return null;
-            }
-        }*/
         public string DownloadLatestBuild()
         {
             var dir = FindLastBuild();
@@ -59,9 +36,6 @@ namespace OptimaSync.Service
 
             try
             {
-                /*dir.MoveTo(dirDest);*/
-                /*Directory.Move(dir.ToString(), dirDest);*/
-/*                FileSystem.MoveDirectory(dir.ToString(), dirDest);*/
                 FileSystem.CopyDirectory(dir.ToString(), dirDest);
                 Log.Information("Skopiowano " + dir.Name);
                 return dirDest;
@@ -86,7 +60,7 @@ namespace OptimaSync.Service
 
             try
             {
-                dir.MoveTo(dirDestSOA);
+                FileSystem.CopyDirectory(dir.ToString(), dirDestSOA);
                 Log.Information("Skopiowano " + dir.Name);
                 return dirDestSOA;
                 
@@ -137,7 +111,8 @@ namespace OptimaSync.Service
             {
                 proc = new Process();
                 proc.StartInfo.WorkingDirectory = path;
-                proc.StartInfo.FileName = "Rejestr.bat"; // TODO File not exist but is in directory...
+                proc.StartInfo.FileName = "Rejestr.bat";
+                proc.StartInfo.UseShellExecute = true;
                 proc.StartInfo.CreateNoWindow = false;
                 proc.Start();
                 proc.WaitForExit();

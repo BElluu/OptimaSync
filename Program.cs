@@ -25,7 +25,7 @@ namespace OptimaSync
         private static void ConfigureSerilog()
         {
             var logFile = Path.Combine(Environment.GetFolderPath(
-            Environment.SpecialFolder.ApplicationData), "OSync.log");
+            Environment.SpecialFolder.ApplicationData), "OSync\\OSync.log");
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
