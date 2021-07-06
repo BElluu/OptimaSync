@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using OptimaSync.Constants;
 using Serilog;
+using Microsoft.VisualBasic.FileIO;
 
 namespace OptimaSync.Service
 {
@@ -35,7 +36,7 @@ namespace OptimaSync.Service
 
             try
             {
-                dir.MoveTo(dirDest);
+                FileSystem.CopyDirectory(dir.ToString(), dirDest);
                 Log.Information("Skopiowano " + dir.Name);
                 return dirDest;
             }
@@ -59,7 +60,7 @@ namespace OptimaSync.Service
 
             try
             {
-                dir.MoveTo(dirDestSOA);
+                FileSystem.CopyDirectory(dir.ToString(), dirDestSOA);
                 Log.Information("Skopiowano " + dir.Name);
                 return dirDestSOA;
                 
@@ -110,7 +111,8 @@ namespace OptimaSync.Service
             {
                 proc = new Process();
                 proc.StartInfo.WorkingDirectory = path;
-                proc.StartInfo.FileName = "rejestr.bat";
+                proc.StartInfo.FileName = "Rejestr.bat";
+                proc.StartInfo.UseShellExecute = true;
                 proc.StartInfo.CreateNoWindow = false;
                 proc.Start();
                 proc.WaitForExit();
