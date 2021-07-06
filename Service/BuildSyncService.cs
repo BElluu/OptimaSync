@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using OptimaSync.Constants;
 using Serilog;
+using Microsoft.VisualBasic.FileIO;
 
 namespace OptimaSync.Service
 {
@@ -22,6 +23,29 @@ namespace OptimaSync.Service
                 RegisterOptima(DownloadLatestBuild(), false);
             }
         }
+
+/*        public string DLB()
+        {
+            var dir = FindLastBuild();
+            var dirDest = Properties.Settings.Default.BuildDestPath + "\\" + dir.Name;
+
+            if (string.IsNullOrEmpty(Properties.Settings.Default.BuildDestPath))
+            {
+                Log.Error(Messages.DEST_PATH_CANNOT_BE_EMPTY);
+                throw new NullReferenceException(Messages.DEST_PATH_CANNOT_BE_EMPTY);
+            }
+            try
+            {
+                Directory.Move(dir.ToString(), dirDest);
+                Log.Information("Skopiowano " + dir.Name);
+                return dirDest;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return null;
+            }
+        }*/
         public string DownloadLatestBuild()
         {
             var dir = FindLastBuild();
@@ -35,7 +59,10 @@ namespace OptimaSync.Service
 
             try
             {
-                dir.MoveTo(dirDest);
+                /*dir.MoveTo(dirDest);*/
+                /*Directory.Move(dir.ToString(), dirDest);*/
+/*                FileSystem.MoveDirectory(dir.ToString(), dirDest);*/
+                FileSystem.CopyDirectory(dir.ToString(), dirDest);
                 Log.Information("Skopiowano " + dir.Name);
                 return dirDest;
             }
@@ -110,7 +137,7 @@ namespace OptimaSync.Service
             {
                 proc = new Process();
                 proc.StartInfo.WorkingDirectory = path;
-                proc.StartInfo.FileName = "rejestr.bat";
+                proc.StartInfo.FileName = "Rejestr.bat"; // TODO File not exist but is in directory...
                 proc.StartInfo.CreateNoWindow = false;
                 proc.Start();
                 proc.WaitForExit();
