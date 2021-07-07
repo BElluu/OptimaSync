@@ -86,7 +86,9 @@ namespace OptimaSync.Service
                 var directory = new DirectoryInfo(Properties.Settings.Default.BuildSourcePath);
                 var lastCompilation = directory.GetDirectories()
                     .Where(q => !q.Name.Contains("CIV", StringComparison.InvariantCultureIgnoreCase) &&
-                                !q.Name.Contains("SQL", StringComparison.InvariantCultureIgnoreCase))
+                                !q.Name.Contains("SQL", StringComparison.InvariantCultureIgnoreCase) &&
+                                !q.Name.Contains("rar", StringComparison.InvariantCultureIgnoreCase) &&
+                                !q.Name.Contains("FIXES", StringComparison.InvariantCultureIgnoreCase)) // TODO Excluded directories to list
                     .OrderByDescending(f => f.LastWriteTime)
                     .First();
 
