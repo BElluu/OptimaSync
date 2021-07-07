@@ -1,13 +1,15 @@
-﻿using Serilog;
+﻿using OptimaSync.Constants;
+using Serilog;
 using System;
 using System.Linq;
 using System.ServiceProcess;
+using System.Windows.Forms;
 
 namespace OptimaSync.Service
 {
     class WindowsService
     {
-        private static readonly string SOA_SERVICE = "ComarchAutomatSynchronizacji";
+        public static readonly string SOA_SERVICE = "ComarchAutomatSynchronizacji";
         ServiceController SoaService = new ServiceController(SOA_SERVICE);
         public void StopSOAService()
         {
@@ -29,7 +31,8 @@ namespace OptimaSync.Service
             }
             else
             {
-                Log.Error("Na stanowisku nie ma " + SOA_SERVICE + ". Zarejestrowanie Optimy z usługą SOA nie jest możliwe");
+                Log.Error(Messages.SOA_SERVICE_DONT_EXIST);
+                MessageBox.Show(Messages.SOA_SERVICE_DONT_EXIST, Messages.SOA_SERVICE_DONT_EXIST_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -40,7 +43,8 @@ namespace OptimaSync.Service
             if (windowsServices == null)
             {
                 return false;
-            } else
+            } 
+            else
             {
                 return true;
             }
