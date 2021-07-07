@@ -19,7 +19,6 @@ namespace OptimaSync
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
-            Log.Information(Messages.OPTIMA_SYNC_STARTED);
         }
 
         private static void ConfigureSerilog()
