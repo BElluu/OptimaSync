@@ -87,15 +87,18 @@ namespace OptimaSync.Service
                 return null;
             }
 
-            var dirDestSOA = Properties.Settings.Default.BuildSOAPath + "\\" + dir.Name;
+            var dirDestSOA = Properties.Settings.Default.BuildSOAPath;
 
-            if (Directory.Exists(dirDestSOA))
+            /*            if (Directory.Exists(dirDestSOA))
+                        {
+                            MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.YOU_HAVE_LATEST_BUILD_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return null;
+                        }*/
+
+            try
             {
-                MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.YOU_HAVE_LATEST_BUILD_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return null;
-            }
 
-            foreach (string dirPath in Directory.GetDirectories(dir.ToString(), "*", System.IO.SearchOption.AllDirectories))
+                foreach (string dirPath in Directory.GetDirectories(dir.ToString(), "*", System.IO.SearchOption.AllDirectories))
                 {
                     Directory.CreateDirectory(dirPath.Replace(dir.ToString(), dirDestSOA));
                 }
@@ -105,7 +108,14 @@ namespace OptimaSync.Service
                     File.Copy(newPath, newPath.Replace(dir.ToString(), dirDestSOA), true);
                 }
 
-            return dirDestSOA;
+                Log.Information("Skopiowano " + dir.Name);
+                return dirDestSOA;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return null;
+            }
 
             /*            var dir = FindLastBuild();
 
