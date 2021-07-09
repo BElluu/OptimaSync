@@ -45,6 +45,9 @@ namespace OptimaSync
             this.DestTextBox = new System.Windows.Forms.TextBox();
             this.SourcePathTextBox = new System.Windows.Forms.TextBox();
             this.HelpTab = new System.Windows.Forms.TabPage();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.downloadProgressBar = new System.Windows.Forms.ProgressBar();
+            this.labelProgress = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.SyncTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
@@ -63,6 +66,8 @@ namespace OptimaSync
             // 
             // SyncTab
             // 
+            this.SyncTab.Controls.Add(this.labelProgress);
+            this.SyncTab.Controls.Add(this.downloadProgressBar);
             this.SyncTab.Controls.Add(this.SOACheckBox);
             this.SyncTab.Controls.Add(this.downloadBuildButton);
             this.SyncTab.Location = new System.Drawing.Point(4, 24);
@@ -210,6 +215,30 @@ namespace OptimaSync
             this.HelpTab.Text = "Pomoc";
             this.HelpTab.UseVisualStyleBackColor = true;
             // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
+            // downloadProgressBar
+            // 
+            this.downloadProgressBar.Location = new System.Drawing.Point(13, 97);
+            this.downloadProgressBar.Name = "downloadProgressBar";
+            this.downloadProgressBar.Size = new System.Drawing.Size(164, 23);
+            this.downloadProgressBar.TabIndex = 1;
+            // 
+            // labelProgress
+            // 
+            this.labelProgress.AutoSize = true;
+            this.labelProgress.Location = new System.Drawing.Point(54, 79);
+            this.labelProgress.Name = "labelProgress";
+            this.labelProgress.Size = new System.Drawing.Size(38, 15);
+            this.labelProgress.TabIndex = 2;
+            this.labelProgress.Text = "label4";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -245,6 +274,9 @@ namespace OptimaSync
         private System.Windows.Forms.Button buttonDestinationDirectory;
         private System.Windows.Forms.Button buttonSourceDirectory;
         private System.Windows.Forms.Button saveSettingsButton;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ProgressBar downloadProgressBar;
+        private System.Windows.Forms.Label labelProgress;
     }
 }
 
