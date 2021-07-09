@@ -11,10 +11,8 @@ namespace OptimaSync.Service
     {
         public static readonly string SOA_SERVICE = "ComarchAutomatSynchronizacji";
         ServiceController SoaService = new ServiceController(SOA_SERVICE);
-        public void StopSOAService()
+        public int StopSOAService()
         {
-            if (DoesSOAServiceExist())
-            {
                 if (SoaService.Status.Equals(ServiceControllerStatus.Running) ||
                     SoaService.Status.Equals(ServiceControllerStatus.StartPending))
                 {
@@ -22,21 +20,28 @@ namespace OptimaSync.Service
                     {
                         SoaService.Stop();
                         Log.Information("Zatrzymano " + SOA_SERVICE);
+                    return 0;
                     }
                     catch (Exception ex)
                     {
                         Log.Error(ex.Message);
+                    return 1;
                     }
                 }
+            
+            else if (SoaService.Status.Equals(ServiceControllerStatus.Stopped))
+            {
+                Log.Error("Usługa SOA jest zatrzymana");
+                return 0;
             }
             else
             {
-                Log.Error(Messages.SOA_SERVICE_DONT_EXIST);
-                MessageBox.Show(Messages.SOA_SERVICE_DONT_EXIST, Messages.SOA_SERVICE_DONT_EXIST_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Error("Stan usługi SOA jest nieznany!");
+                return 1;
             }
         }
 
-        private bool DoesSOAServiceExist()
+        public bool DoesSOAServiceExist()
         {
             ServiceController windowsServices = ServiceController.GetServices()
                 .FirstOrDefault(s => s.ServiceName == SOA_SERVICE);

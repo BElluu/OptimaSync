@@ -17,11 +17,11 @@ namespace OptimaSync.Service
         {
             if (withSoa)
             {
-                RegisterOptima(DownloadLatestBuildWithSOA(), true);
+                RegisterOptima(DownloadLatestBuildWithSOA());
             }
             else
             {
-                RegisterOptima(DownloadLatestBuild(), false);
+                RegisterOptima(DownloadLatestBuild());
             }
         }
         public string DownloadLatestBuild()
@@ -41,7 +41,7 @@ namespace OptimaSync.Service
 
             if (Directory.Exists(dirDest))
             {
-                MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.YOU_HAVE_LATEST_BUILD_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.YOU_HAVE_LATEST_BUILD_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return null;
             }
 
@@ -60,6 +60,26 @@ namespace OptimaSync.Service
 
         public string DownloadLatestBuildWithSOA()
         {
+            if (string.IsNullOrEmpty(Properties.Settings.Default.BuildSOAPath))
+            {
+                Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+                throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+            }
+
+            if (!windowsService.DoesSOAServiceExist())
+            {
+                Log.Error(Messages.SOA_SERVICE_DONT_EXIST);
+                MessageBox.Show(Messages.SOA_SERVICE_DONT_EXIST, Messages.SOA_SERVICE_DONT_EXIST_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            if (windowsService.StopSOAService() != 0)
+            {
+                Log.Error(Messages.SOA_SERVICE_NOT_STOPPED);
+                MessageBox.Show(Messages.SOA_SERVICE_NOT_STOPPED, Messages.SOA_SERVICE_NOT_STOPPED_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
             var dir = FindLastBuild();
 
             if (dir == null)
@@ -67,26 +87,63 @@ namespace OptimaSync.Service
                 return null;
             }
 
-            var dirDestSOA = Properties.Settings.Default.BuildSOAPath + "\\" + dir.Name;
+            var dirDestSOA = Properties.Settings.Default.BuildSOAPath;
 
-            if (string.IsNullOrEmpty(Properties.Settings.Default.BuildSOAPath))
-            {
-                Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
-                throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
-            }
+            /*            if (Directory.Exists(dirDestSOA))
+                        {
+                            MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.YOU_HAVE_LATEST_BUILD_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return null;
+                        }*/
 
             try
             {
-                FileSystem.CopyDirectory(dir.ToString(), dirDestSOA);
+
+                foreach (string dirPath in Directory.GetDirectories(dir.ToString(), "*", System.IO.SearchOption.AllDirectories))
+                {
+                    Directory.CreateDirectory(dirPath.Replace(dir.ToString(), dirDestSOA));
+                }
+
+                foreach (string newPath in Directory.GetFiles(dir.ToString(), "*.*", System.IO.SearchOption.AllDirectories))
+                {
+                    File.Copy(newPath, newPath.Replace(dir.ToString(), dirDestSOA), true);
+                }
+
                 Log.Information("Skopiowano " + dir.Name);
                 return dirDestSOA;
-                
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
                 return null;
             }
+
+            /*            var dir = FindLastBuild();
+
+                        if (dir == null)
+                        {
+                            return null;
+                        }
+
+                        var dirDestSOA = Properties.Settings.Default.BuildSOAPath + "\\" + dir.Name;
+
+                        if (string.IsNullOrEmpty(Properties.Settings.Default.BuildSOAPath))
+                        {
+                            Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+                            throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+                        }
+
+                        try
+                        {
+                            FileSystem.CopyDirectory(dir.ToString(), dirDestSOA);
+                            Log.Information("Skopiowano " + dir.Name);
+                            return dirDestSOA;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error(ex.Message);
+                            return null;
+                        }*/
         }
 
         private DirectoryInfo FindLastBuild()
@@ -118,7 +175,7 @@ namespace OptimaSync.Service
             }
         }
 
-        private void RegisterOptima(string path, bool withSoa)
+        private void RegisterOptima(string path)
         {
             if(path == null)
             {
@@ -126,11 +183,6 @@ namespace OptimaSync.Service
             }
 
             Process proc;
-
-            if (withSoa) 
-            {
-                windowsService.StopSOAService();
-            }
             try
             {
                 proc = new Process();
@@ -145,6 +197,7 @@ namespace OptimaSync.Service
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
+                MessageBox.Show(Messages.REGISTER_OPTIMA_ERROR, Messages.REGISTER_OPTIMA_ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
