@@ -1,4 +1,4 @@
-﻿using OptimaSync.Constants;
+﻿using OptimaSync.Constant;
 using Serilog;
 using System;
 using System.Linq;
@@ -13,22 +13,22 @@ namespace OptimaSync.Service
         ServiceController SoaService = new ServiceController(SOA_SERVICE);
         public int StopSOAService()
         {
-                if (SoaService.Status.Equals(ServiceControllerStatus.Running) ||
-                    SoaService.Status.Equals(ServiceControllerStatus.StartPending))
+            if (SoaService.Status.Equals(ServiceControllerStatus.Running) ||
+                SoaService.Status.Equals(ServiceControllerStatus.StartPending))
+            {
+                try
                 {
-                    try
-                    {
-                        SoaService.Stop();
-                        Log.Information("Zatrzymano " + SOA_SERVICE);
+                    SoaService.Stop();
+                    Log.Information("Zatrzymano " + SOA_SERVICE);
                     return 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Error(ex.Message);
-                    return 1;
-                    }
                 }
-            
+                catch (Exception ex)
+                {
+                    Log.Error(ex.Message);
+                    return 1;
+                }
+            }
+
             else if (SoaService.Status.Equals(ServiceControllerStatus.Stopped))
             {
                 Log.Error("Usługa SOA jest zatrzymana");
@@ -48,7 +48,7 @@ namespace OptimaSync.Service
             if (windowsServices == null)
             {
                 return false;
-            } 
+            }
             else
             {
                 return true;

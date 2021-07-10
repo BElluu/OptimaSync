@@ -31,6 +31,7 @@ namespace OptimaSync
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SyncTab = new System.Windows.Forms.TabPage();
+            this.labelProgress = new System.Windows.Forms.Label();
             this.SOACheckBox = new System.Windows.Forms.CheckBox();
             this.downloadBuildButton = new System.Windows.Forms.Button();
             this.SettingsTab = new System.Windows.Forms.TabPage();
@@ -45,9 +46,7 @@ namespace OptimaSync
             this.DestTextBox = new System.Windows.Forms.TextBox();
             this.SourcePathTextBox = new System.Windows.Forms.TextBox();
             this.HelpTab = new System.Windows.Forms.TabPage();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.downloadProgressBar = new System.Windows.Forms.ProgressBar();
-            this.labelProgress = new System.Windows.Forms.Label();
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.SyncTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
@@ -67,7 +66,6 @@ namespace OptimaSync
             // SyncTab
             // 
             this.SyncTab.Controls.Add(this.labelProgress);
-            this.SyncTab.Controls.Add(this.downloadProgressBar);
             this.SyncTab.Controls.Add(this.SOACheckBox);
             this.SyncTab.Controls.Add(this.downloadBuildButton);
             this.SyncTab.Location = new System.Drawing.Point(4, 24);
@@ -77,6 +75,15 @@ namespace OptimaSync
             this.SyncTab.TabIndex = 0;
             this.SyncTab.Text = "Sync";
             this.SyncTab.UseVisualStyleBackColor = true;
+            // 
+            // labelProgress
+            // 
+            this.labelProgress.AutoSize = true;
+            this.labelProgress.Location = new System.Drawing.Point(13, 73);
+            this.labelProgress.Name = "labelProgress";
+            this.labelProgress.Size = new System.Drawing.Size(102, 15);
+            this.labelProgress.TabIndex = 2;
+            this.labelProgress.Text = "Status: Oczekuje...";
             // 
             // SOACheckBox
             // 
@@ -215,29 +222,11 @@ namespace OptimaSync
             this.HelpTab.Text = "Pomoc";
             this.HelpTab.UseVisualStyleBackColor = true;
             // 
-            // backgroundWorker1
+            // backgroundWorker
             // 
-            this.backgroundWorker1.WorkerReportsProgress = true;
-            this.backgroundWorker1.WorkerSupportsCancellation = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
-            // downloadProgressBar
-            // 
-            this.downloadProgressBar.Location = new System.Drawing.Point(13, 97);
-            this.downloadProgressBar.Name = "downloadProgressBar";
-            this.downloadProgressBar.Size = new System.Drawing.Size(164, 23);
-            this.downloadProgressBar.TabIndex = 1;
-            // 
-            // labelProgress
-            // 
-            this.labelProgress.AutoSize = true;
-            this.labelProgress.Location = new System.Drawing.Point(54, 79);
-            this.labelProgress.Name = "labelProgress";
-            this.labelProgress.Size = new System.Drawing.Size(38, 15);
-            this.labelProgress.TabIndex = 2;
-            this.labelProgress.Text = "label4";
+            this.backgroundWorker.WorkerReportsProgress = true;
+            this.backgroundWorker.WorkerSupportsCancellation = true;
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             // 
             // MainForm
             // 
@@ -263,7 +252,7 @@ namespace OptimaSync
         private System.Windows.Forms.TabPage SettingsTab;
         private System.Windows.Forms.Button downloadBuildButton;
         private System.Windows.Forms.TabPage HelpTab;
-        private System.Windows.Forms.CheckBox SOACheckBox;
+        public System.Windows.Forms.CheckBox SOACheckBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox OptimaSOATextBox;
@@ -274,9 +263,8 @@ namespace OptimaSync
         private System.Windows.Forms.Button buttonDestinationDirectory;
         private System.Windows.Forms.Button buttonSourceDirectory;
         private System.Windows.Forms.Button saveSettingsButton;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.ProgressBar downloadProgressBar;
-        private System.Windows.Forms.Label labelProgress;
+        public System.Windows.Forms.Label labelProgress;
+        public System.ComponentModel.BackgroundWorker backgroundWorker;
     }
 }
 
