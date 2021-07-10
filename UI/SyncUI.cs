@@ -10,7 +10,13 @@ namespace OptimaSync.UI
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                 textBox.Text = String.Empty;
-                textBox.AppendText(folderBrowserDialog.SelectedPath);
+            textBox.AppendText(folderBrowserDialog.SelectedPath);
+        }
+
+        public void ChangeProgressLabel(string status)
+        {
+            MainForm.Instance.progressLabelStatus = "Status: " + status;
+            MainForm.Instance.labelProgress.Refresh();
         }
     }
 }

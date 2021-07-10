@@ -1,4 +1,4 @@
-using OptimaSync.Constants;
+using OptimaSync.Constant;
 using Serilog;
 using System;
 using System.IO;

@@ -1,4 +1,4 @@
-﻿namespace OptimaSync.Constants
+﻿namespace OptimaSync.Constant
 {
     public static class Messages
     {
@@ -11,7 +11,7 @@
         public static readonly string SOA_SERVICE_DONT_EXIST_TITLE = "[ERROR 0005]";
         public static readonly string SOA_SERVICE_NOT_STOPPED_TITLE = "[ERROR 0006]";
         public static readonly string REGISTER_OPTIMA_ERROR_TITLE = "[ERROR 0007]";
-        public static readonly string YOU_HAVE_LATEST_BUILD_TITLE = "[WARNING 0001]";
+        public static readonly string YOU_HAVE_LATEST_BUILD_TITLE = "[INFORMATION 0001]";
         // MessageBox Messages
         public static readonly string BUILD_PATH_CANNOT_BE_EMPTY = "Ścieżka kompilacji nie może być pusta!";
         public static readonly string SOA_PATH_CANNOT_BE_EMPTY = "Chcesz wykorzystać SOA. Ścieżka instalacyjna Optimy musi być uzupełniona!";
@@ -21,6 +21,14 @@
         public static readonly string SOA_SERVICE_DONT_EXIST = "Na stanowisku nie ma " + SOA_SERVICE + ". Zarejestrowanie Optimy z usługą SOA nie jest możliwe";
         public static readonly string SOA_SERVICE_NOT_STOPPED = "Nie udało się zatrzymać usługi SOA lub jej stan nie jest poprawny. Spróbuj zatrzymać usługę SOA ręcznie.";
         public static readonly string REGISTER_OPTIMA_ERROR = "Rejestracja Optimy nie powiodła się. Zerknij w logi lub spróbuj zarejestrować ją ręcznie.";
+
+        // ProgressLabel Messages
+
+        public static readonly string ERROR_CHECK_LOGS = "Błąd! Sprawdź logi.";
+        public static readonly string REGISTER_OPTIMA_SUCCESSFUL = "Zakończono! Kompilacja gotowa do pracy :)";
+        public static readonly string REGISTER_OPTIMA_INPROGRESS = "Rejestrowanie kompilacji...";
+        public static readonly string SEARCHING_FOR_BUILD = "Wyszukiwanie kompilacji.";
+        public static readonly string DOWNLOADING_BUILD = "Pobieranie kompilacji...";
 
         // Other Messages
         public static readonly string PATHS_SAVED = "Zapisano ścieżki.";
