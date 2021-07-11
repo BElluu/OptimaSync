@@ -206,7 +206,8 @@ namespace OptimaSync.Service
                 proc.StartInfo.WorkingDirectory = path;
                 proc.StartInfo.FileName = "Rejestr.bat";
                 proc.StartInfo.UseShellExecute = true;
-                proc.StartInfo.CreateNoWindow = false;
+                proc.StartInfo.CreateNoWindow = true;
+                proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 proc.Start();
                 proc.WaitForExit();
                 Log.Information(Messages.OPTIMA_REGISTERED);
