@@ -40,32 +40,6 @@ namespace OptimaSync
         private void downloadBuildButton_Click(object sender, EventArgs e)
         {
             backgroundWorker.RunWorkerAsync();
-            /*            if (SOACheckBox.Checked)
-                        {
-                            if (string.IsNullOrEmpty(OptimaSOATextBox.Text))
-                            {
-                                MessageBox.Show(Messages.SOA_PATH_CANNOT_BE_EMPTY, Messages.SOA_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
-                            }
-                            else
-                            {
-
-                                buildSyncService.PrepareOptimaBuild(true);
-                            }
-                        }
-                        if (!SOACheckBox.Checked)
-                        {
-                            if (string.IsNullOrEmpty(DestTextBox.Text))
-                            {
-                                MessageBox.Show(Messages.DEST_PATH_CANNOT_BE_EMPTY, Messages.DEST_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                Log.Error(Messages.DEST_PATH_CANNOT_BE_EMPTY);
-                            }
-                            else
-                            {
-
-                                buildSyncService.PrepareOptimaBuild(false);
-                            }
-                        }*/
         }
 
         private void buttonSourceDirectory_Click(object sender, EventArgs e)
@@ -141,18 +115,5 @@ namespace OptimaSync
         {
             syncUI.OpenUserManual();
         }
-
-        /*        private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-                {
-                    downloadProgressBar.Value = e.ProgressPercentage;
-                    labelProgress.Text = e.ProgressPercentage.ToString() + "%";
-
-                    labelProgress.Invoke(new Action(() => { labelProgress.Text = e.ToString(); }));
-                    labelProgress.Invoke(new Action(() => { labelProgress.Refresh(); }));
-
-
-                    private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-                    {
-                    }*/
     }
 }

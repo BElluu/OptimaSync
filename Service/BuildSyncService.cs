@@ -102,12 +102,6 @@ namespace OptimaSync.Service
 
             var dirDestSOA = Properties.Settings.Default.BuildSOAPath;
 
-            /*            if (Directory.Exists(dirDestSOA))
-                        {
-                            MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.YOU_HAVE_LATEST_BUILD_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return null;
-                        }*/
-
             try
             {
                 syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
@@ -130,34 +124,6 @@ namespace OptimaSync.Service
                 syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 return null;
             }
-
-            /*            var dir = FindLastBuild();
-
-                        if (dir == null)
-                        {
-                            return null;
-                        }
-
-                        var dirDestSOA = Properties.Settings.Default.BuildSOAPath + "\\" + dir.Name;
-
-                        if (string.IsNullOrEmpty(Properties.Settings.Default.BuildSOAPath))
-                        {
-                            Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
-                            throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
-                        }
-
-                        try
-                        {
-                            FileSystem.CopyDirectory(dir.ToString(), dirDestSOA);
-                            Log.Information("Skopiowano " + dir.Name);
-                            return dirDestSOA;
-
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.Error(ex.Message);
-                            return null;
-                        }*/
         }
 
         private DirectoryInfo FindLastBuild()
