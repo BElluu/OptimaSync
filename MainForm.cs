@@ -135,6 +135,11 @@ namespace OptimaSync
             }
         }
 
+        private void openManualButton_Click(object sender, EventArgs e)
+        {
+            syncUI.OpenUserManual();
+        }
+
         /*        private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
                 {
                     downloadProgressBar.Value = e.ProgressPercentage;

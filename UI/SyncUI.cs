@@ -8,6 +8,7 @@ namespace OptimaSync.UI
 {
     public class SyncUI
     {
+        static readonly string UserManual = "https://www.devopsowy.pl/OptimaSync/Instrukcja.pdf";
         public void PathToTextbox(TextBox textBox)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
@@ -49,6 +50,11 @@ namespace OptimaSync.UI
                     Log.Logger.Error(Messages.LOGS_DIRECTORY_NOT_EXIST);
                     MessageBox.Show(Messages.LOGS_DIRECTORY_NOT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+        }
+
+        public void OpenUserManual()
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(UserManual) { UseShellExecute = true });
         }
     }
 }

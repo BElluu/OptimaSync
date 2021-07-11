@@ -46,6 +46,7 @@ namespace OptimaSync
             this.DestTextBox = new System.Windows.Forms.TextBox();
             this.SourcePathTextBox = new System.Windows.Forms.TextBox();
             this.HelpTab = new System.Windows.Forms.TabPage();
+            this.authorLabel = new System.Windows.Forms.Label();
             this.openManualButton = new System.Windows.Forms.Button();
             this.openLogsButton = new System.Windows.Forms.Button();
             this.versionLabelValue = new System.Windows.Forms.Label();
@@ -220,6 +221,7 @@ namespace OptimaSync
             // 
             // HelpTab
             // 
+            this.HelpTab.Controls.Add(this.authorLabel);
             this.HelpTab.Controls.Add(this.openManualButton);
             this.HelpTab.Controls.Add(this.openLogsButton);
             this.HelpTab.Controls.Add(this.versionLabelValue);
@@ -231,14 +233,25 @@ namespace OptimaSync
             this.HelpTab.Text = "Pomoc";
             this.HelpTab.UseVisualStyleBackColor = true;
             // 
+            // authorLabel
+            // 
+            this.authorLabel.AutoSize = true;
+            this.authorLabel.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.authorLabel.Location = new System.Drawing.Point(10, 191);
+            this.authorLabel.Name = "authorLabel";
+            this.authorLabel.Size = new System.Drawing.Size(176, 12);
+            this.authorLabel.TabIndex = 4;
+            this.authorLabel.Text = "Bartlomiej.Komendarczuk@comarch.pl";
+            // 
             // openManualButton
             // 
-            this.openManualButton.Location = new System.Drawing.Point(9, 45);
+            this.openManualButton.Location = new System.Drawing.Point(10, 45);
             this.openManualButton.Name = "openManualButton";
             this.openManualButton.Size = new System.Drawing.Size(136, 23);
             this.openManualButton.TabIndex = 3;
             this.openManualButton.Text = "Otwórz instrukcję";
             this.openManualButton.UseVisualStyleBackColor = true;
+            this.openManualButton.Click += new System.EventHandler(this.openManualButton_Click);
             // 
             // openLogsButton
             // 
@@ -264,7 +277,7 @@ namespace OptimaSync
             // 
             this.versionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.versionLabel.AutoSize = true;
-            this.versionLabel.Location = new System.Drawing.Point(194, 188);
+            this.versionLabel.Location = new System.Drawing.Point(192, 188);
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(48, 15);
             this.versionLabel.TabIndex = 0;
@@ -321,6 +334,7 @@ namespace OptimaSync
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Button openManualButton;
         private System.Windows.Forms.Button openLogsButton;
+        private System.Windows.Forms.Label authorLabel;
     }
 }
 
