@@ -1,9 +1,7 @@
-﻿using OptimaSync.Constant;
-using Serilog;
+﻿using Serilog;
 using System;
 using System.Linq;
 using System.ServiceProcess;
-using System.Windows.Forms;
 
 namespace OptimaSync.Service
 {

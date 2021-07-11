@@ -5,6 +5,13 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
+    <Authors>Bartłomiej Komendarczuk</Authors>
+    <Company>Bartłomiej Komendarczuk</Company>
+    <ProductName>OptimaSync</ProductName>
+    <Description>Application for downloading test and production versions of Comarch ERP Optima.</Description>
+    <RepositoryUrl></RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

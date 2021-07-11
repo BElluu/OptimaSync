@@ -17,13 +17,21 @@ namespace OptimaSync.Service
 
         public void PrepareOptimaBuild(bool withSoa)
         {
-            if (withSoa)
+            try
             {
-                RegisterOptima(DownloadLatestBuildWithSOA());
+                syncUI.EnableElementsOnForm(false);
+                if (withSoa)
+                {
+                    RegisterOptima(DownloadLatestBuildWithSOA());
+                }
+                else
+                {
+                    RegisterOptima(DownloadLatestBuild());
+                }
             }
-            else
+            finally
             {
-                RegisterOptima(DownloadLatestBuild());
+                syncUI.EnableElementsOnForm(true);
             }
         }
         public string DownloadLatestBuild()
@@ -43,7 +51,7 @@ namespace OptimaSync.Service
 
             if (Directory.Exists(dirDest))
             {
-                MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.YOU_HAVE_LATEST_BUILD_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.INFORMATION_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 syncUI.ChangeProgressLabel("Oczekuje...");
                 return null;
             }
@@ -74,14 +82,14 @@ namespace OptimaSync.Service
             if (!windowsService.DoesSOAServiceExist())
             {
                 Log.Error(Messages.SOA_SERVICE_DONT_EXIST);
-                MessageBox.Show(Messages.SOA_SERVICE_DONT_EXIST, Messages.SOA_SERVICE_DONT_EXIST_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Messages.SOA_SERVICE_DONT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
 
             if (windowsService.StopSOAService() != 0)
             {
                 Log.Error(Messages.SOA_SERVICE_NOT_STOPPED);
-                MessageBox.Show(Messages.SOA_SERVICE_NOT_STOPPED, Messages.SOA_SERVICE_NOT_STOPPED_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Messages.SOA_SERVICE_NOT_STOPPED, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
 
@@ -178,7 +186,7 @@ namespace OptimaSync.Service
             {
                 Log.Error(ex.Message);
                 syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
-                MessageBox.Show(Messages.BUILD_PATH_DONT_HAVE_ANY_BUILD, Messages.BUILD_PATH_DONT_HAVE_ANY_BUILD_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Messages.BUILD_PATH_DONT_HAVE_ANY_BUILD, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -208,7 +216,7 @@ namespace OptimaSync.Service
             {
                 Log.Error(ex.Message);
                 syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
-                MessageBox.Show(Messages.REGISTER_OPTIMA_ERROR, Messages.REGISTER_OPTIMA_ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Messages.REGISTER_OPTIMA_ERROR, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
