@@ -1,4 +1,5 @@
-﻿using OptimaSync.Service;
+﻿using AutoUpdaterDotNET;
+using OptimaSync.Service;
 using System;
 using System.Windows.Forms;
 using OptimaSync.UI;
@@ -24,6 +25,7 @@ namespace OptimaSync
             this.OptimaSOATextBox.Text = Properties.Settings.Default.BuildSOAPath;
             this.versionLabelValue.Text = syncUI.GetAppVersion();
             _instance = this;
+            AutoUpdater.Start("https://osync.devopsowy.pl/AutoUpdater.xml");
         }
 
         public string progressLabelStatus
