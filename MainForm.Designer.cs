@@ -29,6 +29,7 @@ namespace OptimaSync
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SyncTab = new System.Windows.Forms.TabPage();
             this.labelProgress = new System.Windows.Forms.Label();
@@ -295,6 +296,7 @@ namespace OptimaSync
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(301, 236);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(317, 275);
             this.MinimumSize = new System.Drawing.Size(317, 275);
             this.Name = "MainForm";
