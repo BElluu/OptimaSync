@@ -13,9 +13,8 @@
     <Description>Application for downloading test and production versions of Comarch ERP Optima.</Description>
     <RepositoryUrl></RepositoryUrl>
     <ApplicationIcon>osa-5796638.ico</ApplicationIcon>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <PublisherName>Bartłomiej Komendarczuk</PublisherName>
-    <AssemblyOriginatorKeyFile>BKom.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
