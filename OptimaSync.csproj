@@ -12,6 +12,9 @@
     <ProductName>OptimaSync</ProductName>
     <Description>Application for downloading test and production versions of Comarch ERP Optima.</Description>
     <RepositoryUrl></RepositoryUrl>
+    <ApplicationIcon>osa-5796638.ico</ApplicationIcon>
+    <SignAssembly>false</SignAssembly>
+    <PublisherName>Bartłomiej Komendarczuk</PublisherName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autoupdater.NET.Official" Version="1.6.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
