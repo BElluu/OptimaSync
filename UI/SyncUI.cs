@@ -8,7 +8,7 @@ namespace OptimaSync.UI
 {
     public class SyncUI
     {
-        static readonly string UserManual = "https://www.devopsowy.pl/OptimaSync/Instrukcja.pdf";
+        static readonly string UserManual = "https://www.osync.devopsowy.pl/Instrukcja.pdf";
         public void PathToTextbox(TextBox textBox)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
