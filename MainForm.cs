@@ -22,6 +22,7 @@ namespace OptimaSync
             this.SourcePathTextBox.Text = Properties.Settings.Default.BuildSourcePath;
             this.DestTextBox.Text = Properties.Settings.Default.BuildDestPath;
             this.OptimaSOATextBox.Text = Properties.Settings.Default.BuildSOAPath;
+            this.versionLabelValue.Text = syncUI.GetAppVersion();
             _instance = this;
         }
 
@@ -84,7 +85,7 @@ namespace OptimaSync
         {
             if (string.IsNullOrEmpty(SourcePathTextBox.Text))
             {
-                MessageBox.Show(Messages.BUILD_PATH_CANNOT_BE_EMPTY, Messages.BUILD_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Messages.BUILD_PATH_CANNOT_BE_EMPTY, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Log.Error(Messages.BUILD_PATH_CANNOT_BE_EMPTY);
             }
             else
@@ -99,7 +100,7 @@ namespace OptimaSync
             {
                 if (string.IsNullOrEmpty(OptimaSOATextBox.Text))
                 {
-                    MessageBox.Show(Messages.SOA_PATH_CANNOT_BE_EMPTY, Messages.SOA_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Messages.SOA_PATH_CANNOT_BE_EMPTY, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
                 }
                 else
@@ -111,7 +112,7 @@ namespace OptimaSync
             {
                 if (string.IsNullOrEmpty(DestTextBox.Text))
                 {
-                    MessageBox.Show(Messages.DEST_PATH_CANNOT_BE_EMPTY, Messages.DEST_PATH_CANNOT_BE_EMPTY_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Messages.DEST_PATH_CANNOT_BE_EMPTY, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Log.Error(Messages.DEST_PATH_CANNOT_BE_EMPTY);
                 }
                 else
@@ -121,17 +122,35 @@ namespace OptimaSync
             }
         }
 
+        private void openLogsButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                syncUI.OpenLogsDirectory();
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex.Message);
+                MessageBox.Show(ex.Message, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void openManualButton_Click(object sender, EventArgs e)
+        {
+            syncUI.OpenUserManual();
+        }
+
         /*        private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
                 {
-                    *//*            downloadProgressBar.Value = e.ProgressPercentage;
-                                labelProgress.Text = e.ProgressPercentage.ToString() + "%";*/
+                    downloadProgressBar.Value = e.ProgressPercentage;
+                    labelProgress.Text = e.ProgressPercentage.ToString() + "%";
 
-        /*            labelProgress.Invoke(new Action(() => { labelProgress.Text = e.ToString(); }));
-                    labelProgress.Invoke(new Action(() => { labelProgress.Refresh(); }));*/
-        /*    }*/
+                    labelProgress.Invoke(new Action(() => { labelProgress.Text = e.ToString(); }));
+                    labelProgress.Invoke(new Action(() => { labelProgress.Refresh(); }));
 
-        /*    private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-            {
-                }*/
+
+                    private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+                    {
+                    }*/
     }
 }

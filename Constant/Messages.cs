@@ -4,14 +4,9 @@
     {
         static string SOA_SERVICE = Service.WindowsService.SOA_SERVICE;
         // MessageBox Titles
-        public static readonly string BUILD_PATH_CANNOT_BE_EMPTY_TITLE = "[ERROR 0001]";
-        public static readonly string SOA_PATH_CANNOT_BE_EMPTY_TITLE = "[ERROR 0002]";
-        public static readonly string DEST_PATH_CANNOT_BE_EMPTY_TITLE = "[ERROR 0003]";
-        public static readonly string BUILD_PATH_DONT_HAVE_ANY_BUILD_TITLE = "[ERROR 0004]";
-        public static readonly string SOA_SERVICE_DONT_EXIST_TITLE = "[ERROR 0005]";
-        public static readonly string SOA_SERVICE_NOT_STOPPED_TITLE = "[ERROR 0006]";
-        public static readonly string REGISTER_OPTIMA_ERROR_TITLE = "[ERROR 0007]";
-        public static readonly string YOU_HAVE_LATEST_BUILD_TITLE = "[INFORMATION 0001]";
+        public static readonly string ERROR_TITLE = "Bład!";
+        public static readonly string WARNING_TITLE = "Ostrzeżenie!";
+        public static readonly string INFORMATION_TITLE = "Informacja";
         // MessageBox Messages
         public static readonly string BUILD_PATH_CANNOT_BE_EMPTY = "Ścieżka kompilacji nie może być pusta!";
         public static readonly string SOA_PATH_CANNOT_BE_EMPTY = "Chcesz wykorzystać SOA. Ścieżka instalacyjna Optimy musi być uzupełniona!";
@@ -21,6 +16,7 @@
         public static readonly string SOA_SERVICE_DONT_EXIST = "Na stanowisku nie ma " + SOA_SERVICE + ". Zarejestrowanie Optimy z usługą SOA nie jest możliwe";
         public static readonly string SOA_SERVICE_NOT_STOPPED = "Nie udało się zatrzymać usługi SOA lub jej stan nie jest poprawny. Spróbuj zatrzymać usługę SOA ręcznie.";
         public static readonly string REGISTER_OPTIMA_ERROR = "Rejestracja Optimy nie powiodła się. Zerknij w logi lub spróbuj zarejestrować ją ręcznie.";
+        public static readonly string LOGS_DIRECTORY_NOT_EXIST = "Folder z logami nie istnieje!";
 
         // ProgressLabel Messages
 

@@ -46,10 +46,16 @@ namespace OptimaSync
             this.DestTextBox = new System.Windows.Forms.TextBox();
             this.SourcePathTextBox = new System.Windows.Forms.TextBox();
             this.HelpTab = new System.Windows.Forms.TabPage();
+            this.authorLabel = new System.Windows.Forms.Label();
+            this.openManualButton = new System.Windows.Forms.Button();
+            this.openLogsButton = new System.Windows.Forms.Button();
+            this.versionLabelValue = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.Label();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.SyncTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
+            this.HelpTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -57,10 +63,10 @@ namespace OptimaSync
             this.tabControl1.Controls.Add(this.SyncTab);
             this.tabControl1.Controls.Add(this.SettingsTab);
             this.tabControl1.Controls.Add(this.HelpTab);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Location = new System.Drawing.Point(-1, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(799, 488);
+            this.tabControl1.Size = new System.Drawing.Size(306, 238);
             this.tabControl1.TabIndex = 0;
             // 
             // SyncTab
@@ -71,7 +77,7 @@ namespace OptimaSync
             this.SyncTab.Location = new System.Drawing.Point(4, 24);
             this.SyncTab.Name = "SyncTab";
             this.SyncTab.Padding = new System.Windows.Forms.Padding(3);
-            this.SyncTab.Size = new System.Drawing.Size(791, 460);
+            this.SyncTab.Size = new System.Drawing.Size(298, 210);
             this.SyncTab.TabIndex = 0;
             this.SyncTab.Text = "Sync";
             this.SyncTab.UseVisualStyleBackColor = true;
@@ -79,7 +85,7 @@ namespace OptimaSync
             // labelProgress
             // 
             this.labelProgress.AutoSize = true;
-            this.labelProgress.Location = new System.Drawing.Point(13, 73);
+            this.labelProgress.Location = new System.Drawing.Point(13, 76);
             this.labelProgress.Name = "labelProgress";
             this.labelProgress.Size = new System.Drawing.Size(102, 15);
             this.labelProgress.TabIndex = 2;
@@ -120,14 +126,14 @@ namespace OptimaSync
             this.SettingsTab.Location = new System.Drawing.Point(4, 24);
             this.SettingsTab.Name = "SettingsTab";
             this.SettingsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.SettingsTab.Size = new System.Drawing.Size(791, 460);
+            this.SettingsTab.Size = new System.Drawing.Size(298, 210);
             this.SettingsTab.TabIndex = 1;
             this.SettingsTab.Text = "Ustawienia";
             this.SettingsTab.UseVisualStyleBackColor = true;
             // 
             // saveSettingsButton
             // 
-            this.saveSettingsButton.Location = new System.Drawing.Point(30, 204);
+            this.saveSettingsButton.Location = new System.Drawing.Point(10, 164);
             this.saveSettingsButton.Name = "saveSettingsButton";
             this.saveSettingsButton.Size = new System.Drawing.Size(127, 23);
             this.saveSettingsButton.TabIndex = 9;
@@ -137,7 +143,7 @@ namespace OptimaSync
             // 
             // buttonOptimaSOADirectory
             // 
-            this.buttonOptimaSOADirectory.Location = new System.Drawing.Point(252, 152);
+            this.buttonOptimaSOADirectory.Location = new System.Drawing.Point(250, 125);
             this.buttonOptimaSOADirectory.Name = "buttonOptimaSOADirectory";
             this.buttonOptimaSOADirectory.Size = new System.Drawing.Size(24, 23);
             this.buttonOptimaSOADirectory.TabIndex = 8;
@@ -147,7 +153,7 @@ namespace OptimaSync
             // 
             // buttonDestinationDirectory
             // 
-            this.buttonDestinationDirectory.Location = new System.Drawing.Point(252, 108);
+            this.buttonDestinationDirectory.Location = new System.Drawing.Point(250, 81);
             this.buttonDestinationDirectory.Name = "buttonDestinationDirectory";
             this.buttonDestinationDirectory.Size = new System.Drawing.Size(24, 23);
             this.buttonDestinationDirectory.TabIndex = 7;
@@ -157,7 +163,7 @@ namespace OptimaSync
             // 
             // buttonSourceDirectory
             // 
-            this.buttonSourceDirectory.Location = new System.Drawing.Point(252, 63);
+            this.buttonSourceDirectory.Location = new System.Drawing.Point(250, 36);
             this.buttonSourceDirectory.Name = "buttonSourceDirectory";
             this.buttonSourceDirectory.Size = new System.Drawing.Size(24, 23);
             this.buttonSourceDirectory.TabIndex = 6;
@@ -168,7 +174,7 @@ namespace OptimaSync
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 134);
+            this.label3.Location = new System.Drawing.Point(10, 107);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(223, 15);
             this.label3.TabIndex = 5;
@@ -177,7 +183,7 @@ namespace OptimaSync
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 90);
+            this.label2.Location = new System.Drawing.Point(10, 63);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(94, 15);
             this.label2.TabIndex = 4;
@@ -186,7 +192,7 @@ namespace OptimaSync
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 46);
+            this.label1.Location = new System.Drawing.Point(10, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(123, 15);
             this.label1.TabIndex = 3;
@@ -194,33 +200,88 @@ namespace OptimaSync
             // 
             // OptimaSOATextBox
             // 
-            this.OptimaSOATextBox.Location = new System.Drawing.Point(12, 152);
+            this.OptimaSOATextBox.Location = new System.Drawing.Point(10, 125);
             this.OptimaSOATextBox.Name = "OptimaSOATextBox";
             this.OptimaSOATextBox.Size = new System.Drawing.Size(233, 23);
             this.OptimaSOATextBox.TabIndex = 2;
             // 
             // DestTextBox
             // 
-            this.DestTextBox.Location = new System.Drawing.Point(12, 108);
+            this.DestTextBox.Location = new System.Drawing.Point(10, 81);
             this.DestTextBox.Name = "DestTextBox";
             this.DestTextBox.Size = new System.Drawing.Size(233, 23);
             this.DestTextBox.TabIndex = 1;
             // 
             // SourcePathTextBox
             // 
-            this.SourcePathTextBox.Location = new System.Drawing.Point(12, 64);
+            this.SourcePathTextBox.Location = new System.Drawing.Point(10, 37);
             this.SourcePathTextBox.Name = "SourcePathTextBox";
             this.SourcePathTextBox.Size = new System.Drawing.Size(233, 23);
             this.SourcePathTextBox.TabIndex = 0;
             // 
             // HelpTab
             // 
+            this.HelpTab.Controls.Add(this.authorLabel);
+            this.HelpTab.Controls.Add(this.openManualButton);
+            this.HelpTab.Controls.Add(this.openLogsButton);
+            this.HelpTab.Controls.Add(this.versionLabelValue);
+            this.HelpTab.Controls.Add(this.versionLabel);
             this.HelpTab.Location = new System.Drawing.Point(4, 24);
             this.HelpTab.Name = "HelpTab";
-            this.HelpTab.Size = new System.Drawing.Size(791, 460);
+            this.HelpTab.Size = new System.Drawing.Size(298, 210);
             this.HelpTab.TabIndex = 2;
             this.HelpTab.Text = "Pomoc";
             this.HelpTab.UseVisualStyleBackColor = true;
+            // 
+            // authorLabel
+            // 
+            this.authorLabel.AutoSize = true;
+            this.authorLabel.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.authorLabel.Location = new System.Drawing.Point(10, 191);
+            this.authorLabel.Name = "authorLabel";
+            this.authorLabel.Size = new System.Drawing.Size(176, 12);
+            this.authorLabel.TabIndex = 4;
+            this.authorLabel.Text = "Bartlomiej.Komendarczuk@comarch.pl";
+            // 
+            // openManualButton
+            // 
+            this.openManualButton.Location = new System.Drawing.Point(10, 45);
+            this.openManualButton.Name = "openManualButton";
+            this.openManualButton.Size = new System.Drawing.Size(136, 23);
+            this.openManualButton.TabIndex = 3;
+            this.openManualButton.Text = "Otwórz instrukcję";
+            this.openManualButton.UseVisualStyleBackColor = true;
+            this.openManualButton.Click += new System.EventHandler(this.openManualButton_Click);
+            // 
+            // openLogsButton
+            // 
+            this.openLogsButton.Location = new System.Drawing.Point(10, 16);
+            this.openLogsButton.Name = "openLogsButton";
+            this.openLogsButton.Size = new System.Drawing.Size(136, 23);
+            this.openLogsButton.TabIndex = 2;
+            this.openLogsButton.Text = "Otwórz folder z logami";
+            this.openLogsButton.UseVisualStyleBackColor = true;
+            this.openLogsButton.Click += new System.EventHandler(this.openLogsButton_Click);
+            // 
+            // versionLabelValue
+            // 
+            this.versionLabelValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.versionLabelValue.AutoSize = true;
+            this.versionLabelValue.Location = new System.Drawing.Point(237, 188);
+            this.versionLabelValue.Name = "versionLabelValue";
+            this.versionLabelValue.Size = new System.Drawing.Size(49, 15);
+            this.versionLabelValue.TabIndex = 1;
+            this.versionLabelValue.Text = "0000.0.0";
+            // 
+            // versionLabel
+            // 
+            this.versionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.Location = new System.Drawing.Point(192, 188);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(48, 15);
+            this.versionLabel.TabIndex = 0;
+            this.versionLabel.Text = "Wersja: ";
             // 
             // backgroundWorker
             // 
@@ -232,8 +293,10 @@ namespace OptimaSync
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(826, 499);
+            this.ClientSize = new System.Drawing.Size(301, 236);
             this.Controls.Add(this.tabControl1);
+            this.MaximumSize = new System.Drawing.Size(317, 275);
+            this.MinimumSize = new System.Drawing.Size(317, 275);
             this.Name = "MainForm";
             this.Text = "OptimaSync";
             this.tabControl1.ResumeLayout(false);
@@ -241,6 +304,8 @@ namespace OptimaSync
             this.SyncTab.PerformLayout();
             this.SettingsTab.ResumeLayout(false);
             this.SettingsTab.PerformLayout();
+            this.HelpTab.ResumeLayout(false);
+            this.HelpTab.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -250,7 +315,7 @@ namespace OptimaSync
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage SyncTab;
         private System.Windows.Forms.TabPage SettingsTab;
-        private System.Windows.Forms.Button downloadBuildButton;
+        public System.Windows.Forms.Button downloadBuildButton;
         private System.Windows.Forms.TabPage HelpTab;
         public System.Windows.Forms.CheckBox SOACheckBox;
         private System.Windows.Forms.Label label2;
@@ -259,12 +324,17 @@ namespace OptimaSync
         private System.Windows.Forms.TextBox DestTextBox;
         private System.Windows.Forms.TextBox SourcePathTextBox;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button buttonOptimaSOADirectory;
-        private System.Windows.Forms.Button buttonDestinationDirectory;
-        private System.Windows.Forms.Button buttonSourceDirectory;
-        private System.Windows.Forms.Button saveSettingsButton;
+        public System.Windows.Forms.Button buttonOptimaSOADirectory;
+        public System.Windows.Forms.Button buttonDestinationDirectory;
+        public System.Windows.Forms.Button buttonSourceDirectory;
+        public System.Windows.Forms.Button saveSettingsButton;
         public System.Windows.Forms.Label labelProgress;
         public System.ComponentModel.BackgroundWorker backgroundWorker;
+        private System.Windows.Forms.Label versionLabelValue;
+        private System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.Button openManualButton;
+        private System.Windows.Forms.Button openLogsButton;
+        private System.Windows.Forms.Label authorLabel;
     }
 }
 
