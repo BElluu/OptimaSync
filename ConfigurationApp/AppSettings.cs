@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using OptimaSync.Constant;
 using Serilog;
 
@@ -16,6 +17,7 @@ namespace OptimaSync.ConfigurationApp
 
                 Properties.Settings.Default.Save();
                 Log.Information(Messages.PATHS_SAVED + "\n Build Path: " + SourcePath + "\n Dest Path: " + DestPath + "\n SOA Path: " + OptimaSOAPath);
+                MessageBox.Show(Messages.PATHS_SAVED, Messages.INFORMATION_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

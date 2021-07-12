@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using OptimaSync.Constant;
@@ -14,6 +13,7 @@ namespace OptimaSync.Service
     {
         WindowsService windowsService = new WindowsService();
         SyncUI syncUI = new SyncUI();
+        RegisterDLLService registerDLL = new RegisterDLLService();
 
         public void PrepareOptimaBuild(bool withSoa)
         {
@@ -22,11 +22,11 @@ namespace OptimaSync.Service
                 syncUI.EnableElementsOnForm(false);
                 if (withSoa)
                 {
-                    RegisterOptima(DownloadLatestBuildWithSOA());
+                    registerDLL.RegisterOptima(DownloadLatestBuildWithSOA());
                 }
                 else
                 {
-                    RegisterOptima(DownloadLatestBuild());
+                    registerDLL.RegisterOptima(DownloadLatestBuild());
                 }
             }
             finally
@@ -141,6 +141,7 @@ namespace OptimaSync.Service
                 var lastBuild = directory.GetDirectories()
                     .Where(q => !q.Name.Contains("CIV", StringComparison.InvariantCultureIgnoreCase) &&
                                 !q.Name.Contains("SQL", StringComparison.InvariantCultureIgnoreCase) &&
+                                !q.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase) &&
                                 !q.Name.Contains("rar", StringComparison.InvariantCultureIgnoreCase) &&
                                 !q.Name.Contains("FIXES", StringComparison.InvariantCultureIgnoreCase)) // TODO Excluded directories to list
                     .OrderByDescending(f => f.LastWriteTime)
@@ -154,36 +155,6 @@ namespace OptimaSync.Service
                 syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 MessageBox.Show(Messages.BUILD_PATH_DONT_HAVE_ANY_BUILD, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
-            }
-        }
-
-        private void RegisterOptima(string path)
-        {
-            if (path == null)
-            {
-                return;
-            }
-
-            Process proc;
-            try
-            {
-                syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_INPROGRESS);
-                proc = new Process();
-                proc.StartInfo.WorkingDirectory = path;
-                proc.StartInfo.FileName = "Rejestr.bat";
-                proc.StartInfo.UseShellExecute = true;
-                proc.StartInfo.CreateNoWindow = true;
-                proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                proc.Start();
-                proc.WaitForExit();
-                Log.Information(Messages.OPTIMA_REGISTERED);
-                syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_SUCCESSFUL);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.Message);
-                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
-                MessageBox.Show(Messages.REGISTER_OPTIMA_ERROR, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
