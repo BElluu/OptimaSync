@@ -78,7 +78,7 @@ namespace OptimaSync.View
             // AlertForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.BackColor = System.Drawing.Color.RoyalBlue;
             this.ClientSize = new System.Drawing.Size(415, 107);
             this.Controls.Add(this.alertPicture);
             this.Controls.Add(this.alertButton);

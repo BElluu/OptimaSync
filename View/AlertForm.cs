@@ -74,7 +74,7 @@ namespace OptimaSync.View
             this.StartPosition = FormStartPosition.Manual;
             string fname;
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 1; i < 10; i++)
             {
                 fname = "alert" + i.ToString();
                 AlertForm alertForm = (AlertForm)Application.OpenForms[fname];
@@ -83,7 +83,7 @@ namespace OptimaSync.View
                 {
                     this.Name = fname;
                     this.x = Screen.PrimaryScreen.WorkingArea.Width - this.Width + 15;
-                    this.y = Screen.PrimaryScreen.WorkingArea.Height - this.Height * i; // first notification under taskbar
+                    this.y = Screen.PrimaryScreen.WorkingArea.Height - this.Height * i - 5 * i;
                     this.Location = new Point(this.x, this.y);
                     break;
                 }
