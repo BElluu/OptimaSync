@@ -5,7 +5,7 @@ using System.ServiceProcess;
 
 namespace OptimaSync.Service
 {
-    class WindowsService
+    internal class WindowsService
     {
         public static readonly string SOA_SERVICE = "ComarchAutomatSynchronizacji";
         ServiceController SoaService = new ServiceController(SOA_SERVICE);
