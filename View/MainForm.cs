@@ -7,6 +7,7 @@ using OptimaSync.ConfigurationApp;
 using OptimaSync.Constant;
 using Serilog;
 using System.ComponentModel;
+using OptimaSync.View;
 
 namespace OptimaSync
 {
@@ -35,6 +36,12 @@ namespace OptimaSync
         }
 
         public static MainForm Instance { get { return _instance; } }
+
+        public void Alert(string alertMsg)
+        {
+            AlertForm alertForm = new AlertForm();
+            alertForm.showAlert(alertMsg);
+        }
 
 
         private void downloadBuildButton_Click(object sender, EventArgs e)
@@ -113,7 +120,8 @@ namespace OptimaSync
 
         private void openManualButton_Click(object sender, EventArgs e)
         {
-            syncUI.OpenUserManual();
+            //syncUI.OpenUserManual();
+            this.Alert("Pojawiła się nowa kompilacja!");
         }
     }
 }
