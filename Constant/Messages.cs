@@ -27,7 +27,7 @@
         public static readonly string DOWNLOADING_BUILD = "Pobieranie kompilacji...";
 
         // Other Messages
-        public static readonly string PATHS_SAVED = "Zapisano ścieżki.";
+        public static readonly string SETTINGS_SAVED = "Zapisano ustawienia.";
         public static readonly string OPTIMA_REGISTERED = "Optima została zarejestrowana.";
         public static readonly string OPTIMA_SYNC_STARTED = "Aplikacja została uruchomiona";
     }

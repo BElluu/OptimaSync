@@ -58,5 +58,17 @@ namespace OptimaSync.Properties {
                 this["BuildSOAPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsProgrammer {
+            get {
+                return ((bool)(this["IsProgrammer"]));
+            }
+            set {
+                this["IsProgrammer"] = value;
+            }
+        }
     }
 }

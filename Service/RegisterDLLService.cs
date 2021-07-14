@@ -10,11 +10,22 @@ namespace OptimaSync.Service
     internal class RegisterDLLService
     {
         SyncUI syncUI = new SyncUI();
-        public void RegisterOptima(string path)
+        public void RegisterOptima(string path, bool programmer)
         {
+            string registerFile;
+
             if (path == null)
             {
                 return;
+            }
+
+            if (programmer)
+            {
+                registerFile = "RejestrProgramisty.bat";
+            }
+            else
+            {
+                registerFile = "Rejestr.bat";
             }
 
             Process proc;
@@ -23,7 +34,7 @@ namespace OptimaSync.Service
                 syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_INPROGRESS);
                 proc = new Process();
                 proc.StartInfo.WorkingDirectory = path;
-                proc.StartInfo.FileName = "Rejestr.bat";
+                proc.StartInfo.FileName = registerFile;
                 proc.StartInfo.UseShellExecute = true;
                 proc.StartInfo.CreateNoWindow = true;
                 proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
