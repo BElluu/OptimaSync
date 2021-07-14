@@ -53,6 +53,7 @@ namespace OptimaSync
             this.versionLabelValue = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.programmerCheckbox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.SyncTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
@@ -114,6 +115,7 @@ namespace OptimaSync
             // 
             // SettingsTab
             // 
+            this.SettingsTab.Controls.Add(this.programmerCheckbox);
             this.SettingsTab.Controls.Add(this.saveSettingsButton);
             this.SettingsTab.Controls.Add(this.buttonOptimaSOADirectory);
             this.SettingsTab.Controls.Add(this.buttonDestinationDirectory);
@@ -290,6 +292,16 @@ namespace OptimaSync
             this.backgroundWorker.WorkerSupportsCancellation = true;
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             // 
+            // programmerCheckbox
+            // 
+            this.programmerCheckbox.AutoSize = true;
+            this.programmerCheckbox.Location = new System.Drawing.Point(184, 167);
+            this.programmerCheckbox.Name = "programmerCheckbox";
+            this.programmerCheckbox.Size = new System.Drawing.Size(90, 19);
+            this.programmerCheckbox.TabIndex = 10;
+            this.programmerCheckbox.Text = "Programista";
+            this.programmerCheckbox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -322,9 +334,9 @@ namespace OptimaSync
         public System.Windows.Forms.CheckBox SOACheckBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox OptimaSOATextBox;
-        private System.Windows.Forms.TextBox DestTextBox;
-        private System.Windows.Forms.TextBox SourcePathTextBox;
+        public System.Windows.Forms.TextBox OptimaSOATextBox;
+        public System.Windows.Forms.TextBox DestTextBox;
+        public System.Windows.Forms.TextBox SourcePathTextBox;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Button buttonOptimaSOADirectory;
         public System.Windows.Forms.Button buttonDestinationDirectory;
@@ -337,6 +349,7 @@ namespace OptimaSync
         private System.Windows.Forms.Button openManualButton;
         private System.Windows.Forms.Button openLogsButton;
         private System.Windows.Forms.Label authorLabel;
+        public System.Windows.Forms.CheckBox programmerCheckbox;
     }
 }
 

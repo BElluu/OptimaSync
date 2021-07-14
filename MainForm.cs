@@ -15,6 +15,7 @@ namespace OptimaSync
         BuildSyncService buildSyncService = new BuildSyncService();
         SyncUI syncUI = new SyncUI();
         AppSettings appSettings = new AppSettings();
+        ValidatorUI validatorUI = new ValidatorUI();
 
         private static MainForm _instance;
         public MainForm()
@@ -24,6 +25,7 @@ namespace OptimaSync
             this.DestTextBox.Text = Properties.Settings.Default.BuildDestPath;
             this.OptimaSOATextBox.Text = Properties.Settings.Default.BuildSOAPath;
             this.versionLabelValue.Text = syncUI.GetAppVersion();
+            this.programmerCheckbox.Checked = Properties.Settings.Default.IsProgrammer;
             _instance = this;
             AutoUpdater.Start("https://osync.devopsowy.pl/AutoUpdater.xml");
         }
@@ -59,43 +61,15 @@ namespace OptimaSync
 
         private void saveSettingsButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(SourcePathTextBox.Text))
+            if (validatorUI.SourcePathIsValid() && validatorUI.DestPathIsValid())
             {
-                MessageBox.Show(Messages.BUILD_PATH_CANNOT_BE_EMPTY, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Log.Error(Messages.BUILD_PATH_CANNOT_BE_EMPTY);
-            }
-            else
-            {
-                appSettings.SetPaths(SourcePathTextBox.Text.ToString(), DestTextBox.Text, OptimaSOATextBox.Text);
+                appSettings.SaveSettings(SourcePathTextBox.Text.ToString(), DestTextBox.Text, OptimaSOATextBox.Text, validatorUI.isProgrammer());
             }
         }
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (SOACheckBox.Checked)
-            {
-                if (string.IsNullOrEmpty(OptimaSOATextBox.Text))
-                {
-                    MessageBox.Show(Messages.SOA_PATH_CANNOT_BE_EMPTY, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
-                }
-                else
-                {
-                    buildSyncService.PrepareOptimaBuild(true);
-                }
-            }
-            if (!SOACheckBox.Checked)
-            {
-                if (string.IsNullOrEmpty(DestTextBox.Text))
-                {
-                    MessageBox.Show(Messages.DEST_PATH_CANNOT_BE_EMPTY, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Log.Error(Messages.DEST_PATH_CANNOT_BE_EMPTY);
-                }
-                else
-                {
-                    buildSyncService.PrepareOptimaBuild(false);
-                }
-            }
+            buildSyncService.PrepareOptimaBuild(validatorUI.WithSOASupport(), validatorUI.isProgrammer());
         }
 
         private void openLogsButton_Click(object sender, EventArgs e)

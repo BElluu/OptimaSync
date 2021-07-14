@@ -35,6 +35,7 @@ namespace OptimaSync.UI
             MainForm.Instance.downloadBuildButton.Enabled = state;
             MainForm.Instance.saveSettingsButton.Enabled = state;
             MainForm.Instance.SOACheckBox.Enabled = state;
+            MainForm.Instance.programmerCheckbox.Enabled = state;
         }
 
         public void OpenLogsDirectory()

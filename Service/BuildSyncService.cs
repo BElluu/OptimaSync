@@ -14,19 +14,21 @@ namespace OptimaSync.Service
         WindowsService windowsService = new WindowsService();
         SyncUI syncUI = new SyncUI();
         RegisterDLLService registerDLL = new RegisterDLLService();
+        ValidatorUI validatorUI = new ValidatorUI();
 
-        public void PrepareOptimaBuild(bool withSoa)
+        public void PrepareOptimaBuild(bool withSoa, bool isProgrammer)
         {
             try
             {
                 syncUI.EnableElementsOnForm(false);
+
                 if (withSoa)
                 {
-                    registerDLL.RegisterOptima(DownloadLatestBuildWithSOA());
+                    registerDLL.RegisterOptima(DownloadLatestBuildWithSOA(), isProgrammer);
                 }
                 else
                 {
-                    registerDLL.RegisterOptima(DownloadLatestBuild());
+                    registerDLL.RegisterOptima(DownloadLatestBuild(), isProgrammer);
                 }
             }
             finally
@@ -43,9 +45,9 @@ namespace OptimaSync.Service
             }
             var dirDest = Properties.Settings.Default.BuildDestPath + "\\" + dir.Name;
 
-            if (string.IsNullOrEmpty(Properties.Settings.Default.BuildDestPath))
+            if (!validatorUI.DestPathIsValid())
             {
-                Log.Error(Messages.DEST_PATH_CANNOT_BE_EMPTY);
+                syncUI.ChangeProgressLabel("Oczekuje...");
                 throw new NullReferenceException(Messages.DEST_PATH_CANNOT_BE_EMPTY);
             }
 
@@ -73,9 +75,9 @@ namespace OptimaSync.Service
 
         public string DownloadLatestBuildWithSOA()
         {
-            if (string.IsNullOrEmpty(Properties.Settings.Default.BuildSOAPath))
+            if (!validatorUI.DestSOAPathIsValid())
             {
-                Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+                syncUI.ChangeProgressLabel("Oczekuje...");
                 throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
             }
 
@@ -128,9 +130,8 @@ namespace OptimaSync.Service
 
         private DirectoryInfo FindLastBuild()
         {
-            if (string.IsNullOrEmpty(Properties.Settings.Default.BuildSourcePath))
+            if (!validatorUI.SourcePathIsValid())
             {
-                Log.Error(Messages.BUILD_PATH_CANNOT_BE_EMPTY);
                 throw new NullReferenceException(Messages.BUILD_PATH_CANNOT_BE_EMPTY);
             }
 
