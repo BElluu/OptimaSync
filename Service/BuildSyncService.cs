@@ -47,6 +47,7 @@ namespace OptimaSync.Service
 
             if (!validatorUI.DestPathIsValid())
             {
+                syncUI.ChangeProgressLabel("Oczekuje...");
                 throw new NullReferenceException(Messages.DEST_PATH_CANNOT_BE_EMPTY);
             }
 
@@ -76,7 +77,7 @@ namespace OptimaSync.Service
         {
             if (!validatorUI.DestSOAPathIsValid())
             {
-                Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+                syncUI.ChangeProgressLabel("Oczekuje...");
                 throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
             }
 
