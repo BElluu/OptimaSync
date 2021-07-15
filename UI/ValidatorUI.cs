@@ -1,10 +1,14 @@
 ﻿using OptimaSync.Constant;
+using OptimaSync.Service;
 using Serilog;
+using System;
 using System.Windows.Forms;
 namespace OptimaSync.UI
 {
     public class ValidatorUI
     {
+        WindowsService windowsService = new WindowsService();
+        SyncUI syncUI = new SyncUI();
         public bool DestPathIsValid()
         {
             string DestPath = MainForm.Instance.DestTextBox.Text;
@@ -48,6 +52,32 @@ namespace OptimaSync.UI
                 return true;
             }
             return false;
+        }
+
+        public bool SOARequirementsAreMet()
+        {
+            if (!DestSOAPathIsValid())
+            {
+                syncUI.ChangeProgressLabel("Oczekuje...");
+                return false;
+                throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+            }
+
+            if (!windowsService.DoesSOAServiceExist())
+            {
+                Log.Error(Messages.SOA_SERVICE_DONT_EXIST);
+                MessageBox.Show(Messages.SOA_SERVICE_DONT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (windowsService.StopSOAService() != 0)
+            {
+                Log.Error(Messages.SOA_SERVICE_NOT_STOPPED);
+                MessageBox.Show(Messages.SOA_SERVICE_NOT_STOPPED, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            return true;
         }
     }
 }

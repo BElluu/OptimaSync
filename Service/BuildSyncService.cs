@@ -18,27 +18,21 @@ namespace OptimaSync.Service
 
         public void PrepareOptimaBuild(bool withSoa, bool isProgrammer)
         {
-            try
+            if (isProgrammer)
+            {
+               registerDLL.RegisterOptima(DownloadLatestBuildExtractFiles(isProgrammer),isProgrammer);
+            }
+            else
             {
                 syncUI.EnableElementsOnForm(false);
-                if (isProgrammer)
+                if (withSoa)
                 {
-                    DownloadLatestBuildExtractFiles(isProgrammer);
+                    registerDLL.RegisterOptima(DownloadLatestBuildExtractFiles(false), false);
                 }
                 else
                 {
-                    if (withSoa)
-                    {
-                        registerDLL.RegisterOptima(DownloadLatestBuildExtractFiles(false), false);
-                    }
-                    else
-                    {
-                        registerDLL.RegisterOptima(DownloadLatestBuild(), false);
-                    }
+                    registerDLL.RegisterOptima(DownloadLatestBuild(), false);
                 }
-            }
-            finally
-            {
                 syncUI.EnableElementsOnForm(true);
             }
         }
@@ -96,23 +90,8 @@ namespace OptimaSync.Service
             }
             else
             {
-                if (!validatorUI.DestSOAPathIsValid())
+                if(validatorUI.SOARequirementsAreMet() == false)
                 {
-                    syncUI.ChangeProgressLabel("Oczekuje...");
-                    throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
-                }
-
-                if (!windowsService.DoesSOAServiceExist())
-                {
-                    Log.Error(Messages.SOA_SERVICE_DONT_EXIST);
-                    MessageBox.Show(Messages.SOA_SERVICE_DONT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return null;
-                }
-
-                if (windowsService.StopSOAService() != 0)
-                {
-                    Log.Error(Messages.SOA_SERVICE_NOT_STOPPED);
-                    MessageBox.Show(Messages.SOA_SERVICE_NOT_STOPPED, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return null;
                 }
 
