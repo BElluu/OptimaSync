@@ -56,7 +56,7 @@ namespace OptimaSync
         private void buttonOptimaSOADirectory_Click(object sender, EventArgs e)
         {
             syncUI.PathToTextbox(OptimaSOATextBox);
-            Properties.Settings.Default.BuildDestPath = OptimaSOATextBox.Text;
+            Properties.Settings.Default.BuildSOAPath = OptimaSOATextBox.Text;
             Properties.Settings.Default.Save();
         }
 
