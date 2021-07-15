@@ -21,14 +21,20 @@ namespace OptimaSync.Service
             try
             {
                 syncUI.EnableElementsOnForm(false);
-
-                if (withSoa)
+                if (isProgrammer)
                 {
-                    registerDLL.RegisterOptima(DownloadLatestBuildWithSOA(), isProgrammer);
+                    DownloadLatestBuildExtractFiles(isProgrammer);
                 }
                 else
                 {
-                    registerDLL.RegisterOptima(DownloadLatestBuild(), isProgrammer);
+                    if (withSoa)
+                    {
+                        registerDLL.RegisterOptima(DownloadLatestBuildExtractFiles(false), false);
+                    }
+                    else
+                    {
+                        registerDLL.RegisterOptima(DownloadLatestBuild(), false);
+                    }
                 }
             }
             finally
@@ -73,27 +79,9 @@ namespace OptimaSync.Service
             }
         }
 
-        public string DownloadLatestBuildWithSOA()
+        public string DownloadLatestBuildExtractFiles(bool isProgrammer)
         {
-            if (!validatorUI.DestSOAPathIsValid())
-            {
-                syncUI.ChangeProgressLabel("Oczekuje...");
-                throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
-            }
-
-            if (!windowsService.DoesSOAServiceExist())
-            {
-                Log.Error(Messages.SOA_SERVICE_DONT_EXIST);
-                MessageBox.Show(Messages.SOA_SERVICE_DONT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-
-            if (windowsService.StopSOAService() != 0)
-            {
-                Log.Error(Messages.SOA_SERVICE_NOT_STOPPED);
-                MessageBox.Show(Messages.SOA_SERVICE_NOT_STOPPED, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
+            string extractionPath;
 
             var dir = FindLastBuild();
 
@@ -102,23 +90,49 @@ namespace OptimaSync.Service
                 return null;
             }
 
-            var dirDestSOA = Properties.Settings.Default.BuildSOAPath;
+            if (isProgrammer)
+            {
+                extractionPath = Properties.Settings.Default.ProgrammersPath;
+            }
+            else
+            {
+                if (!validatorUI.DestSOAPathIsValid())
+                {
+                    syncUI.ChangeProgressLabel("Oczekuje...");
+                    throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+                }
 
+                if (!windowsService.DoesSOAServiceExist())
+                {
+                    Log.Error(Messages.SOA_SERVICE_DONT_EXIST);
+                    MessageBox.Show(Messages.SOA_SERVICE_DONT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+
+                if (windowsService.StopSOAService() != 0)
+                {
+                    Log.Error(Messages.SOA_SERVICE_NOT_STOPPED);
+                    MessageBox.Show(Messages.SOA_SERVICE_NOT_STOPPED, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+
+                extractionPath = Properties.Settings.Default.BuildSOAPath;
+            }
             try
             {
                 syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
                 foreach (string dirPath in Directory.GetDirectories(dir.ToString(), "*", System.IO.SearchOption.AllDirectories))
                 {
-                    Directory.CreateDirectory(dirPath.Replace(dir.ToString(), dirDestSOA));
+                    Directory.CreateDirectory(dirPath.Replace(dir.ToString(), extractionPath));
                 }
 
                 foreach (string newPath in Directory.GetFiles(dir.ToString(), "*.*", System.IO.SearchOption.AllDirectories))
                 {
-                    File.Copy(newPath, newPath.Replace(dir.ToString(), dirDestSOA), true);
+                    File.Copy(newPath, newPath.Replace(dir.ToString(), extractionPath), true);
                 }
 
                 Log.Information("Skopiowano " + dir.Name);
-                return dirDestSOA;
+                return extractionPath;
             }
             catch (Exception ex)
             {
@@ -130,11 +144,6 @@ namespace OptimaSync.Service
 
         private DirectoryInfo FindLastBuild()
         {
-            if (!validatorUI.SourcePathIsValid())
-            {
-                throw new NullReferenceException(Messages.BUILD_PATH_CANNOT_BE_EMPTY);
-            }
-
             try
             {
                 syncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);

@@ -3,7 +3,6 @@ using OptimaSync.Service;
 using System;
 using System.Windows.Forms;
 using OptimaSync.UI;
-using OptimaSync.ConfigurationApp;
 using OptimaSync.Constant;
 using Serilog;
 using System.ComponentModel;
@@ -14,14 +13,12 @@ namespace OptimaSync
     {
         BuildSyncService buildSyncService = new BuildSyncService();
         SyncUI syncUI = new SyncUI();
-        AppSettings appSettings = new AppSettings();
         ValidatorUI validatorUI = new ValidatorUI();
 
         private static MainForm _instance;
         public MainForm()
         {
             InitializeComponent();
-            this.SourcePathTextBox.Text = Properties.Settings.Default.BuildSourcePath;
             this.DestTextBox.Text = Properties.Settings.Default.BuildDestPath;
             this.OptimaSOATextBox.Text = Properties.Settings.Default.BuildSOAPath;
             this.versionLabelValue.Text = syncUI.GetAppVersion();
@@ -38,33 +35,29 @@ namespace OptimaSync
 
         public static MainForm Instance { get { return _instance; } }
 
+        private void MainForm_Shown(Object sender, EventArgs e)
+        {
+            syncUI.DisableElementsWhileProgrammer(Properties.Settings.Default.IsProgrammer);
+        }
+
 
         private void downloadBuildButton_Click(object sender, EventArgs e)
         {
             backgroundWorker.RunWorkerAsync();
         }
 
-        private void buttonSourceDirectory_Click(object sender, EventArgs e)
-        {
-            syncUI.PathToTextbox(SourcePathTextBox);
-        }
-
         private void buttonDestinationDirectory_Click(object sender, EventArgs e)
         {
             syncUI.PathToTextbox(DestTextBox);
+            Properties.Settings.Default.BuildDestPath = DestTextBox.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void buttonOptimaSOADirectory_Click(object sender, EventArgs e)
         {
             syncUI.PathToTextbox(OptimaSOATextBox);
-        }
-
-        private void saveSettingsButton_Click(object sender, EventArgs e)
-        {
-            if (validatorUI.SourcePathIsValid() && validatorUI.DestPathIsValid())
-            {
-                appSettings.SaveSettings(SourcePathTextBox.Text.ToString(), DestTextBox.Text, OptimaSOATextBox.Text, validatorUI.isProgrammer());
-            }
+            Properties.Settings.Default.BuildDestPath = OptimaSOATextBox.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -88,6 +81,22 @@ namespace OptimaSync
         private void openManualButton_Click(object sender, EventArgs e)
         {
             syncUI.OpenUserManual();
+        }
+
+        private void programmerCheckbox_Click(object sender, EventArgs e)
+        {
+            if (programmerCheckbox.Checked)
+            {
+                Properties.Settings.Default.IsProgrammer = true;
+                Properties.Settings.Default.Save();
+                syncUI.DisableElementsWhileProgrammer(true);
+            }
+            else
+            {
+                Properties.Settings.Default.IsProgrammer = false;
+                Properties.Settings.Default.Save();
+                syncUI.DisableElementsWhileProgrammer(false);
+            }
         }
     }
 }

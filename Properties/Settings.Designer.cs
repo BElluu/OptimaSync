@@ -23,15 +23,12 @@ namespace OptimaSync.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\natalie\\cdnKOP-gotowe\\archiwum.optima\\")]
         public string BuildSourcePath {
             get {
                 return ((string)(this["BuildSourcePath"]));
-            }
-            set {
-                this["BuildSourcePath"] = value;
             }
         }
         
@@ -68,6 +65,15 @@ namespace OptimaSync.Properties {
             }
             set {
                 this["IsProgrammer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Optima")]
+        public string ProgrammersPath {
+            get {
+                return ((string)(this["ProgrammersPath"]));
             }
         }
     }

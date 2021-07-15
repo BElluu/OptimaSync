@@ -36,16 +36,13 @@ namespace OptimaSync
             this.SOACheckBox = new System.Windows.Forms.CheckBox();
             this.downloadBuildButton = new System.Windows.Forms.Button();
             this.SettingsTab = new System.Windows.Forms.TabPage();
-            this.saveSettingsButton = new System.Windows.Forms.Button();
+            this.programmerCheckbox = new System.Windows.Forms.CheckBox();
             this.buttonOptimaSOADirectory = new System.Windows.Forms.Button();
             this.buttonDestinationDirectory = new System.Windows.Forms.Button();
-            this.buttonSourceDirectory = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.soaDestDirectoryLabel = new System.Windows.Forms.Label();
+            this.destDirectoryLabel = new System.Windows.Forms.Label();
             this.OptimaSOATextBox = new System.Windows.Forms.TextBox();
             this.DestTextBox = new System.Windows.Forms.TextBox();
-            this.SourcePathTextBox = new System.Windows.Forms.TextBox();
             this.HelpTab = new System.Windows.Forms.TabPage();
             this.authorLabel = new System.Windows.Forms.Label();
             this.openManualButton = new System.Windows.Forms.Button();
@@ -53,7 +50,6 @@ namespace OptimaSync
             this.versionLabelValue = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.programmerCheckbox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.SyncTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
@@ -116,16 +112,12 @@ namespace OptimaSync
             // SettingsTab
             // 
             this.SettingsTab.Controls.Add(this.programmerCheckbox);
-            this.SettingsTab.Controls.Add(this.saveSettingsButton);
             this.SettingsTab.Controls.Add(this.buttonOptimaSOADirectory);
             this.SettingsTab.Controls.Add(this.buttonDestinationDirectory);
-            this.SettingsTab.Controls.Add(this.buttonSourceDirectory);
-            this.SettingsTab.Controls.Add(this.label3);
-            this.SettingsTab.Controls.Add(this.label2);
-            this.SettingsTab.Controls.Add(this.label1);
+            this.SettingsTab.Controls.Add(this.soaDestDirectoryLabel);
+            this.SettingsTab.Controls.Add(this.destDirectoryLabel);
             this.SettingsTab.Controls.Add(this.OptimaSOATextBox);
             this.SettingsTab.Controls.Add(this.DestTextBox);
-            this.SettingsTab.Controls.Add(this.SourcePathTextBox);
             this.SettingsTab.Location = new System.Drawing.Point(4, 24);
             this.SettingsTab.Name = "SettingsTab";
             this.SettingsTab.Padding = new System.Windows.Forms.Padding(3);
@@ -134,19 +126,20 @@ namespace OptimaSync
             this.SettingsTab.Text = "Ustawienia";
             this.SettingsTab.UseVisualStyleBackColor = true;
             // 
-            // saveSettingsButton
+            // programmerCheckbox
             // 
-            this.saveSettingsButton.Location = new System.Drawing.Point(10, 164);
-            this.saveSettingsButton.Name = "saveSettingsButton";
-            this.saveSettingsButton.Size = new System.Drawing.Size(127, 23);
-            this.saveSettingsButton.TabIndex = 9;
-            this.saveSettingsButton.Text = "Zapisz Ustawienia";
-            this.saveSettingsButton.UseVisualStyleBackColor = true;
-            this.saveSettingsButton.Click += new System.EventHandler(this.saveSettingsButton_Click);
+            this.programmerCheckbox.AutoSize = true;
+            this.programmerCheckbox.Location = new System.Drawing.Point(9, 12);
+            this.programmerCheckbox.Name = "programmerCheckbox";
+            this.programmerCheckbox.Size = new System.Drawing.Size(90, 19);
+            this.programmerCheckbox.TabIndex = 10;
+            this.programmerCheckbox.Text = "Programista";
+            this.programmerCheckbox.UseVisualStyleBackColor = true;
+            this.programmerCheckbox.Click += new System.EventHandler(this.programmerCheckbox_Click);
             // 
             // buttonOptimaSOADirectory
             // 
-            this.buttonOptimaSOADirectory.Location = new System.Drawing.Point(250, 125);
+            this.buttonOptimaSOADirectory.Location = new System.Drawing.Point(249, 108);
             this.buttonOptimaSOADirectory.Name = "buttonOptimaSOADirectory";
             this.buttonOptimaSOADirectory.Size = new System.Drawing.Size(24, 23);
             this.buttonOptimaSOADirectory.TabIndex = 8;
@@ -156,7 +149,7 @@ namespace OptimaSync
             // 
             // buttonDestinationDirectory
             // 
-            this.buttonDestinationDirectory.Location = new System.Drawing.Point(250, 81);
+            this.buttonDestinationDirectory.Location = new System.Drawing.Point(249, 64);
             this.buttonDestinationDirectory.Name = "buttonDestinationDirectory";
             this.buttonDestinationDirectory.Size = new System.Drawing.Size(24, 23);
             this.buttonDestinationDirectory.TabIndex = 7;
@@ -164,63 +157,37 @@ namespace OptimaSync
             this.buttonDestinationDirectory.UseVisualStyleBackColor = true;
             this.buttonDestinationDirectory.Click += new System.EventHandler(this.buttonDestinationDirectory_Click);
             // 
-            // buttonSourceDirectory
+            // soaDestDirectoryLabel
             // 
-            this.buttonSourceDirectory.Location = new System.Drawing.Point(250, 36);
-            this.buttonSourceDirectory.Name = "buttonSourceDirectory";
-            this.buttonSourceDirectory.Size = new System.Drawing.Size(24, 23);
-            this.buttonSourceDirectory.TabIndex = 6;
-            this.buttonSourceDirectory.Text = "...";
-            this.buttonSourceDirectory.UseVisualStyleBackColor = true;
-            this.buttonSourceDirectory.Click += new System.EventHandler(this.buttonSourceDirectory_Click);
+            this.soaDestDirectoryLabel.AutoSize = true;
+            this.soaDestDirectoryLabel.Location = new System.Drawing.Point(9, 90);
+            this.soaDestDirectoryLabel.Name = "soaDestDirectoryLabel";
+            this.soaDestDirectoryLabel.Size = new System.Drawing.Size(223, 15);
+            this.soaDestDirectoryLabel.TabIndex = 5;
+            this.soaDestDirectoryLabel.Text = "Folder instalacyjny Comarch ERP Optima";
             // 
-            // label3
+            // destDirectoryLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 107);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(223, 15);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Folder instalacyjny Comarch ERP Optima";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 63);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 15);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Folder docelowy";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(123, 15);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Folder z kompilacjami";
+            this.destDirectoryLabel.AutoSize = true;
+            this.destDirectoryLabel.Location = new System.Drawing.Point(9, 46);
+            this.destDirectoryLabel.Name = "destDirectoryLabel";
+            this.destDirectoryLabel.Size = new System.Drawing.Size(94, 15);
+            this.destDirectoryLabel.TabIndex = 4;
+            this.destDirectoryLabel.Text = "Folder docelowy";
             // 
             // OptimaSOATextBox
             // 
-            this.OptimaSOATextBox.Location = new System.Drawing.Point(10, 125);
+            this.OptimaSOATextBox.Location = new System.Drawing.Point(9, 108);
             this.OptimaSOATextBox.Name = "OptimaSOATextBox";
             this.OptimaSOATextBox.Size = new System.Drawing.Size(233, 23);
             this.OptimaSOATextBox.TabIndex = 2;
             // 
             // DestTextBox
             // 
-            this.DestTextBox.Location = new System.Drawing.Point(10, 81);
+            this.DestTextBox.Location = new System.Drawing.Point(9, 64);
             this.DestTextBox.Name = "DestTextBox";
             this.DestTextBox.Size = new System.Drawing.Size(233, 23);
             this.DestTextBox.TabIndex = 1;
-            // 
-            // SourcePathTextBox
-            // 
-            this.SourcePathTextBox.Location = new System.Drawing.Point(10, 37);
-            this.SourcePathTextBox.Name = "SourcePathTextBox";
-            this.SourcePathTextBox.Size = new System.Drawing.Size(233, 23);
-            this.SourcePathTextBox.TabIndex = 0;
             // 
             // HelpTab
             // 
@@ -292,16 +259,6 @@ namespace OptimaSync
             this.backgroundWorker.WorkerSupportsCancellation = true;
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             // 
-            // programmerCheckbox
-            // 
-            this.programmerCheckbox.AutoSize = true;
-            this.programmerCheckbox.Location = new System.Drawing.Point(184, 167);
-            this.programmerCheckbox.Name = "programmerCheckbox";
-            this.programmerCheckbox.Size = new System.Drawing.Size(90, 19);
-            this.programmerCheckbox.TabIndex = 10;
-            this.programmerCheckbox.Text = "Programista";
-            this.programmerCheckbox.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -313,6 +270,7 @@ namespace OptimaSync
             this.MinimumSize = new System.Drawing.Size(317, 275);
             this.Name = "MainForm";
             this.Text = "OptimaSync";
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.tabControl1.ResumeLayout(false);
             this.SyncTab.ResumeLayout(false);
             this.SyncTab.PerformLayout();
@@ -332,16 +290,12 @@ namespace OptimaSync
         public System.Windows.Forms.Button downloadBuildButton;
         private System.Windows.Forms.TabPage HelpTab;
         public System.Windows.Forms.CheckBox SOACheckBox;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.Label destDirectoryLabel;
         public System.Windows.Forms.TextBox OptimaSOATextBox;
         public System.Windows.Forms.TextBox DestTextBox;
-        public System.Windows.Forms.TextBox SourcePathTextBox;
-        private System.Windows.Forms.Label label3;
+        public System.Windows.Forms.Label soaDestDirectoryLabel;
         public System.Windows.Forms.Button buttonOptimaSOADirectory;
         public System.Windows.Forms.Button buttonDestinationDirectory;
-        public System.Windows.Forms.Button buttonSourceDirectory;
-        public System.Windows.Forms.Button saveSettingsButton;
         public System.Windows.Forms.Label labelProgress;
         public System.ComponentModel.BackgroundWorker backgroundWorker;
         private System.Windows.Forms.Label versionLabelValue;

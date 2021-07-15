@@ -21,6 +21,7 @@ namespace OptimaSync.Service
 
             if (programmer)
             {
+                path = Properties.Settings.Default.ProgrammersPath;
                 registerFile = "RejestrProgramisty.bat";
             }
             else

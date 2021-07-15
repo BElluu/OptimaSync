@@ -2,8 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="OptimaSync.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="BuildSourcePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="BuildSourcePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">\\natalie\cdnKOP-gotowe\archiwum.optima\</Value>
     </Setting>
     <Setting Name="BuildDestPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -13,6 +13,9 @@
     </Setting>
     <Setting Name="IsProgrammer" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ProgrammersPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\Optima</Value>
     </Setting>
   </Settings>
 </SettingsFile>
