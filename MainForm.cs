@@ -3,7 +3,6 @@ using OptimaSync.Service;
 using System;
 using System.Windows.Forms;
 using OptimaSync.UI;
-using OptimaSync.ConfigurationApp;
 using OptimaSync.Constant;
 using Serilog;
 using System.ComponentModel;
@@ -14,14 +13,12 @@ namespace OptimaSync
     {
         BuildSyncService buildSyncService = new BuildSyncService();
         SyncUI syncUI = new SyncUI();
-        AppSettings appSettings = new AppSettings();
         ValidatorUI validatorUI = new ValidatorUI();
 
         private static MainForm _instance;
         public MainForm()
         {
             InitializeComponent();
-            this.SourcePathTextBox.Text = Properties.Settings.Default.BuildSourcePath;
             this.DestTextBox.Text = Properties.Settings.Default.BuildDestPath;
             this.OptimaSOATextBox.Text = Properties.Settings.Default.BuildSOAPath;
             this.versionLabelValue.Text = syncUI.GetAppVersion();
@@ -30,7 +27,7 @@ namespace OptimaSync
             AutoUpdater.Start("https://osync.devopsowy.pl/AutoUpdater.xml");
         }
 
-        public string progressLabelStatus
+        public string ProgressLabelStatus
         {
             get { return labelProgress.Text; }
             set { labelProgress.Text = value; }
@@ -38,41 +35,37 @@ namespace OptimaSync
 
         public static MainForm Instance { get { return _instance; } }
 
+        private void MainForm_Shown(Object sender, EventArgs e)
+        {
+            syncUI.DisableElementsWhileProgrammer(Properties.Settings.Default.IsProgrammer);
+        }
 
-        private void downloadBuildButton_Click(object sender, EventArgs e)
+
+        private void DownloadBuildButton_Click(object sender, EventArgs e)
         {
             backgroundWorker.RunWorkerAsync();
         }
 
-        private void buttonSourceDirectory_Click(object sender, EventArgs e)
-        {
-            syncUI.PathToTextbox(SourcePathTextBox);
-        }
-
-        private void buttonDestinationDirectory_Click(object sender, EventArgs e)
+        private void ButtonDestinationDirectory_Click(object sender, EventArgs e)
         {
             syncUI.PathToTextbox(DestTextBox);
+            Properties.Settings.Default.BuildDestPath = DestTextBox.Text;
+            Properties.Settings.Default.Save();
         }
 
-        private void buttonOptimaSOADirectory_Click(object sender, EventArgs e)
+        private void ButtonOptimaSOADirectory_Click(object sender, EventArgs e)
         {
             syncUI.PathToTextbox(OptimaSOATextBox);
+            Properties.Settings.Default.BuildSOAPath = OptimaSOATextBox.Text;
+            Properties.Settings.Default.Save();
         }
 
-        private void saveSettingsButton_Click(object sender, EventArgs e)
-        {
-            if (validatorUI.SourcePathIsValid() && validatorUI.DestPathIsValid())
-            {
-                appSettings.SaveSettings(SourcePathTextBox.Text.ToString(), DestTextBox.Text, OptimaSOATextBox.Text, validatorUI.isProgrammer());
-            }
-        }
-
-        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             buildSyncService.PrepareOptimaBuild(validatorUI.WithSOASupport(), validatorUI.isProgrammer());
         }
 
-        private void openLogsButton_Click(object sender, EventArgs e)
+        private void OpenLogsButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -85,9 +78,25 @@ namespace OptimaSync
             }
         }
 
-        private void openManualButton_Click(object sender, EventArgs e)
+        private void OpenManualButton_Click(object sender, EventArgs e)
         {
             syncUI.OpenUserManual();
+        }
+
+        private void ProgrammerCheckbox_Click(object sender, EventArgs e)
+        {
+            if (programmerCheckbox.Checked)
+            {
+                Properties.Settings.Default.IsProgrammer = true;
+                Properties.Settings.Default.Save();
+                syncUI.DisableElementsWhileProgrammer(true);
+            }
+            else
+            {
+                Properties.Settings.Default.IsProgrammer = false;
+                Properties.Settings.Default.Save();
+                syncUI.DisableElementsWhileProgrammer(false);
+            }
         }
     }
 }

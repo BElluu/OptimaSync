@@ -19,7 +19,7 @@ namespace OptimaSync.UI
 
         public void ChangeProgressLabel(string status)
         {
-            MainForm.Instance.progressLabelStatus = "Status: " + status;
+            MainForm.Instance.ProgressLabelStatus = "Status: " + status;
             MainForm.Instance.labelProgress.Refresh();
         }
 
@@ -33,7 +33,6 @@ namespace OptimaSync.UI
         public void EnableElementsOnForm(bool state)
         {
             MainForm.Instance.downloadBuildButton.Enabled = state;
-            MainForm.Instance.saveSettingsButton.Enabled = state;
             MainForm.Instance.SOACheckBox.Enabled = state;
             MainForm.Instance.programmerCheckbox.Enabled = state;
         }
@@ -56,6 +55,28 @@ namespace OptimaSync.UI
         public void OpenUserManual()
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(UserManual) { UseShellExecute = true });
+        }
+
+        public void DisableElementsWhileProgrammer(bool isProgrammer)
+        {
+            bool state;
+            if (isProgrammer)
+            {
+                state = false;
+            }
+            else
+            {
+                state = true;
+            }
+
+            MainForm.Instance.SOACheckBox.Checked = false;
+            MainForm.Instance.SOACheckBox.Enabled = state;
+            MainForm.Instance.destDirectoryLabel.Enabled = state;
+            MainForm.Instance.DestTextBox.Enabled = state;
+            MainForm.Instance.buttonDestinationDirectory.Enabled = state;
+            MainForm.Instance.soaDestDirectoryLabel.Enabled = state;
+            MainForm.Instance.OptimaSOATextBox.Enabled = state;
+            MainForm.Instance.buttonOptimaSOADirectory.Enabled = state;
         }
     }
 }
