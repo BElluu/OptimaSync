@@ -19,7 +19,7 @@ namespace OptimaSync.UI
 
         public void ChangeProgressLabel(string status)
         {
-            MainForm.Instance.progressLabelStatus = "Status: " + status;
+            MainForm.Instance.ProgressLabelStatus = "Status: " + status;
             MainForm.Instance.labelProgress.Refresh();
         }
 

@@ -107,7 +107,7 @@ namespace OptimaSync
             this.downloadBuildButton.TabIndex = 0;
             this.downloadBuildButton.Text = "Pobierz kompilację";
             this.downloadBuildButton.UseVisualStyleBackColor = true;
-            this.downloadBuildButton.Click += new System.EventHandler(this.downloadBuildButton_Click);
+            this.downloadBuildButton.Click += new System.EventHandler(this.DownloadBuildButton_Click);
             // 
             // SettingsTab
             // 
@@ -135,7 +135,7 @@ namespace OptimaSync
             this.programmerCheckbox.TabIndex = 10;
             this.programmerCheckbox.Text = "Programista";
             this.programmerCheckbox.UseVisualStyleBackColor = true;
-            this.programmerCheckbox.Click += new System.EventHandler(this.programmerCheckbox_Click);
+            this.programmerCheckbox.Click += new System.EventHandler(this.ProgrammerCheckbox_Click);
             // 
             // buttonOptimaSOADirectory
             // 
@@ -145,7 +145,7 @@ namespace OptimaSync
             this.buttonOptimaSOADirectory.TabIndex = 8;
             this.buttonOptimaSOADirectory.Text = "...";
             this.buttonOptimaSOADirectory.UseVisualStyleBackColor = true;
-            this.buttonOptimaSOADirectory.Click += new System.EventHandler(this.buttonOptimaSOADirectory_Click);
+            this.buttonOptimaSOADirectory.Click += new System.EventHandler(this.ButtonOptimaSOADirectory_Click);
             // 
             // buttonDestinationDirectory
             // 
@@ -155,7 +155,7 @@ namespace OptimaSync
             this.buttonDestinationDirectory.TabIndex = 7;
             this.buttonDestinationDirectory.Text = "...";
             this.buttonDestinationDirectory.UseVisualStyleBackColor = true;
-            this.buttonDestinationDirectory.Click += new System.EventHandler(this.buttonDestinationDirectory_Click);
+            this.buttonDestinationDirectory.Click += new System.EventHandler(this.ButtonDestinationDirectory_Click);
             // 
             // soaDestDirectoryLabel
             // 
@@ -221,7 +221,7 @@ namespace OptimaSync
             this.openManualButton.TabIndex = 3;
             this.openManualButton.Text = "Otwórz instrukcję";
             this.openManualButton.UseVisualStyleBackColor = true;
-            this.openManualButton.Click += new System.EventHandler(this.openManualButton_Click);
+            this.openManualButton.Click += new System.EventHandler(this.OpenManualButton_Click);
             // 
             // openLogsButton
             // 
@@ -231,7 +231,7 @@ namespace OptimaSync
             this.openLogsButton.TabIndex = 2;
             this.openLogsButton.Text = "Otwórz folder z logami";
             this.openLogsButton.UseVisualStyleBackColor = true;
-            this.openLogsButton.Click += new System.EventHandler(this.openLogsButton_Click);
+            this.openLogsButton.Click += new System.EventHandler(this.OpenLogsButton_Click);
             // 
             // versionLabelValue
             // 
@@ -257,7 +257,7 @@ namespace OptimaSync
             // 
             this.backgroundWorker.WorkerReportsProgress = true;
             this.backgroundWorker.WorkerSupportsCancellation = true;
-            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
             // 
             // MainForm
             // 

@@ -11,7 +11,8 @@ namespace OptimaSync.Service
 {
     public class BuildSyncService
     {
-        WindowsService windowsService = new WindowsService();
+        static string[] excludedStrings = { "CIV", "SQL", "test", "rar", "FIXES" };
+
         SyncUI syncUI = new SyncUI();
         RegisterDLLService registerDLL = new RegisterDLLService();
         ValidatorUI validatorUI = new ValidatorUI();
@@ -20,7 +21,9 @@ namespace OptimaSync.Service
         {
             if (isProgrammer)
             {
-               registerDLL.RegisterOptima(DownloadLatestBuildExtractFiles(isProgrammer),isProgrammer);
+                MainForm.Instance.downloadBuildButton.Enabled = false;
+                registerDLL.RegisterOptima(DownloadLatestBuildExtractFiles(isProgrammer),isProgrammer);
+                MainForm.Instance.downloadBuildButton.Enabled = true;
             }
             else
             {
@@ -128,11 +131,7 @@ namespace OptimaSync.Service
                 syncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);
                 var directory = new DirectoryInfo(Properties.Settings.Default.BuildSourcePath);
                 var lastBuild = directory.GetDirectories()
-                    .Where(q => !q.Name.Contains("CIV", StringComparison.InvariantCultureIgnoreCase) &&
-                                !q.Name.Contains("SQL", StringComparison.InvariantCultureIgnoreCase) &&
-                                !q.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase) &&
-                                !q.Name.Contains("rar", StringComparison.InvariantCultureIgnoreCase) &&
-                                !q.Name.Contains("FIXES", StringComparison.InvariantCultureIgnoreCase)) // TODO Excluded directories to list
+                    .Where(q => excludedStrings.All(c => !q.Name.Contains(c, StringComparison.InvariantCultureIgnoreCase)))
                     .OrderByDescending(f => f.LastWriteTime)
                     .First();
 
