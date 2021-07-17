@@ -58,7 +58,7 @@ namespace OptimaSync.UI
         {
             if (!DestSOAPathIsValid())
             {
-                syncUI.ChangeProgressLabel("Oczekuje...");
+                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.PENDING));
                 return false;
                 throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
             }
