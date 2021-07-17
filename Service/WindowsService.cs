@@ -27,7 +27,8 @@ namespace OptimaSync.Service
                 }
             }
 
-            else if (SoaService.Status.Equals(ServiceControllerStatus.Stopped))
+            else if (SoaService.Status.Equals(ServiceControllerStatus.Stopped) || 
+                     SoaService.Status.Equals(ServiceControllerStatus.StopPending))
             {
                 Log.Error("Usługa SOA jest zatrzymana");
                 return 0;

@@ -2,6 +2,7 @@
 using Serilog;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace OptimaSync.UI
@@ -9,6 +10,15 @@ namespace OptimaSync.UI
     public class SyncUI
     {
         static readonly string UserManual = "https://osync.devopsowy.pl/Instrukcja.pdf";
+
+        public static void Invoke(Action action)
+        {
+            MainForm mainForm = Application.OpenForms.Cast<MainForm>().FirstOrDefault();
+            if (mainForm != null && mainForm.InvokeRequired)
+                mainForm.Invoke(action);
+            else
+                action();
+        }
         public void PathToTextbox(TextBox textBox)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
@@ -19,8 +29,8 @@ namespace OptimaSync.UI
 
         public void ChangeProgressLabel(string status)
         {
-            MainForm.Instance.ProgressLabelStatus = "Status: " + status;
-            MainForm.Instance.labelProgress.Refresh();
+           Invoke(() => MainForm.Instance.ProgressLabelStatus = "Status: " + status);
+           Invoke(() => MainForm.Instance.labelProgress.Refresh());
         }
 
         public string GetAppVersion()

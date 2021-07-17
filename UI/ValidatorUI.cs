@@ -3,6 +3,7 @@ using OptimaSync.Service;
 using Serilog;
 using System;
 using System.Windows.Forms;
+
 namespace OptimaSync.UI
 {
     public class ValidatorUI
@@ -58,7 +59,7 @@ namespace OptimaSync.UI
         {
             if (!DestSOAPathIsValid())
             {
-                syncUI.ChangeProgressLabel("Oczekuje...");
+                syncUI.ChangeProgressLabel(Messages.PENDING);
                 return false;
                 throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
             }
