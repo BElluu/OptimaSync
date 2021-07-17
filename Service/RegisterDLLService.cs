@@ -32,7 +32,7 @@ namespace OptimaSync.Service
             Process proc;
             try
             {
-                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_INPROGRESS));
+                syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_INPROGRESS);
                 proc = new Process();
                 proc.StartInfo.WorkingDirectory = path;
                 proc.StartInfo.FileName = registerFile;
@@ -42,12 +42,12 @@ namespace OptimaSync.Service
                 proc.Start();
                 proc.WaitForExit();
                 Log.Information(Messages.OPTIMA_REGISTERED);
-                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_SUCCESSFUL));
+                syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_SUCCESSFUL);
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS));
+                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 MessageBox.Show(Messages.REGISTER_OPTIMA_ERROR, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

@@ -50,20 +50,20 @@ namespace OptimaSync.Service
 
             if (!validatorUI.DestPathIsValid())
             {
-                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.PENDING));
+                syncUI.ChangeProgressLabel(Messages.PENDING);
                 throw new NullReferenceException(Messages.DEST_PATH_CANNOT_BE_EMPTY);
             }
 
             if (Directory.Exists(dirDest))
             {
                 MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.INFORMATION_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.PENDING));
+                syncUI.ChangeProgressLabel(Messages.PENDING);
                 return null;
             }
 
             try
             {
-                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD));
+                syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
                 FileSystem.CopyDirectory(dir.ToString(), dirDest);
                 Log.Information("Skopiowano " + dir.Name);
                 return dirDest;
@@ -71,7 +71,7 @@ namespace OptimaSync.Service
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS));
+                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 return null;
             }
         }
@@ -102,7 +102,7 @@ namespace OptimaSync.Service
             }
             try
             {
-                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD));
+                syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
                 foreach (string dirPath in Directory.GetDirectories(dir.ToString(), "*", System.IO.SearchOption.AllDirectories))
                 {
                     Directory.CreateDirectory(dirPath.Replace(dir.ToString(), extractionPath));
@@ -119,7 +119,7 @@ namespace OptimaSync.Service
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS));
+                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 return null;
             }
         }
@@ -128,7 +128,7 @@ namespace OptimaSync.Service
         {
             try
             {
-                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD));
+                syncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);
                 var directory = new DirectoryInfo(Properties.Settings.Default.BuildSourcePath);
                 var lastBuild = directory.GetDirectories()
                     .Where(q => excludedStrings.All(c => !q.Name.Contains(c, StringComparison.InvariantCultureIgnoreCase)))
@@ -140,7 +140,7 @@ namespace OptimaSync.Service
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
-                SyncUI.Invoke(() => syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS));
+                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 return null;
             }
         }
