@@ -70,7 +70,7 @@ namespace OptimaSync.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("H:\\OptimaSync\\Optima")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Optima")]
         public string ProgrammersPath {
             get {
                 return ((string)(this["ProgrammersPath"]));

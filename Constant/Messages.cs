@@ -25,6 +25,7 @@
         public static readonly string SEARCHING_FOR_BUILD = "Wyszukiwanie kompilacji.";
         public static readonly string DOWNLOADING_BUILD = "Pobieranie kompilacji...";
         public static readonly string PENDING = "Oczekuje...";
+        public static readonly string STOPPING_SOA_SERVICE = "Zatrzymywanie usługi SOA.";
 
         // Other Messages
         public static readonly string SETTINGS_SAVED = "Zapisano ustawienia.";
