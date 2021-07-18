@@ -6,6 +6,7 @@ using Serilog;
 using Microsoft.VisualBasic.FileIO;
 using System.Windows.Forms;
 using OptimaSync.UI;
+using OptimaSync.Common;
 
 namespace OptimaSync.Service
 {
@@ -126,6 +127,12 @@ namespace OptimaSync.Service
 
         private DirectoryInfo FindLastBuild()
         {
+
+            if (!NetworkDrive.HaveAccessToHost("natalie"))
+            {
+                MessageBox.Show(Messages.ACCESS_TO_HOST_ERROR, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
             try
             {
                 syncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);

@@ -15,6 +15,7 @@
         public static readonly string SOA_SERVICE_NOT_STOPPED = "Nie udało się zatrzymać usługi SOA lub jej stan nie jest poprawny. Spróbuj zatrzymać usługę SOA ręcznie.";
         public static readonly string REGISTER_OPTIMA_ERROR = "Rejestracja Optimy nie powiodła się. Zerknij w logi lub spróbuj zarejestrować ją ręcznie.";
         public static readonly string LOGS_DIRECTORY_NOT_EXIST = "Folder z logami nie istnieje!";
+        public static readonly string ACCESS_TO_HOST_ERROR = "Brak dostępu do natalie! Sprawdź czy masz internet lub połączenie VPN.";
 
         // ProgressLabel Messages
 
