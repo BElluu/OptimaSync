@@ -42,9 +42,9 @@ namespace OptimaSync.UI
 
         public void EnableElementsOnForm(bool state)
         {
-            MainForm.Instance.downloadBuildButton.Enabled = state;
-            MainForm.Instance.SOACheckBox.Enabled = state;
-            MainForm.Instance.programmerCheckbox.Enabled = state;
+            Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
+            Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);
+            Invoke(() => MainForm.Instance.programmerCheckbox.Enabled = state);
         }
 
         public void OpenLogsDirectory()

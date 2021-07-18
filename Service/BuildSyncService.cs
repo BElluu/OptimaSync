@@ -81,25 +81,25 @@ namespace OptimaSync.Service
         {
             string extractionPath;
 
-            var dir = FindLastBuild();
-
-            if (dir == null)
-            {
-                return null;
-            }
-
             if (isProgrammer)
             {
                 extractionPath = Properties.Settings.Default.ProgrammersPath;
             }
             else
             {
-                if(validatorUI.SOARequirementsAreMet() == false)
+                if (validatorUI.SOARequirementsAreMet() == false)
                 {
                     return null;
                 }
 
                 extractionPath = Properties.Settings.Default.BuildSOAPath;
+            }
+
+            var dir = FindLastBuild();
+
+            if (dir == null)
+            {
+                return null;
             }
             try
             {
@@ -131,6 +131,7 @@ namespace OptimaSync.Service
             if (!NetworkDrive.HaveAccessToHost("natalie"))
             {
                 MessageBox.Show(Messages.ACCESS_TO_HOST_ERROR, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Error(Messages.ACCESS_TO_HOST_ERROR);
                 return null;
             }
             try
