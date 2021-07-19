@@ -59,7 +59,7 @@ namespace OptimaSync.UI
         {
             if (!DestSOAPathIsValid())
             {
-                syncUI.ChangeProgressLabel(Messages.PENDING);
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return false;
                 throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
             }
