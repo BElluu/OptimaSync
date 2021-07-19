@@ -85,9 +85,9 @@ namespace OptimaSync
             this.labelProgress.AutoSize = true;
             this.labelProgress.Location = new System.Drawing.Point(13, 76);
             this.labelProgress.Name = "labelProgress";
-            this.labelProgress.Size = new System.Drawing.Size(102, 15);
+            this.labelProgress.Size = new System.Drawing.Size(170, 15);
             this.labelProgress.TabIndex = 2;
-            this.labelProgress.Text = "Status: Oczekuje...";
+            this.labelProgress.Text = "Status: OSA gotowa do pracy :)";
             // 
             // SOACheckBox
             // 

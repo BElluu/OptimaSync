@@ -7,6 +7,7 @@ using Microsoft.VisualBasic.FileIO;
 using System.Windows.Forms;
 using OptimaSync.UI;
 using OptimaSync.Common;
+using System.Diagnostics;
 
 namespace OptimaSync.Service
 {
@@ -23,7 +24,7 @@ namespace OptimaSync.Service
             if (isProgrammer)
             {
                 SyncUI.Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = false);
-                registerDLL.RegisterOptima(DownloadLatestBuildExtractFiles(isProgrammer),isProgrammer);
+                registerDLL.RegisterOptima(DownloadLatestBuildExtractFiles(isProgrammer), isProgrammer);
                 SyncUI.Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = true);
             }
             else
@@ -51,14 +52,14 @@ namespace OptimaSync.Service
 
             if (!validatorUI.DestPathIsValid())
             {
-                syncUI.ChangeProgressLabel(Messages.PENDING);
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 throw new NullReferenceException(Messages.DEST_PATH_CANNOT_BE_EMPTY);
             }
 
             if (Directory.Exists(dirDest))
             {
                 MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.INFORMATION_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                syncUI.ChangeProgressLabel(Messages.PENDING);
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return null;
             }
 
@@ -84,6 +85,7 @@ namespace OptimaSync.Service
             if (isProgrammer)
             {
                 extractionPath = Properties.Settings.Default.ProgrammersPath;
+
             }
             else
             {
@@ -91,7 +93,6 @@ namespace OptimaSync.Service
                 {
                     return null;
                 }
-
                 extractionPath = Properties.Settings.Default.BuildSOAPath;
             }
 
@@ -101,6 +102,15 @@ namespace OptimaSync.Service
             {
                 return null;
             }
+
+            if (BuildVersionsAreSame(dir.ToString(), isProgrammer))
+            {
+                MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.INFORMATION_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Log.Information(Messages.YOU_HAVE_LATEST_BUILD);
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                return null;
+            }
+
             try
             {
                 syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
@@ -151,6 +161,39 @@ namespace OptimaSync.Service
                 syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 return null;
             }
+        }
+
+        private bool BuildVersionsAreSame(string buildPath, bool isProgrammer)
+        {
+            string destCommonDllPath;
+            if (isProgrammer)
+            {
+                destCommonDllPath = Properties.Settings.Default.ProgrammersPath + "\\" + "Common.dll";
+            }
+            else
+            {
+                destCommonDllPath = Properties.Settings.Default.BuildSOAPath + "\\" + "Common.dll";
+            }
+
+            if (!File.Exists(destCommonDllPath))
+            {
+                return false;
+            }
+
+            string sourceCommonDllPath = buildPath + "\\" + "Common.dll";
+            FileVersionInfo sourceCommonDll = FileVersionInfo.GetVersionInfo(sourceCommonDllPath);
+            string sourceCommonDllVersion = sourceCommonDll.ProductVersion.ToString();
+            Console.WriteLine(sourceCommonDllVersion);
+
+            FileVersionInfo destCommonDll = FileVersionInfo.GetVersionInfo(destCommonDllPath);
+            string destCommonDllVersion = destCommonDll.ProductVersion.ToString();
+            Console.WriteLine(destCommonDllVersion);
+
+            if (sourceCommonDllVersion == destCommonDllVersion)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
