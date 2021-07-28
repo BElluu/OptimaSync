@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using OptimaSync.Constant;
 using Serilog;
-using Microsoft.VisualBasic.FileIO;
 using System.Windows.Forms;
 using OptimaSync.UI;
 using OptimaSync.Common;
@@ -21,73 +20,20 @@ namespace OptimaSync.Service
 
         public void PrepareOptimaBuild(bool withSoa, bool isProgrammer)
         {
-            if (isProgrammer)
-            {
-                SyncUI.Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = false);
-                registerDLL.RegisterOptima(DownloadLatestBuildExtractFiles(isProgrammer), isProgrammer);
-                SyncUI.Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = true);
-            }
-            else
-            {
-                syncUI.EnableElementsOnForm(false);
-                if (withSoa)
-                {
-                    registerDLL.RegisterOptima(DownloadLatestBuildExtractFiles(false), false);
-                }
-                else
-                {
-                    registerDLL.RegisterOptima(DownloadLatestBuild(), false);
-                }
-                syncUI.EnableElementsOnForm(true);
-            }
-        }
-        public string DownloadLatestBuild()
-        {
-            var dir = FindLastBuild();
-            if (dir == null)
-            {
-                return null;
-            }
-            var dirDest = Properties.Settings.Default.BuildDestPath + "\\" + dir.Name;
-
-            if (!validatorUI.DestPathIsValid())
-            {
-                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
-                throw new NullReferenceException(Messages.DEST_PATH_CANNOT_BE_EMPTY);
-            }
-
-            if (Directory.Exists(dirDest))
-            {
-                MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.INFORMATION_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
-                return null;
-            }
-
-            try
-            {
-                syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
-                FileSystem.CopyDirectory(dir.ToString(), dirDest);
-                Log.Information("Skopiowano " + dir.Name);
-                return dirDest;
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.Message);
-                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
-                return null;
-            }
+            syncUI.EnableElementsOnForm(false);
+            registerDLL.RegisterOptima(DownloadBuild(isProgrammer, withSoa), isProgrammer);
+            syncUI.EnableElementsOnForm(true);
         }
 
-        public string DownloadLatestBuildExtractFiles(bool isProgrammer)
+        public string DownloadBuild(bool isProgrammer, bool withSOA)
         {
             string extractionPath;
 
             if (isProgrammer)
             {
                 extractionPath = Properties.Settings.Default.ProgrammersPath;
-
             }
-            else
+            else if (withSOA)
             {
                 if (validatorUI.SOARequirementsAreMet() == false)
                 {
@@ -95,15 +41,18 @@ namespace OptimaSync.Service
                 }
                 extractionPath = Properties.Settings.Default.BuildSOAPath;
             }
+            else
+            {
+                extractionPath = Properties.Settings.Default.BuildDestPath;
+            }
 
             var dir = FindLastBuild();
-
             if (dir == null)
             {
                 return null;
             }
 
-            if (BuildVersionsAreSame(dir.ToString(), isProgrammer))
+            if (BuildVersionsAreSame(dir.ToString(), isProgrammer, withSOA, dir.Name))
             {
                 MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.INFORMATION_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Log.Information(Messages.YOU_HAVE_LATEST_BUILD);
@@ -113,19 +62,40 @@ namespace OptimaSync.Service
 
             try
             {
-                syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
-                foreach (string dirPath in Directory.GetDirectories(dir.ToString(), "*", System.IO.SearchOption.AllDirectories))
+                if (isProgrammer || withSOA)
                 {
-                    Directory.CreateDirectory(dirPath.Replace(dir.ToString(), extractionPath));
-                }
+                    syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
+                    foreach (string dirPath in Directory.GetDirectories(dir.ToString(), "*", System.IO.SearchOption.AllDirectories))
+                    {
+                        Directory.CreateDirectory(dirPath.Replace(dir.ToString(), extractionPath));
+                    }
 
-                foreach (string newPath in Directory.GetFiles(dir.ToString(), "*.*", System.IO.SearchOption.AllDirectories))
+                    foreach (string newPath in Directory.GetFiles(dir.ToString(), "*.*", System.IO.SearchOption.AllDirectories))
+                    {
+                        File.Copy(newPath, newPath.Replace(dir.ToString(), extractionPath), true);
+                    }
+
+                    Log.Information("Skopiowano " + dir.Name);
+                    return extractionPath;
+                }
+                else
                 {
-                    File.Copy(newPath, newPath.Replace(dir.ToString(), extractionPath), true);
-                }
+                    string newBuildDirectory = extractionPath + "\\" + dir.Name;
+                    DirectoryInfo directoryInfo = Directory.CreateDirectory(newBuildDirectory);
 
-                Log.Information("Skopiowano " + dir.Name);
-                return extractionPath;
+                    syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
+                    foreach (string dirPath in Directory.GetDirectories(dir.ToString(), "*", System.IO.SearchOption.AllDirectories))
+                    {
+                        Directory.CreateDirectory(dirPath.Replace(dir.ToString(), newBuildDirectory));
+                    }
+
+                    foreach (string newPath in Directory.GetFiles(dir.ToString(), "*.*", System.IO.SearchOption.AllDirectories))
+                    {
+                        File.Copy(newPath, newPath.Replace(dir.ToString(), newBuildDirectory), true);
+                    }
+                    Log.Information("Skopiowano " + dir.Name);
+                    return newBuildDirectory;
+                }
             }
             catch (Exception ex)
             {
@@ -133,6 +103,7 @@ namespace OptimaSync.Service
                 syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 return null;
             }
+
         }
 
         private DirectoryInfo FindLastBuild()
@@ -163,16 +134,20 @@ namespace OptimaSync.Service
             }
         }
 
-        private bool BuildVersionsAreSame(string buildPath, bool isProgrammer)
+        private bool BuildVersionsAreSame(string buildPath, bool isProgrammer, bool withSOA, string buildDirectoryName)
         {
             string destCommonDllPath;
             if (isProgrammer)
             {
                 destCommonDllPath = Properties.Settings.Default.ProgrammersPath + "\\" + "Common.dll";
             }
-            else
+            else if (withSOA)
             {
                 destCommonDllPath = Properties.Settings.Default.BuildSOAPath + "\\" + "Common.dll";
+            }
+            else
+            {
+                destCommonDllPath = Properties.Settings.Default.BuildDestPath + "\\" + buildDirectoryName + "\\" + "Common.dll";
             }
 
             if (!File.Exists(destCommonDllPath))
@@ -183,11 +158,9 @@ namespace OptimaSync.Service
             string sourceCommonDllPath = buildPath + "\\" + "Common.dll";
             FileVersionInfo sourceCommonDll = FileVersionInfo.GetVersionInfo(sourceCommonDllPath);
             string sourceCommonDllVersion = sourceCommonDll.ProductVersion.ToString();
-            Console.WriteLine(sourceCommonDllVersion);
 
             FileVersionInfo destCommonDll = FileVersionInfo.GetVersionInfo(destCommonDllPath);
             string destCommonDllVersion = destCommonDll.ProductVersion.ToString();
-            Console.WriteLine(destCommonDllVersion);
 
             if (sourceCommonDllVersion == destCommonDllVersion)
             {
