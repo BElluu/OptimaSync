@@ -158,11 +158,9 @@ namespace OptimaSync.Service
             string sourceCommonDllPath = buildPath + "\\" + "Common.dll";
             FileVersionInfo sourceCommonDll = FileVersionInfo.GetVersionInfo(sourceCommonDllPath);
             string sourceCommonDllVersion = sourceCommonDll.ProductVersion.ToString();
-            Console.WriteLine(sourceCommonDllVersion);
 
             FileVersionInfo destCommonDll = FileVersionInfo.GetVersionInfo(destCommonDllPath);
             string destCommonDllVersion = destCommonDll.ProductVersion.ToString();
-            Console.WriteLine(destCommonDllVersion);
 
             if (sourceCommonDllVersion == destCommonDllVersion)
             {
