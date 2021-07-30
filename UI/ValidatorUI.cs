@@ -8,8 +8,8 @@ namespace OptimaSync.UI
 {
     public class ValidatorUI
     {
-        WindowsService windowsService = new WindowsService();
-        SyncUI syncUI = new SyncUI();
+/*        WindowsService windowsService = new WindowsService();
+        SyncUI syncUI = new SyncUI();*/
         public bool DestPathIsValid()
         {
             string DestPath = MainForm.Instance.DestTextBox.Text;
@@ -55,7 +55,7 @@ namespace OptimaSync.UI
             return false;
         }
 
-        public bool SOARequirementsAreMet()
+/*        public bool SOARequirementsAreMet()
         {
             if (!DestSOAPathIsValid())
             {
@@ -79,6 +79,6 @@ namespace OptimaSync.UI
             }
 
             return true;
-        }
+        }*/
     }
 }

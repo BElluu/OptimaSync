@@ -9,7 +9,7 @@ namespace OptimaSync.UI
 {
     public class SyncUI
     {
-        static readonly string UserManual = "https://osync.devopsowy.pl/Instrukcja.pdf";
+        static readonly string USER_MANUAL = "https://osync.devopsowy.pl/Instrukcja.pdf";
 
         public static void Invoke(Action action)
         {
@@ -64,7 +64,7 @@ namespace OptimaSync.UI
 
         public void OpenUserManual()
         {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(UserManual) { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(USER_MANUAL) { UseShellExecute = true });
         }
 
         public void DisableElementsWhileProgrammer(bool isProgrammer)

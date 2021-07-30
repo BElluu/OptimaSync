@@ -31,5 +31,7 @@
         public static readonly string SETTINGS_SAVED = "Zapisano ustawienia.";
         public static readonly string OPTIMA_REGISTERED = "Optima została zarejestrowana.";
         public static readonly string OPTIMA_SYNC_STARTED = "Aplikacja została uruchomiona";
+        public static readonly string SOA_SERVICE_IS_STOPPED = "Usługa SOA jest zatrzymana";
+        public static readonly string SOA_SERVICE_UNKNOWN_STATUS = "Stan usługi SOA jest nieznany!";
     }
 }
