@@ -1,4 +1,5 @@
 ﻿using OptimaSync.Constant;
+using OptimaSync.Helper;
 using OptimaSync.UI;
 using Serilog;
 using System;
@@ -10,7 +11,8 @@ namespace OptimaSync.Service
     internal class RegisterDLLService
     {
         SyncUI syncUI = new SyncUI();
-        public void RegisterOptima(string path, bool programmer)
+        BuildSyncServiceHelper buildSyncHelper = new BuildSyncServiceHelper();
+        public void RegisterOptima(string path, bool isProgrammer)
         {
             string registerFile;
 
@@ -19,7 +21,7 @@ namespace OptimaSync.Service
                 return;
             }
 
-            if (programmer)
+            if (isProgrammer)
             {
                 path = Properties.Settings.Default.ProgrammersPath;
                 registerFile = "RejestrProgramisty.bat";
@@ -42,7 +44,9 @@ namespace OptimaSync.Service
                 proc.Start();
                 proc.WaitForExit();
                 Log.Information(Messages.OPTIMA_REGISTERED);
+                buildSyncHelper.DeleteLockFile(path);
                 syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_SUCCESSFUL);
+
             }
             catch (Exception ex)
             {

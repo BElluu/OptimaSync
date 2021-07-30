@@ -12,7 +12,8 @@ namespace OptimaSync.Service
     {
         SyncUI syncUI = new SyncUI();
         public static readonly string SOA_SERVICE = "ComarchAutomatSynchronizacji";
-        public int StopSOAService()
+        public static readonly string SOA_PROCESS = "ComarchOptimaSerwisOperacjiAutomatycznych";
+        internal int StopSOAService()
         {
             ServiceController SoaService = new ServiceController(SOA_SERVICE);
             if (SoaService.Status.Equals(ServiceControllerStatus.Running) ||
@@ -25,7 +26,7 @@ namespace OptimaSync.Service
                     SoaService.Stop();
                     SoaService.WaitForStatus(ServiceControllerStatus.Stopped);
 
-                    foreach (var process in Process.GetProcessesByName("ComarchOptimaSerwisOperacjiAutomatycznych"))
+                    foreach (var process in Process.GetProcessesByName(SOA_PROCESS))
                     {
                         process.Kill();
                     }
@@ -41,23 +42,23 @@ namespace OptimaSync.Service
 
             else if (SoaService.Status.Equals(ServiceControllerStatus.Stopped))
             {
-                Log.Information("Usługa SOA jest zatrzymana");
+                Log.Information(Messages.SOA_SERVICE_IS_STOPPED);
                 return 0;
             }
             else if (SoaService.Status.Equals(ServiceControllerStatus.StopPending))
             {
                 SoaService.WaitForStatus(ServiceControllerStatus.Stopped);
-                Log.Information("Usługa SOA jest zatrzymana");
+                Log.Information(Messages.SOA_SERVICE_IS_STOPPED);
                 return 0;
             }
             else
             {
-                Log.Error("Stan usługi SOA jest nieznany!");
+                Log.Error(Messages.SOA_SERVICE_UNKNOWN_STATUS);
                 return 1;
             }
         }
 
-        public bool DoesSOAServiceExist()
+        internal bool DoesSOAServiceExist()
         {
             ServiceController windowsServices = ServiceController.GetServices()
                 .FirstOrDefault(s => s.ServiceName == SOA_SERVICE);
