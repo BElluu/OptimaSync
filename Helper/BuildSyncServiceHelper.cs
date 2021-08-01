@@ -89,6 +89,14 @@ namespace OptimaSync.Helper
             }
         }
 
+        public void RunOptima(string path)
+        {
+            if (Properties.Settings.Default.RunOptima == true)
+            {
+                Process.Start(path + "\\" + "Comarch OPT!MA.exe");
+            }
+        }
+
         public void CreateLockFile(string extractionPath)
         {
             File.Create(extractionPath + "\\" + LOCK_FILE).Close();

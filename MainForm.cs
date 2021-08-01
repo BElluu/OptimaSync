@@ -11,6 +11,8 @@ namespace OptimaSync
 {
     public partial class MainForm : Form
     {
+        private static string AUTO_UPDATE_CONFIG = "https://osync.devopsowy.pl/AutoUpdater.xml";
+
         BuildSyncService buildSyncService = new BuildSyncService();
         SyncUI syncUI = new SyncUI();
         ValidatorUI validatorUI = new ValidatorUI();
@@ -23,8 +25,9 @@ namespace OptimaSync
             this.OptimaSOATextBox.Text = Properties.Settings.Default.BuildSOAPath;
             this.versionLabelValue.Text = syncUI.GetAppVersion();
             this.programmerCheckbox.Checked = Properties.Settings.Default.IsProgrammer;
+            this.RunOptimaCheckBox.Checked = Properties.Settings.Default.RunOptima;
             _instance = this;
-            AutoUpdater.Start("https://osync.devopsowy.pl/AutoUpdater.xml");
+            AutoUpdater.Start(AUTO_UPDATE_CONFIG);
         }
 
         public string ProgressLabelStatus
@@ -96,6 +99,20 @@ namespace OptimaSync
                 Properties.Settings.Default.IsProgrammer = false;
                 Properties.Settings.Default.Save();
                 syncUI.DisableElementsWhileProgrammer(false);
+            }
+        }
+
+        private void RunOptimaCheckBox_Click(object sender, EventArgs e)
+        {
+            if (RunOptimaCheckBox.Checked)
+            {
+                Properties.Settings.Default.RunOptima = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.RunOptima = false;
+                Properties.Settings.Default.Save();
             }
         }
     }

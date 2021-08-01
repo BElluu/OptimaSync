@@ -36,13 +36,18 @@ namespace OptimaSync
             this.SOACheckBox = new System.Windows.Forms.CheckBox();
             this.downloadBuildButton = new System.Windows.Forms.Button();
             this.SettingsTab = new System.Windows.Forms.TabPage();
+            this.notificationGroupBox = new System.Windows.Forms.GroupBox();
+            this.registeredOptimaNotificationCheckBox = new System.Windows.Forms.CheckBox();
+            this.newBuildNotificationCheckBox = new System.Windows.Forms.CheckBox();
+            this.generalGroupBox = new System.Windows.Forms.GroupBox();
+            this.RunOptimaCheckBox = new System.Windows.Forms.CheckBox();
             this.programmerCheckbox = new System.Windows.Forms.CheckBox();
-            this.buttonOptimaSOADirectory = new System.Windows.Forms.Button();
-            this.buttonDestinationDirectory = new System.Windows.Forms.Button();
-            this.soaDestDirectoryLabel = new System.Windows.Forms.Label();
-            this.destDirectoryLabel = new System.Windows.Forms.Label();
-            this.OptimaSOATextBox = new System.Windows.Forms.TextBox();
             this.DestTextBox = new System.Windows.Forms.TextBox();
+            this.buttonOptimaSOADirectory = new System.Windows.Forms.Button();
+            this.OptimaSOATextBox = new System.Windows.Forms.TextBox();
+            this.buttonDestinationDirectory = new System.Windows.Forms.Button();
+            this.destDirectoryLabel = new System.Windows.Forms.Label();
+            this.soaDestDirectoryLabel = new System.Windows.Forms.Label();
             this.HelpTab = new System.Windows.Forms.TabPage();
             this.authorLabel = new System.Windows.Forms.Label();
             this.openManualButton = new System.Windows.Forms.Button();
@@ -53,6 +58,8 @@ namespace OptimaSync
             this.tabControl1.SuspendLayout();
             this.SyncTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
+            this.notificationGroupBox.SuspendLayout();
+            this.generalGroupBox.SuspendLayout();
             this.HelpTab.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,13 +118,8 @@ namespace OptimaSync
             // 
             // SettingsTab
             // 
-            this.SettingsTab.Controls.Add(this.programmerCheckbox);
-            this.SettingsTab.Controls.Add(this.buttonOptimaSOADirectory);
-            this.SettingsTab.Controls.Add(this.buttonDestinationDirectory);
-            this.SettingsTab.Controls.Add(this.soaDestDirectoryLabel);
-            this.SettingsTab.Controls.Add(this.destDirectoryLabel);
-            this.SettingsTab.Controls.Add(this.OptimaSOATextBox);
-            this.SettingsTab.Controls.Add(this.DestTextBox);
+            this.SettingsTab.Controls.Add(this.notificationGroupBox);
+            this.SettingsTab.Controls.Add(this.generalGroupBox);
             this.SettingsTab.Location = new System.Drawing.Point(4, 24);
             this.SettingsTab.Name = "SettingsTab";
             this.SettingsTab.Padding = new System.Windows.Forms.Padding(3);
@@ -126,10 +128,69 @@ namespace OptimaSync
             this.SettingsTab.Text = "Ustawienia";
             this.SettingsTab.UseVisualStyleBackColor = true;
             // 
+            // notificationGroupBox
+            // 
+            this.notificationGroupBox.Controls.Add(this.registeredOptimaNotificationCheckBox);
+            this.notificationGroupBox.Controls.Add(this.newBuildNotificationCheckBox);
+            this.notificationGroupBox.Location = new System.Drawing.Point(0, 146);
+            this.notificationGroupBox.Name = "notificationGroupBox";
+            this.notificationGroupBox.Size = new System.Drawing.Size(295, 64);
+            this.notificationGroupBox.TabIndex = 12;
+            this.notificationGroupBox.TabStop = false;
+            this.notificationGroupBox.Text = "Powiadomienia";
+            // 
+            // registeredOptimaNotificationCheckBox
+            // 
+            this.registeredOptimaNotificationCheckBox.AutoSize = true;
+            this.registeredOptimaNotificationCheckBox.Location = new System.Drawing.Point(130, 23);
+            this.registeredOptimaNotificationCheckBox.Name = "registeredOptimaNotificationCheckBox";
+            this.registeredOptimaNotificationCheckBox.Size = new System.Drawing.Size(124, 19);
+            this.registeredOptimaNotificationCheckBox.TabIndex = 1;
+            this.registeredOptimaNotificationCheckBox.Text = "Zarejestrowanie O!";
+            this.registeredOptimaNotificationCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // newBuildNotificationCheckBox
+            // 
+            this.newBuildNotificationCheckBox.AutoSize = true;
+            this.newBuildNotificationCheckBox.Location = new System.Drawing.Point(6, 23);
+            this.newBuildNotificationCheckBox.Name = "newBuildNotificationCheckBox";
+            this.newBuildNotificationCheckBox.Size = new System.Drawing.Size(118, 19);
+            this.newBuildNotificationCheckBox.TabIndex = 0;
+            this.newBuildNotificationCheckBox.Text = "Nowa kompilacja";
+            this.newBuildNotificationCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // generalGroupBox
+            // 
+            this.generalGroupBox.Controls.Add(this.RunOptimaCheckBox);
+            this.generalGroupBox.Controls.Add(this.programmerCheckbox);
+            this.generalGroupBox.Controls.Add(this.DestTextBox);
+            this.generalGroupBox.Controls.Add(this.buttonOptimaSOADirectory);
+            this.generalGroupBox.Controls.Add(this.OptimaSOATextBox);
+            this.generalGroupBox.Controls.Add(this.buttonDestinationDirectory);
+            this.generalGroupBox.Controls.Add(this.destDirectoryLabel);
+            this.generalGroupBox.Controls.Add(this.soaDestDirectoryLabel);
+            this.generalGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.generalGroupBox.Name = "generalGroupBox";
+            this.generalGroupBox.Size = new System.Drawing.Size(295, 140);
+            this.generalGroupBox.TabIndex = 11;
+            this.generalGroupBox.TabStop = false;
+            this.generalGroupBox.Text = "Ogólne";
+            // 
+            // RunOptimaCheckBox
+            // 
+            this.RunOptimaCheckBox.AutoSize = true;
+            this.RunOptimaCheckBox.Location = new System.Drawing.Point(102, 21);
+            this.RunOptimaCheckBox.Name = "RunOptimaCheckBox";
+            this.RunOptimaCheckBox.Size = new System.Drawing.Size(159, 19);
+            this.RunOptimaCheckBox.TabIndex = 11;
+            this.RunOptimaCheckBox.Text = "Uruchom O! po pobraniu";
+            this.RunOptimaCheckBox.UseVisualStyleBackColor = true;
+            this.RunOptimaCheckBox.Click += new System.EventHandler(this.RunOptimaCheckBox_Click);
+            // 
             // programmerCheckbox
             // 
             this.programmerCheckbox.AutoSize = true;
-            this.programmerCheckbox.Location = new System.Drawing.Point(9, 12);
+            this.programmerCheckbox.Location = new System.Drawing.Point(6, 21);
             this.programmerCheckbox.Name = "programmerCheckbox";
             this.programmerCheckbox.Size = new System.Drawing.Size(90, 19);
             this.programmerCheckbox.TabIndex = 10;
@@ -137,9 +198,16 @@ namespace OptimaSync
             this.programmerCheckbox.UseVisualStyleBackColor = true;
             this.programmerCheckbox.Click += new System.EventHandler(this.ProgrammerCheckbox_Click);
             // 
+            // DestTextBox
+            // 
+            this.DestTextBox.Location = new System.Drawing.Point(6, 65);
+            this.DestTextBox.Name = "DestTextBox";
+            this.DestTextBox.Size = new System.Drawing.Size(233, 23);
+            this.DestTextBox.TabIndex = 1;
+            // 
             // buttonOptimaSOADirectory
             // 
-            this.buttonOptimaSOADirectory.Location = new System.Drawing.Point(249, 108);
+            this.buttonOptimaSOADirectory.Location = new System.Drawing.Point(246, 109);
             this.buttonOptimaSOADirectory.Name = "buttonOptimaSOADirectory";
             this.buttonOptimaSOADirectory.Size = new System.Drawing.Size(24, 23);
             this.buttonOptimaSOADirectory.TabIndex = 8;
@@ -147,9 +215,16 @@ namespace OptimaSync
             this.buttonOptimaSOADirectory.UseVisualStyleBackColor = true;
             this.buttonOptimaSOADirectory.Click += new System.EventHandler(this.ButtonOptimaSOADirectory_Click);
             // 
+            // OptimaSOATextBox
+            // 
+            this.OptimaSOATextBox.Location = new System.Drawing.Point(6, 109);
+            this.OptimaSOATextBox.Name = "OptimaSOATextBox";
+            this.OptimaSOATextBox.Size = new System.Drawing.Size(233, 23);
+            this.OptimaSOATextBox.TabIndex = 2;
+            // 
             // buttonDestinationDirectory
             // 
-            this.buttonDestinationDirectory.Location = new System.Drawing.Point(249, 64);
+            this.buttonDestinationDirectory.Location = new System.Drawing.Point(246, 65);
             this.buttonDestinationDirectory.Name = "buttonDestinationDirectory";
             this.buttonDestinationDirectory.Size = new System.Drawing.Size(24, 23);
             this.buttonDestinationDirectory.TabIndex = 7;
@@ -157,37 +232,23 @@ namespace OptimaSync
             this.buttonDestinationDirectory.UseVisualStyleBackColor = true;
             this.buttonDestinationDirectory.Click += new System.EventHandler(this.ButtonDestinationDirectory_Click);
             // 
-            // soaDestDirectoryLabel
-            // 
-            this.soaDestDirectoryLabel.AutoSize = true;
-            this.soaDestDirectoryLabel.Location = new System.Drawing.Point(9, 90);
-            this.soaDestDirectoryLabel.Name = "soaDestDirectoryLabel";
-            this.soaDestDirectoryLabel.Size = new System.Drawing.Size(223, 15);
-            this.soaDestDirectoryLabel.TabIndex = 5;
-            this.soaDestDirectoryLabel.Text = "Folder instalacyjny Comarch ERP Optima";
-            // 
             // destDirectoryLabel
             // 
             this.destDirectoryLabel.AutoSize = true;
-            this.destDirectoryLabel.Location = new System.Drawing.Point(9, 46);
+            this.destDirectoryLabel.Location = new System.Drawing.Point(6, 47);
             this.destDirectoryLabel.Name = "destDirectoryLabel";
             this.destDirectoryLabel.Size = new System.Drawing.Size(94, 15);
             this.destDirectoryLabel.TabIndex = 4;
             this.destDirectoryLabel.Text = "Folder docelowy";
             // 
-            // OptimaSOATextBox
+            // soaDestDirectoryLabel
             // 
-            this.OptimaSOATextBox.Location = new System.Drawing.Point(9, 108);
-            this.OptimaSOATextBox.Name = "OptimaSOATextBox";
-            this.OptimaSOATextBox.Size = new System.Drawing.Size(233, 23);
-            this.OptimaSOATextBox.TabIndex = 2;
-            // 
-            // DestTextBox
-            // 
-            this.DestTextBox.Location = new System.Drawing.Point(9, 64);
-            this.DestTextBox.Name = "DestTextBox";
-            this.DestTextBox.Size = new System.Drawing.Size(233, 23);
-            this.DestTextBox.TabIndex = 1;
+            this.soaDestDirectoryLabel.AutoSize = true;
+            this.soaDestDirectoryLabel.Location = new System.Drawing.Point(6, 91);
+            this.soaDestDirectoryLabel.Name = "soaDestDirectoryLabel";
+            this.soaDestDirectoryLabel.Size = new System.Drawing.Size(223, 15);
+            this.soaDestDirectoryLabel.TabIndex = 5;
+            this.soaDestDirectoryLabel.Text = "Folder instalacyjny Comarch ERP Optima";
             // 
             // HelpTab
             // 
@@ -275,7 +336,10 @@ namespace OptimaSync
             this.SyncTab.ResumeLayout(false);
             this.SyncTab.PerformLayout();
             this.SettingsTab.ResumeLayout(false);
-            this.SettingsTab.PerformLayout();
+            this.notificationGroupBox.ResumeLayout(false);
+            this.notificationGroupBox.PerformLayout();
+            this.generalGroupBox.ResumeLayout(false);
+            this.generalGroupBox.PerformLayout();
             this.HelpTab.ResumeLayout(false);
             this.HelpTab.PerformLayout();
             this.ResumeLayout(false);
@@ -304,6 +368,11 @@ namespace OptimaSync
         private System.Windows.Forms.Button openLogsButton;
         private System.Windows.Forms.Label authorLabel;
         public System.Windows.Forms.CheckBox programmerCheckbox;
+        private System.Windows.Forms.GroupBox generalGroupBox;
+        public System.Windows.Forms.CheckBox RunOptimaCheckBox;
+        private System.Windows.Forms.GroupBox notificationGroupBox;
+        private System.Windows.Forms.CheckBox registeredOptimaNotificationCheckBox;
+        private System.Windows.Forms.CheckBox newBuildNotificationCheckBox;
     }
 }
 
