@@ -17,5 +17,8 @@
     <Setting Name="ProgrammersPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">D:\Optima</Value>
     </Setting>
+    <Setting Name="RunOptima" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

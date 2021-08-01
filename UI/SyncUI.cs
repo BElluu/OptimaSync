@@ -73,6 +73,8 @@ namespace OptimaSync.UI
             if (isProgrammer)
             {
                 state = false;
+                MainForm.Instance.RunOptimaCheckBox.Enabled = state;
+                SetStateOfRunOptimaCheckBox(state);
             }
             else
             {
@@ -81,12 +83,21 @@ namespace OptimaSync.UI
 
             MainForm.Instance.SOACheckBox.Checked = false;
             MainForm.Instance.SOACheckBox.Enabled = state;
+            MainForm.Instance.RunOptimaCheckBox.Checked = Properties.Settings.Default.RunOptima;
+            MainForm.Instance.RunOptimaCheckBox.Enabled = state;
             MainForm.Instance.destDirectoryLabel.Enabled = state;
             MainForm.Instance.DestTextBox.Enabled = state;
             MainForm.Instance.buttonDestinationDirectory.Enabled = state;
             MainForm.Instance.soaDestDirectoryLabel.Enabled = state;
             MainForm.Instance.OptimaSOATextBox.Enabled = state;
             MainForm.Instance.buttonOptimaSOADirectory.Enabled = state;
+        }
+
+        private void SetStateOfRunOptimaCheckBox(bool state)
+        {
+            MainForm.Instance.RunOptimaCheckBox.Checked = state;
+            Properties.Settings.Default.RunOptima = state;
+            Properties.Settings.Default.Save();
         }
     }
 }

@@ -54,6 +54,16 @@ namespace OptimaSync.Service
                 syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 MessageBox.Show(Messages.REGISTER_OPTIMA_ERROR, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            try
+            {
+                buildSyncHelper.RunOptima(path);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                syncUI.ChangeProgressLabel("Nie udało się uruchomić O!");
+            }
         }
     }
 }
