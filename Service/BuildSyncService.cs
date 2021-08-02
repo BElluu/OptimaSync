@@ -66,9 +66,14 @@ namespace OptimaSync.Service
                     Directory.CreateDirectory(dirPath.Replace(dir.ToString(), extractionPath));
                 }
 
-                foreach (string newPath in Directory.GetFiles(dir.ToString(), "*.*", SearchOption.AllDirectories))
+                string[] filesToCopy = Directory.GetFiles(dir.ToString(), "*.*", SearchOption.AllDirectories);
+                syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", 0, filesToCopy.Length));
+                int i = 0;
+
+                foreach (string newPath in filesToCopy)
                 {
                     File.Copy(newPath, newPath.Replace(dir.ToString(), extractionPath), true);
+                    syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", ++i, filesToCopy.Length));
                 }
 
                 Log.Information("Skopiowano " + dir.Name);
