@@ -23,7 +23,7 @@
         public static readonly string REGISTER_OPTIMA_SUCCESSFUL = "Zakończono! Kompilacja gotowa do pracy :)";
         public static readonly string REGISTER_OPTIMA_INPROGRESS = "Rejestrowanie kompilacji...";
         public static readonly string SEARCHING_FOR_BUILD = "Wyszukiwanie kompilacji.";
-        public static readonly string DOWNLOADING_BUILD = "Pobieranie kompilacji...";
+        public static readonly string DOWNLOADING_BUILD = "Pobieranie kompilacji";
         public static readonly string OSA_READY_TO_WORK = "OSA gotowa do pracy :)";
         public static readonly string STOPPING_SOA_SERVICE = "Zatrzymywanie usługi SOA.";
 
