@@ -10,7 +10,6 @@ namespace OptimaSync.UI
     public class SyncUI
     {
         static readonly string USER_MANUAL = "https://osync.devopsowy.pl/Instrukcja.pdf";
-
         public static void Invoke(Action action)
         {
             MainForm mainForm = Application.OpenForms.Cast<MainForm>().FirstOrDefault();

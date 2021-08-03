@@ -422,8 +422,6 @@ namespace OptimaSync
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenuStrip notifyIconMenu;
         private System.Windows.Forms.ToolStripMenuItem showNotifyIconMenu;
-        private System.Windows.Forms.ToolStripMenuItem downloadBuildStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem closeStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem downloadNotifyIconMenu;
         private System.Windows.Forms.ToolStripMenuItem exitNotifyIconMenu;
     }

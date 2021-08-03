@@ -116,9 +116,19 @@ namespace OptimaSync
             }
         }
 
+        public void Notification(string message, NotificationForm.enumType notificationType)
+        {
+            NotificationForm notificationForm = new NotificationForm();
+            notificationForm.showNotification(message, notificationType);
+        }
+
         private void OpenManualButton_Click(object sender, EventArgs e)
         {
-            syncUI.OpenUserManual();
+            //syncUI.OpenUserManual();
+            this.Notification(Messages.OPTIMA_REGISTERED, NotificationForm.enumType.Informaton);
+            this.Notification(Messages.OPTIMA_REGISTERED, NotificationForm.enumType.Error);
+            this.Notification(Messages.OPTIMA_REGISTERED, NotificationForm.enumType.Warning);
+            this.Notification(Messages.OPTIMA_REGISTERED, NotificationForm.enumType.Success);
         }
 
         private void ProgrammerCheckbox_Click(object sender, EventArgs e)
