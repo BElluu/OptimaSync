@@ -42,6 +42,41 @@ namespace OptimaSync
         {
             syncUI.DisableElementsWhileProgrammer(Properties.Settings.Default.IsProgrammer);
         }
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                this.Hide();
+                notifyIcon.Visible = true;
+            }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Visible = true;
+            this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
+            notifyIcon.Visible = false;
+        }
+
+        private void showNotifyIconMenu_Click(object sender, EventArgs e)
+        {
+            this.Visible = true;
+            this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
+            notifyIcon.Visible = false;
+        }
+
+        private void downloadNotifyIconMenu_Click(object sender, EventArgs e)
+        {
+            backgroundWorker.RunWorkerAsync();
+        }
+
+        private void exitNotifyIconMenu_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
 
 
         private void DownloadBuildButton_Click(object sender, EventArgs e)
@@ -76,7 +111,7 @@ namespace OptimaSync
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex.Message);
+                Log.Error(ex.Message);
                 MessageBox.Show(ex.Message, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
