@@ -22,6 +22,7 @@ namespace OptimaSync.Service
                 Log.Error(Messages.ACCESS_TO_HOST_ERROR);
                 return null;
             }
+
             try
             {
                 syncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);

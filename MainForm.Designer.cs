@@ -29,6 +29,7 @@ namespace OptimaSync
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SyncTab = new System.Windows.Forms.TabPage();
@@ -55,12 +56,18 @@ namespace OptimaSync
             this.versionLabelValue = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.notifyIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.showNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.downloadNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.SyncTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
             this.notificationGroupBox.SuspendLayout();
             this.generalGroupBox.SuspendLayout();
             this.HelpTab.SuspendLayout();
+            this.notifyIconMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -320,6 +327,43 @@ namespace OptimaSync
             this.backgroundWorker.WorkerSupportsCancellation = true;
             this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
             // 
+            // notifyIcon
+            // 
+            this.notifyIcon.ContextMenuStrip = this.notifyIconMenu;
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "OptimaSync";
+            this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
+            // notifyIconMenu
+            // 
+            this.notifyIconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showNotifyIconMenu,
+            this.downloadNotifyIconMenu,
+            this.exitNotifyIconMenu});
+            this.notifyIconMenu.Name = "contextMenuStrip1";
+            this.notifyIconMenu.Size = new System.Drawing.Size(175, 70);
+            // 
+            // showNotifyIconMenu
+            // 
+            this.showNotifyIconMenu.Name = "showNotifyIconMenu";
+            this.showNotifyIconMenu.Size = new System.Drawing.Size(174, 22);
+            this.showNotifyIconMenu.Text = "Pokaż";
+            this.showNotifyIconMenu.Click += new System.EventHandler(this.showNotifyIconMenu_Click);
+            // 
+            // downloadNotifyIconMenu
+            // 
+            this.downloadNotifyIconMenu.Name = "downloadNotifyIconMenu";
+            this.downloadNotifyIconMenu.Size = new System.Drawing.Size(174, 22);
+            this.downloadNotifyIconMenu.Text = "Pobierz kompilację";
+            this.downloadNotifyIconMenu.Click += new System.EventHandler(this.downloadNotifyIconMenu_Click);
+            // 
+            // exitNotifyIconMenu
+            // 
+            this.exitNotifyIconMenu.Name = "exitNotifyIconMenu";
+            this.exitNotifyIconMenu.Size = new System.Drawing.Size(174, 22);
+            this.exitNotifyIconMenu.Text = "Zamknij";
+            this.exitNotifyIconMenu.Click += new System.EventHandler(this.exitNotifyIconMenu_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -331,6 +375,7 @@ namespace OptimaSync
             this.MinimumSize = new System.Drawing.Size(317, 275);
             this.Name = "MainForm";
             this.Text = "OptimaSync";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.tabControl1.ResumeLayout(false);
             this.SyncTab.ResumeLayout(false);
@@ -342,6 +387,7 @@ namespace OptimaSync
             this.generalGroupBox.PerformLayout();
             this.HelpTab.ResumeLayout(false);
             this.HelpTab.PerformLayout();
+            this.notifyIconMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -373,6 +419,13 @@ namespace OptimaSync
         private System.Windows.Forms.GroupBox notificationGroupBox;
         private System.Windows.Forms.CheckBox registeredOptimaNotificationCheckBox;
         private System.Windows.Forms.CheckBox newBuildNotificationCheckBox;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ContextMenuStrip notifyIconMenu;
+        private System.Windows.Forms.ToolStripMenuItem showNotifyIconMenu;
+        private System.Windows.Forms.ToolStripMenuItem downloadBuildStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem closeStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem downloadNotifyIconMenu;
+        private System.Windows.Forms.ToolStripMenuItem exitNotifyIconMenu;
     }
 }
 
