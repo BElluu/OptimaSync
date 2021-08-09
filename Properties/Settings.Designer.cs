@@ -88,5 +88,17 @@ namespace OptimaSync.Properties {
                 this["RunOptima"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LatestCheckedVersion {
+            get {
+                return ((string)(this["LatestCheckedVersion"]));
+            }
+            set {
+                this["LatestCheckedVersion"] = value;
+            }
+        }
     }
 }

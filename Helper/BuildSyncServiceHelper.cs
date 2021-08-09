@@ -11,8 +11,8 @@ namespace OptimaSync.Helper
 {
     public class BuildSyncServiceHelper
     {
-        public static string LOCK_FILE = "osync.lock";
-        public static string CHECK_VERSION_FILE = "Common.dll";
+        public static readonly string LOCK_FILE = "osync.lock";
+        public static readonly string CHECK_VERSION_FILE = "Common.dll";
 
         ValidatorUI validatorUI = new ValidatorUI();
         WindowsService windowsService = new WindowsService();

@@ -16,6 +16,7 @@ namespace OptimaSync
         BuildSyncService buildSyncService = new BuildSyncService();
         SyncUI syncUI = new SyncUI();
         ValidatorUI validatorUI = new ValidatorUI();
+        SearchBuildService searchBuildService = new SearchBuildService();
 
         private static MainForm _instance;
         public MainForm()
@@ -28,6 +29,7 @@ namespace OptimaSync
             this.RunOptimaCheckBox.Checked = Properties.Settings.Default.RunOptima;
             _instance = this;
             AutoUpdater.Start(AUTO_UPDATE_CONFIG);
+            InitCheckVersionTimer();
         }
 
         public string ProgressLabelStatus
@@ -116,7 +118,7 @@ namespace OptimaSync
             }
         }
 
-        public void Notification(string message, NotificationForm.enumType notificationType)
+        public static void Notification(string message, NotificationForm.enumType notificationType)
         {
             NotificationForm notificationForm = new NotificationForm();
             notificationForm.showNotification(message, notificationType);
@@ -124,11 +126,7 @@ namespace OptimaSync
 
         private void OpenManualButton_Click(object sender, EventArgs e)
         {
-            //syncUI.OpenUserManual();
-            this.Notification(Messages.OPTIMA_REGISTERED, NotificationForm.enumType.Informaton);
-            this.Notification(Messages.OPTIMA_REGISTERED, NotificationForm.enumType.Error);
-            this.Notification(Messages.OPTIMA_REGISTERED, NotificationForm.enumType.Warning);
-            this.Notification(Messages.OPTIMA_REGISTERED, NotificationForm.enumType.Success);
+            syncUI.OpenUserManual();
         }
 
         private void ProgrammerCheckbox_Click(object sender, EventArgs e)
@@ -158,6 +156,22 @@ namespace OptimaSync
             {
                 Properties.Settings.Default.RunOptima = false;
                 Properties.Settings.Default.Save();
+            }
+        }
+
+        private void InitCheckVersionTimer()
+        {
+            Timer checkVersionTimer = new Timer();
+            checkVersionTimer.Tick += new EventHandler(CheckVersionTimer);
+            checkVersionTimer.Interval = 1000 * 60 * 20;
+            checkVersionTimer.Start();
+        }
+
+        private void CheckVersionTimer(object sender, EventArgs e)
+        {
+            if (!backgroundWorker.IsBusy)
+            {
+                searchBuildService.AutoCheckNewVersion();
             }
         }
     }
