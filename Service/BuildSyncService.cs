@@ -2,7 +2,6 @@
 using System.IO;
 using OptimaSync.Constant;
 using Serilog;
-using System.Windows.Forms;
 using OptimaSync.UI;
 using OptimaSync.Helper;
 
@@ -41,7 +40,7 @@ namespace OptimaSync.Service
             {
                 if (buildSyncHelper.BuildVersionsAreSame(dir.ToString(), isProgrammer, withSOA, dir.Name))
                 {
-                    MessageBox.Show(Messages.YOU_HAVE_LATEST_BUILD, Messages.INFORMATION_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SyncUI.Invoke(() => MainForm.Notification(Messages.YOU_HAVE_LATEST_BUILD, NotificationForm.enumType.Informaton));
                     Log.Information(Messages.YOU_HAVE_LATEST_BUILD);
                     syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                     return null;

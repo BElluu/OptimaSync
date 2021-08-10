@@ -46,6 +46,7 @@ namespace OptimaSync.Service
                 Log.Information(Messages.OPTIMA_REGISTERED);
                 buildSyncHelper.DeleteLockFile(path);
                 syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_SUCCESSFUL);
+                SyncUI.Invoke(() => MainForm.Notification(Messages.REGISTER_OPTIMA_SUCCESSFUL, NotificationForm.enumType.Success));
 
             }
             catch (Exception ex)
@@ -63,6 +64,7 @@ namespace OptimaSync.Service
             {
                 Log.Error(ex.Message);
                 syncUI.ChangeProgressLabel("Nie udało się uruchomić O!");
+                SyncUI.Invoke(() => MainForm.Notification("Nie udało się uruchomić O!", NotificationForm.enumType.Warning));
             }
         }
     }

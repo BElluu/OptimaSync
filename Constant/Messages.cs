@@ -20,7 +20,7 @@
         // ProgressLabel Messages
 
         public static readonly string ERROR_CHECK_LOGS = "Błąd! Sprawdź logi.";
-        public static readonly string REGISTER_OPTIMA_SUCCESSFUL = "Zakończono! Kompilacja gotowa do pracy :)";
+        public static readonly string REGISTER_OPTIMA_SUCCESSFUL = "Kompilacja gotowa do pracy :)";
         public static readonly string REGISTER_OPTIMA_INPROGRESS = "Rejestrowanie kompilacji...";
         public static readonly string SEARCHING_FOR_BUILD = "Wyszukiwanie kompilacji.";
         public static readonly string DOWNLOADING_BUILD = "Pobieranie kompilacji";

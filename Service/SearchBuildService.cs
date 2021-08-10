@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace OptimaSync.Service
 {
@@ -22,7 +21,7 @@ namespace OptimaSync.Service
 
             if (!NetworkDrive.HaveAccessToHost("natalie"))
             {
-                MessageBox.Show(Messages.ACCESS_TO_HOST_ERROR, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do natalie", NotificationForm.enumType.Error));
                 Log.Error(Messages.ACCESS_TO_HOST_ERROR);
                 return null;
             }
@@ -45,7 +44,6 @@ namespace OptimaSync.Service
                 return null;
             }
         }
-
         public void AutoCheckNewVersion()
         {
             var lastBuild = FindLastBuild();

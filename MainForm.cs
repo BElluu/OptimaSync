@@ -51,6 +51,7 @@ namespace OptimaSync
                 e.Cancel = true;
                 this.Hide();
                 notifyIcon.Visible = true;
+                SyncUI.Invoke(() => Notification("OptimaSync działa w tle", NotificationForm.enumType.Informaton));
             }
         }
 

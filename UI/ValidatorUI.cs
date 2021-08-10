@@ -1,7 +1,5 @@
 ﻿using OptimaSync.Constant;
-using OptimaSync.Service;
 using Serilog;
-using System;
 using System.Windows.Forms;
 
 namespace OptimaSync.UI

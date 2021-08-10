@@ -28,8 +28,8 @@ namespace OptimaSync.UI
 
         public void ChangeProgressLabel(string status)
         {
-           Invoke(() => MainForm.Instance.ProgressLabelStatus = "Status: " + status);
-           Invoke(() => MainForm.Instance.labelProgress.Refresh());
+            Invoke(() => MainForm.Instance.ProgressLabelStatus = "Status: " + status);
+            Invoke(() => MainForm.Instance.labelProgress.Refresh());
         }
 
         public string GetAppVersion()
@@ -41,24 +41,39 @@ namespace OptimaSync.UI
 
         public void EnableElementsOnForm(bool state)
         {
-            Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
-            Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);
-            Invoke(() => MainForm.Instance.programmerCheckbox.Enabled = state);
+            if (Properties.Settings.Default.IsProgrammer == false)
+            {
+                Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
+                Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);
+                Invoke(() => MainForm.Instance.programmerCheckbox.Enabled = state);
+                Invoke(() => MainForm.Instance.RunOptimaCheckBox.Enabled = state);
+                Invoke(() => MainForm.Instance.DestTextBox.Enabled = state);
+                Invoke(() => MainForm.Instance.OptimaSOATextBox.Enabled = state);
+                Invoke(() => MainForm.Instance.buttonDestinationDirectory.Enabled = state);
+                Invoke(() => MainForm.Instance.buttonOptimaSOADirectory.Enabled = state);
+            }
+            /*else
+            {
+                Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
+                //Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);
+                Invoke(() => MainForm.Instance.programmerCheckbox.Enabled = state);
+                Invoke(() => MainForm.Instance.RunOptimaCheckBox.Enabled = state);
+            }*/
         }
 
         public void OpenLogsDirectory()
         {
 
             string logsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OSync");
-                if (Directory.Exists(logsDirectory))
-                {
-                    System.Diagnostics.Process.Start("explorer.exe", logsDirectory);
-                }
-                else
-                {
-                    Log.Logger.Error(Messages.LOGS_DIRECTORY_NOT_EXIST);
-                    MessageBox.Show(Messages.LOGS_DIRECTORY_NOT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            if (Directory.Exists(logsDirectory))
+            {
+                System.Diagnostics.Process.Start("explorer.exe", logsDirectory);
+            }
+            else
+            {
+                Log.Logger.Error(Messages.LOGS_DIRECTORY_NOT_EXIST);
+                MessageBox.Show(Messages.LOGS_DIRECTORY_NOT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public void OpenUserManual()
