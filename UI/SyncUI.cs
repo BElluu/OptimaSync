@@ -52,13 +52,13 @@ namespace OptimaSync.UI
                 Invoke(() => MainForm.Instance.buttonDestinationDirectory.Enabled = state);
                 Invoke(() => MainForm.Instance.buttonOptimaSOADirectory.Enabled = state);
             }
-            /*else
+            else
             {
                 Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
                 //Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);
                 Invoke(() => MainForm.Instance.programmerCheckbox.Enabled = state);
-                Invoke(() => MainForm.Instance.RunOptimaCheckBox.Enabled = state);
-            }*/
+               // Invoke(() => MainForm.Instance.RunOptimaCheckBox.Enabled = state);
+            }
         }
 
         public void OpenLogsDirectory()

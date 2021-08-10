@@ -6,6 +6,7 @@ using OptimaSync.UI;
 using OptimaSync.Constant;
 using Serilog;
 using System.ComponentModel;
+using OptimaSync.Common;
 
 namespace OptimaSync
 {
@@ -123,6 +124,11 @@ namespace OptimaSync
         {
             NotificationForm notificationForm = new NotificationForm();
             notificationForm.showNotification(message, notificationType);
+
+            if (Properties.Settings.Default.NotificationsSound == true)
+            {
+                SoundPlayer.PlayNotificationSound();
+            }
         }
 
         private void OpenManualButton_Click(object sender, EventArgs e)
@@ -173,6 +179,37 @@ namespace OptimaSync
             if (!backgroundWorker.IsBusy)
             {
                 searchBuildService.AutoCheckNewVersion();
+            }
+        }
+
+        private void turnOnNotificationCheckBox_Click(object sender, EventArgs e)
+        {
+            if (turnOnNotificationCheckBox.Checked)
+            {
+                Properties.Settings.Default.Notifications = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.Notifications = false;
+                Properties.Settings.Default.NotificationsSound = false;
+                turnOnSoundNotificationCheckBox.Checked = false;
+                turnOnSoundNotificationCheckBox.Enabled = false;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void turnOnSoundNotificationCheckBox_Click(object sender, EventArgs e)
+        {
+            if (turnOnSoundNotificationCheckBox.Checked)
+            {
+                Properties.Settings.Default.NotificationsSound = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.NotificationsSound = false;
+                Properties.Settings.Default.Save();
             }
         }
     }

@@ -100,5 +100,29 @@ namespace OptimaSync.Properties {
                 this["LatestCheckedVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Notifications {
+            get {
+                return ((bool)(this["Notifications"]));
+            }
+            set {
+                this["Notifications"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool NotificationsSound {
+            get {
+                return ((bool)(this["NotificationsSound"]));
+            }
+            set {
+                this["NotificationsSound"] = value;
+            }
+        }
     }
 }

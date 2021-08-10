@@ -82,6 +82,7 @@ namespace OptimaSync.Service
             {
                 Log.Error(ex.Message);
                 syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
+                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
                 return null;
             }
         }
