@@ -28,6 +28,8 @@ namespace OptimaSync
             this.versionLabelValue.Text = syncUI.GetAppVersion();
             this.programmerCheckbox.Checked = Properties.Settings.Default.IsProgrammer;
             this.RunOptimaCheckBox.Checked = Properties.Settings.Default.RunOptima;
+            this.newVersionNotificationCheckBox.Checked = Properties.Settings.Default.NewVersionNotifications;
+            this.turnOnSoundNotificationCheckBox.Checked = Properties.Settings.Default.NotificationsSound;
             _instance = this;
             AutoUpdater.Start(AUTO_UPDATE_CONFIG);
             InitCheckVersionTimer();
@@ -52,7 +54,7 @@ namespace OptimaSync
                 e.Cancel = true;
                 this.Hide();
                 notifyIcon.Visible = true;
-                SyncUI.Invoke(() => Notification("OptimaSync działa w tle", NotificationForm.enumType.Informaton));
+                SyncUI.Invoke(() => Notification(Messages.OSA_WORKING_IN_BACKGROUND, NotificationForm.enumType.Informaton));
             }
         }
 
@@ -176,25 +178,22 @@ namespace OptimaSync
 
         private void CheckVersionTimer(object sender, EventArgs e)
         {
-            if (!backgroundWorker.IsBusy)
+            if (!backgroundWorkerNotification.IsBusy)
             {
-                searchBuildService.AutoCheckNewVersion();
+            backgroundWorkerNotification.RunWorkerAsync();
             }
         }
 
-        private void turnOnNotificationCheckBox_Click(object sender, EventArgs e)
+        private void newVersionNotificationCheckBox_Click(object sender, EventArgs e)
         {
-            if (turnOnNotificationCheckBox.Checked)
+            if (newVersionNotificationCheckBox.Checked)
             {
-                Properties.Settings.Default.Notifications = true;
+                Properties.Settings.Default.NewVersionNotifications = true;
                 Properties.Settings.Default.Save();
             }
             else
             {
-                Properties.Settings.Default.Notifications = false;
-                Properties.Settings.Default.NotificationsSound = false;
-                turnOnSoundNotificationCheckBox.Checked = false;
-                turnOnSoundNotificationCheckBox.Enabled = false;
+                Properties.Settings.Default.NewVersionNotifications = false;
                 Properties.Settings.Default.Save();
             }
         }
@@ -211,6 +210,11 @@ namespace OptimaSync
                 Properties.Settings.Default.NotificationsSound = false;
                 Properties.Settings.Default.Save();
             }
+        }
+
+        private void backgroundWorkerNotification_DoWork(object sender, DoWorkEventArgs e)
+        {
+            searchBuildService.AutoCheckNewVersion();
         }
     }
 }

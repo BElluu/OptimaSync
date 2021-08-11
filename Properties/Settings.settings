@@ -23,7 +23,7 @@
     <Setting Name="LatestCheckedVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Notifications" Type="System.Boolean" Scope="User">
+    <Setting Name="NewVersionNotifications" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="NotificationsSound" Type="System.Boolean" Scope="User">

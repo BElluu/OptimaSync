@@ -47,10 +47,16 @@ namespace OptimaSync.Service
         }
         public void AutoCheckNewVersion()
         {
+            if (Properties.Settings.Default.NewVersionNotifications == false)
+            {
+                return;
+            }
+
             var lastBuild = FindLastBuild();
 
             if (lastBuild == null)
             {
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return;
             }
             string lastBuildCommonDllPath = lastBuild.ToString() + '\\' + BuildSyncServiceHelper.CHECK_VERSION_FILE;
@@ -59,6 +65,7 @@ namespace OptimaSync.Service
 
             if (lastBuildCommonDllVersion == Properties.Settings.Default.LatestCheckedVersion)
             {
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return;
             }
 
@@ -66,10 +73,11 @@ namespace OptimaSync.Service
 
             if (myCurrentVersions.Any(x => !lastBuildCommonDllVersion.Contains(x)))
             {
-                MainForm.Notification("Nowa wersja: " + lastBuildCommonDllVersion, NotificationForm.enumType.Informaton);
+               SyncUI.Invoke(() => MainForm.Notification("Nowa wersja: " + lastBuildCommonDllVersion, NotificationForm.enumType.Informaton));
                 Properties.Settings.Default.LatestCheckedVersion = lastBuildCommonDllVersion;
                 Properties.Settings.Default.Save();
             }
+            syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
         }
 
         private List<string> GetLatestDownloadedVersion()

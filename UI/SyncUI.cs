@@ -55,9 +55,7 @@ namespace OptimaSync.UI
             else
             {
                 Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
-                //Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);
                 Invoke(() => MainForm.Instance.programmerCheckbox.Enabled = state);
-               // Invoke(() => MainForm.Instance.RunOptimaCheckBox.Enabled = state);
             }
         }
 

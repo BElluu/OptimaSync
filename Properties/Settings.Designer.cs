@@ -104,12 +104,12 @@ namespace OptimaSync.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Notifications {
+        public bool NewVersionNotifications {
             get {
-                return ((bool)(this["Notifications"]));
+                return ((bool)(this["NewVersionNotifications"]));
             }
             set {
-                this["Notifications"] = value;
+                this["NewVersionNotifications"] = value;
             }
         }
         
