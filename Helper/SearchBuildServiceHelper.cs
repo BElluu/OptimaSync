@@ -38,12 +38,17 @@ namespace OptimaSync.Helper
 
         public string GetLastBuildVersion()
         {
+
+            string lastBuildCommonDllPath = null;
             var directory = new DirectoryInfo(Properties.Settings.Default.BuildDestPath);
             var lastBuild = directory.GetDirectories()
                 .OrderByDescending(f => f.LastWriteTime)
                 .FirstOrDefault();
 
-            string lastBuildCommonDllPath = lastBuild.ToString() + "\\" + BuildSyncServiceHelper.CHECK_VERSION_FILE;
+            if (lastBuild != null) 
+            { 
+            lastBuildCommonDllPath = lastBuild.ToString() + "\\" + BuildSyncServiceHelper.CHECK_VERSION_FILE;
+            }
 
             if (!File.Exists(lastBuildCommonDllPath))
             {
