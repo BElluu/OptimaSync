@@ -2,7 +2,6 @@
 using OptimaSync.Service;
 using OptimaSync.UI;
 using Serilog;
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -11,8 +10,8 @@ namespace OptimaSync.Helper
 {
     public class BuildSyncServiceHelper
     {
-        public static string LOCK_FILE = "osync.lock";
-        public static string CHECK_VERSION_FILE = "Common.dll";
+        public static readonly string LOCK_FILE = "osync.lock";
+        public static readonly string CHECK_VERSION_FILE = "Common.dll";
 
         ValidatorUI validatorUI = new ValidatorUI();
         WindowsService windowsService = new WindowsService();
@@ -63,6 +62,7 @@ namespace OptimaSync.Helper
             {
                 if (SOARequirementsAreMet() == false)
                 {
+                    syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                     return null;
                 }
                 return Properties.Settings.Default.BuildSOAPath;
@@ -73,6 +73,7 @@ namespace OptimaSync.Helper
                 {
                     return Properties.Settings.Default.BuildDestPath + "\\" + dir.Name;
                 }
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return null;
             }
         }
@@ -113,7 +114,6 @@ namespace OptimaSync.Helper
             {
                 syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return false;
-                throw new NullReferenceException(Messages.SOA_PATH_CANNOT_BE_EMPTY);
             }
 
             if (!windowsService.DoesSOAServiceExist())
@@ -129,7 +129,6 @@ namespace OptimaSync.Helper
                 MessageBox.Show(Messages.SOA_SERVICE_NOT_STOPPED, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-
             return true;
         }
     }

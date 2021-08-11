@@ -38,8 +38,8 @@ namespace OptimaSync
             this.downloadBuildButton = new System.Windows.Forms.Button();
             this.SettingsTab = new System.Windows.Forms.TabPage();
             this.notificationGroupBox = new System.Windows.Forms.GroupBox();
-            this.registeredOptimaNotificationCheckBox = new System.Windows.Forms.CheckBox();
-            this.newBuildNotificationCheckBox = new System.Windows.Forms.CheckBox();
+            this.turnOnSoundNotificationCheckBox = new System.Windows.Forms.CheckBox();
+            this.newVersionNotificationCheckBox = new System.Windows.Forms.CheckBox();
             this.generalGroupBox = new System.Windows.Forms.GroupBox();
             this.RunOptimaCheckBox = new System.Windows.Forms.CheckBox();
             this.programmerCheckbox = new System.Windows.Forms.CheckBox();
@@ -61,6 +61,7 @@ namespace OptimaSync
             this.showNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.exitNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundWorkerNotification = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.SyncTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
@@ -137,8 +138,8 @@ namespace OptimaSync
             // 
             // notificationGroupBox
             // 
-            this.notificationGroupBox.Controls.Add(this.registeredOptimaNotificationCheckBox);
-            this.notificationGroupBox.Controls.Add(this.newBuildNotificationCheckBox);
+            this.notificationGroupBox.Controls.Add(this.turnOnSoundNotificationCheckBox);
+            this.notificationGroupBox.Controls.Add(this.newVersionNotificationCheckBox);
             this.notificationGroupBox.Location = new System.Drawing.Point(0, 146);
             this.notificationGroupBox.Name = "notificationGroupBox";
             this.notificationGroupBox.Size = new System.Drawing.Size(295, 64);
@@ -146,25 +147,27 @@ namespace OptimaSync
             this.notificationGroupBox.TabStop = false;
             this.notificationGroupBox.Text = "Powiadomienia";
             // 
-            // registeredOptimaNotificationCheckBox
+            // turnOnSoundNotificationCheckBox
             // 
-            this.registeredOptimaNotificationCheckBox.AutoSize = true;
-            this.registeredOptimaNotificationCheckBox.Location = new System.Drawing.Point(130, 23);
-            this.registeredOptimaNotificationCheckBox.Name = "registeredOptimaNotificationCheckBox";
-            this.registeredOptimaNotificationCheckBox.Size = new System.Drawing.Size(124, 19);
-            this.registeredOptimaNotificationCheckBox.TabIndex = 1;
-            this.registeredOptimaNotificationCheckBox.Text = "Zarejestrowanie O!";
-            this.registeredOptimaNotificationCheckBox.UseVisualStyleBackColor = true;
+            this.turnOnSoundNotificationCheckBox.AutoSize = true;
+            this.turnOnSoundNotificationCheckBox.Location = new System.Drawing.Point(156, 23);
+            this.turnOnSoundNotificationCheckBox.Name = "turnOnSoundNotificationCheckBox";
+            this.turnOnSoundNotificationCheckBox.Size = new System.Drawing.Size(139, 19);
+            this.turnOnSoundNotificationCheckBox.TabIndex = 1;
+            this.turnOnSoundNotificationCheckBox.Text = "Dźwięk powiadomień";
+            this.turnOnSoundNotificationCheckBox.UseVisualStyleBackColor = true;
+            this.turnOnSoundNotificationCheckBox.Click += new System.EventHandler(this.turnOnSoundNotificationCheckBox_Click);
             // 
-            // newBuildNotificationCheckBox
+            // newVersionNotificationCheckBox
             // 
-            this.newBuildNotificationCheckBox.AutoSize = true;
-            this.newBuildNotificationCheckBox.Location = new System.Drawing.Point(6, 23);
-            this.newBuildNotificationCheckBox.Name = "newBuildNotificationCheckBox";
-            this.newBuildNotificationCheckBox.Size = new System.Drawing.Size(118, 19);
-            this.newBuildNotificationCheckBox.TabIndex = 0;
-            this.newBuildNotificationCheckBox.Text = "Nowa kompilacja";
-            this.newBuildNotificationCheckBox.UseVisualStyleBackColor = true;
+            this.newVersionNotificationCheckBox.AutoSize = true;
+            this.newVersionNotificationCheckBox.Location = new System.Drawing.Point(6, 23);
+            this.newVersionNotificationCheckBox.Name = "newVersionNotificationCheckBox";
+            this.newVersionNotificationCheckBox.Size = new System.Drawing.Size(151, 19);
+            this.newVersionNotificationCheckBox.TabIndex = 0;
+            this.newVersionNotificationCheckBox.Text = "Nowa wersja kompilacji";
+            this.newVersionNotificationCheckBox.UseVisualStyleBackColor = true;
+            this.newVersionNotificationCheckBox.Click += new System.EventHandler(this.newVersionNotificationCheckBox_Click);
             // 
             // generalGroupBox
             // 
@@ -364,6 +367,12 @@ namespace OptimaSync
             this.exitNotifyIconMenu.Text = "Zamknij";
             this.exitNotifyIconMenu.Click += new System.EventHandler(this.exitNotifyIconMenu_Click);
             // 
+            // backgroundWorkerNotification
+            // 
+            this.backgroundWorkerNotification.WorkerReportsProgress = true;
+            this.backgroundWorkerNotification.WorkerSupportsCancellation = true;
+            this.backgroundWorkerNotification.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerNotification_DoWork);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -417,15 +426,14 @@ namespace OptimaSync
         private System.Windows.Forms.GroupBox generalGroupBox;
         public System.Windows.Forms.CheckBox RunOptimaCheckBox;
         private System.Windows.Forms.GroupBox notificationGroupBox;
-        private System.Windows.Forms.CheckBox registeredOptimaNotificationCheckBox;
-        private System.Windows.Forms.CheckBox newBuildNotificationCheckBox;
+        public System.Windows.Forms.CheckBox turnOnSoundNotificationCheckBox;
+        public System.Windows.Forms.CheckBox newVersionNotificationCheckBox;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenuStrip notifyIconMenu;
         private System.Windows.Forms.ToolStripMenuItem showNotifyIconMenu;
-        private System.Windows.Forms.ToolStripMenuItem downloadBuildStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem closeStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem downloadNotifyIconMenu;
         private System.Windows.Forms.ToolStripMenuItem exitNotifyIconMenu;
+        public System.ComponentModel.BackgroundWorker backgroundWorkerNotification;
     }
 }
 

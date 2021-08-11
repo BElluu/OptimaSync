@@ -88,5 +88,41 @@ namespace OptimaSync.Properties {
                 this["RunOptima"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LatestCheckedVersion {
+            get {
+                return ((string)(this["LatestCheckedVersion"]));
+            }
+            set {
+                this["LatestCheckedVersion"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool NewVersionNotifications {
+            get {
+                return ((bool)(this["NewVersionNotifications"]));
+            }
+            set {
+                this["NewVersionNotifications"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool NotificationsSound {
+            get {
+                return ((bool)(this["NotificationsSound"]));
+            }
+            set {
+                this["NotificationsSound"] = value;
+            }
+        }
     }
 }

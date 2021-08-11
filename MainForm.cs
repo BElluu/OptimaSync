@@ -6,6 +6,7 @@ using OptimaSync.UI;
 using OptimaSync.Constant;
 using Serilog;
 using System.ComponentModel;
+using OptimaSync.Common;
 
 namespace OptimaSync
 {
@@ -16,6 +17,7 @@ namespace OptimaSync
         BuildSyncService buildSyncService = new BuildSyncService();
         SyncUI syncUI = new SyncUI();
         ValidatorUI validatorUI = new ValidatorUI();
+        SearchBuildService searchBuildService = new SearchBuildService();
 
         private static MainForm _instance;
         public MainForm()
@@ -26,8 +28,11 @@ namespace OptimaSync
             this.versionLabelValue.Text = syncUI.GetAppVersion();
             this.programmerCheckbox.Checked = Properties.Settings.Default.IsProgrammer;
             this.RunOptimaCheckBox.Checked = Properties.Settings.Default.RunOptima;
+            this.newVersionNotificationCheckBox.Checked = Properties.Settings.Default.NewVersionNotifications;
+            this.turnOnSoundNotificationCheckBox.Checked = Properties.Settings.Default.NotificationsSound;
             _instance = this;
             AutoUpdater.Start(AUTO_UPDATE_CONFIG);
+            InitCheckVersionTimer();
         }
 
         public string ProgressLabelStatus
@@ -49,6 +54,7 @@ namespace OptimaSync
                 e.Cancel = true;
                 this.Hide();
                 notifyIcon.Visible = true;
+                SyncUI.Invoke(() => Notification(Messages.OSA_WORKING_IN_BACKGROUND, NotificationForm.enumType.Informaton));
             }
         }
 
@@ -116,6 +122,17 @@ namespace OptimaSync
             }
         }
 
+        public static void Notification(string message, NotificationForm.enumType notificationType)
+        {
+            NotificationForm notificationForm = new NotificationForm();
+            notificationForm.showNotification(message, notificationType);
+
+            if (Properties.Settings.Default.NotificationsSound == true)
+            {
+                SoundPlayer.PlayNotificationSound();
+            }
+        }
+
         private void OpenManualButton_Click(object sender, EventArgs e)
         {
             syncUI.OpenUserManual();
@@ -149,6 +166,55 @@ namespace OptimaSync
                 Properties.Settings.Default.RunOptima = false;
                 Properties.Settings.Default.Save();
             }
+        }
+
+        private void InitCheckVersionTimer()
+        {
+            Timer checkVersionTimer = new Timer();
+            checkVersionTimer.Tick += new EventHandler(CheckVersionTimer);
+            checkVersionTimer.Interval = 1000 * 60 * 20;
+            checkVersionTimer.Start();
+        }
+
+        private void CheckVersionTimer(object sender, EventArgs e)
+        {
+            if (!backgroundWorkerNotification.IsBusy)
+            {
+            backgroundWorkerNotification.RunWorkerAsync();
+            }
+        }
+
+        private void newVersionNotificationCheckBox_Click(object sender, EventArgs e)
+        {
+            if (newVersionNotificationCheckBox.Checked)
+            {
+                Properties.Settings.Default.NewVersionNotifications = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.NewVersionNotifications = false;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void turnOnSoundNotificationCheckBox_Click(object sender, EventArgs e)
+        {
+            if (turnOnSoundNotificationCheckBox.Checked)
+            {
+                Properties.Settings.Default.NotificationsSound = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.NotificationsSound = false;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void backgroundWorkerNotification_DoWork(object sender, DoWorkEventArgs e)
+        {
+            searchBuildService.AutoCheckNewVersion();
         }
     }
 }
