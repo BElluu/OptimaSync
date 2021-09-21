@@ -87,6 +87,7 @@ namespace OptimaSync
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "NotificationForm";
             this.Text = "NotificationForm";
+            this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.notificationPicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
