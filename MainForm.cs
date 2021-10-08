@@ -74,6 +74,14 @@ namespace OptimaSync
             notifyIcon.Visible = false;
         }
 
+        public void showUpTrayWhenNewInstance()
+        {
+            this.Visible = true;
+            this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
+            notifyIcon.Visible = false;
+        }
+
         private void downloadNotifyIconMenu_Click(object sender, EventArgs e)
         {
             backgroundWorker.RunWorkerAsync();

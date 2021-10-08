@@ -10,7 +10,7 @@ namespace OptimaSync.Common
 
             try
             {
-                PingReply pingReply = pinger.Send(HostName);
+                PingReply pingReply = pinger.Send(HostName, 5000);
                 return pingReply.Status == IPStatus.Success;
             }
             catch

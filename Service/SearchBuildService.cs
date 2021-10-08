@@ -74,6 +74,7 @@ namespace OptimaSync.Service
             if (myCurrentVersions.Any(x => !lastBuildCommonDllVersion.Contains(x)))
             {
                SyncUI.Invoke(() => MainForm.Notification("Nowa wersja: " + lastBuildCommonDllVersion, NotificationForm.enumType.Informaton));
+                Log.Information("Nowa wersja: " + lastBuildCommonDllVersion);
                 Properties.Settings.Default.LatestCheckedVersion = lastBuildCommonDllVersion;
                 Properties.Settings.Default.Save();
             }
