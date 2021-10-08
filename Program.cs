@@ -14,7 +14,8 @@ namespace OptimaSync
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            var controller = new ApplicationController(new MainForm());
+            controller.Run(Environment.GetCommandLineArgs());
         }
 
         private static void ConfigureSerilog()
