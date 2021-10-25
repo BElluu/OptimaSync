@@ -9,10 +9,18 @@ namespace OptimaSync.Service
 {
     public class BuildSyncService
     {
-        SyncUI syncUI = new SyncUI();
-        RegisterDLLService registerDLL = new RegisterDLLService();
-        BuildSyncServiceHelper buildSyncHelper = new BuildSyncServiceHelper();
-        SearchBuildService searchBuild = new SearchBuildService();
+        SyncUI syncUI;
+        RegisterDLLService registerDLL;
+        BuildSyncServiceHelper buildSyncHelper;
+        SearchBuildService searchBuild;
+
+        public BuildSyncService(SyncUI syncUI, RegisterDLLService registerDLL, BuildSyncServiceHelper buildSyncHelper, SearchBuildService searchBuild)
+        {
+            this.syncUI = syncUI;
+            this.registerDLL = registerDLL;
+            this.buildSyncHelper = buildSyncHelper;
+            this.searchBuild = searchBuild;
+        }
 
         public void PrepareOptimaBuild(bool withSoa, bool isProgrammer)
         {

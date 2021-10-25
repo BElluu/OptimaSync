@@ -8,10 +8,16 @@ using System.Windows.Forms;
 
 namespace OptimaSync.Service
 {
-    internal class RegisterDLLService
+    public class RegisterDLLService
     {
-        SyncUI syncUI = new SyncUI();
-        BuildSyncServiceHelper buildSyncHelper = new BuildSyncServiceHelper();
+        SyncUI syncUI;
+        BuildSyncServiceHelper buildSyncHelper;
+
+        public RegisterDLLService(SyncUI syncUI, BuildSyncServiceHelper buildSyncHelper)
+        {
+            this.syncUI = syncUI;
+            this.buildSyncHelper = buildSyncHelper;
+        }
         public void RegisterOptima(string path, bool isProgrammer)
         {
             string registerFile;
@@ -31,11 +37,10 @@ namespace OptimaSync.Service
                 registerFile = "Rejestr.bat";
             }
 
-            Process proc;
             try
             {
                 syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_INPROGRESS);
-                proc = new Process();
+                Process proc = new Process();
                 proc.StartInfo.WorkingDirectory = path;
                 proc.StartInfo.FileName = registerFile;
                 proc.StartInfo.UseShellExecute = true;

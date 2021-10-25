@@ -11,12 +11,12 @@ using System.Linq;
 
 namespace OptimaSync.Service
 {
-    internal class SearchBuildService
+    public class SearchBuildService
     {
         static string[] EXCLUDED_STRINGS = { "CIV", "SQL", "test", "rar", "FIXES" };
         SyncUI syncUI = new SyncUI();
         SearchBuildServiceHelper searchBuildServiceHelper = new SearchBuildServiceHelper();
-        internal DirectoryInfo FindLastBuild()
+        public DirectoryInfo FindLastBuild()
         {
 
             if (!NetworkDrive.HaveAccessToHost("natalie"))

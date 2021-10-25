@@ -41,7 +41,7 @@ namespace OptimaSync.UI
 
         public void EnableElementsOnForm(bool state)
         {
-            if (Properties.Settings.Default.IsProgrammer == false)
+            if (!Properties.Settings.Default.IsProgrammer)
             {
                 Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
                 Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);
