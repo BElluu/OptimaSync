@@ -26,10 +26,10 @@ namespace OptimaSync.Helper
             this.syncUI = syncUI;
         }
 
-        public bool BuildVersionsAreSame(string buildPath, bool isProgrammer, bool withSOA, string buildDirectoryName)
+        public bool BuildVersionsAreSame(string buildPath, DownloadTypeEnum type, string buildDirectoryName)
         {
             List<string> buildVersions = new List<string>();
-            if (isProgrammer)
+            if (type == DownloadTypeEnum.PROGRAMMER)
             {
                 string destProgrammerDll = Properties.Settings.Default.ProgrammersPath + "\\" + CHECK_VERSION_FILE;
 
@@ -47,7 +47,7 @@ namespace OptimaSync.Helper
                 string destSoaDll = Properties.Settings.Default.BuildSOAPath + "\\" + CHECK_VERSION_FILE;
                 string destBuildDll = Properties.Settings.Default.BuildDestPath + "\\" + buildDirectoryName + "\\" + CHECK_VERSION_FILE;
 
-                if ((!File.Exists(destSoaDll) && withSOA) || (!File.Exists(destBuildDll) && !withSOA))
+                if ((!File.Exists(destSoaDll) && type == DownloadTypeEnum.SOA) || (!File.Exists(destBuildDll) && type == DownloadTypeEnum.BASIC))
                 {
                     return false;
                 }
@@ -73,23 +73,25 @@ namespace OptimaSync.Helper
             return false;
         }
 
-        public string ChooseExtractionPath(bool isProgrammer, bool withSOA, DirectoryInfo dir)
+        public string ChooseExtractionPath(DownloadTypeEnum type, DirectoryInfo dir)
         {
-            if (isProgrammer)
+            if (type == DownloadTypeEnum.SOA && !SOARequirementsAreMet())
             {
-                return Properties.Settings.Default.ProgrammersPath;
+                return null;
             }
-            else if (withSOA && SOARequirementsAreMet())
+
+            switch (type)
             {
-                return Properties.Settings.Default.BuildSOAPath;
+                case DownloadTypeEnum.PROGRAMMER:
+                    return Properties.Settings.Default.ProgrammersPath;
+                case DownloadTypeEnum.SOA:
+                    return Properties.Settings.Default.BuildSOAPath;
+                case DownloadTypeEnum.BASIC:
+                    return Properties.Settings.Default.BuildDestPath;
+                default:
+                    syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                    return null;
             }
-            else if (validatorUI.DestPathIsValid())
-            {
-               
-                return Properties.Settings.Default.BuildDestPath + "\\" + dir.Name;
-            }
-            syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
-            return null;
         }
 
         public bool DoesLockFileExist(string path)
@@ -119,7 +121,7 @@ namespace OptimaSync.Helper
             File.Delete(lockFilePath + "\\" + LOCK_FILE);
         }
 
-        public bool SOARequirementsAreMet()
+        private bool SOARequirementsAreMet()
         {
             if (!validatorUI.DestSOAPathIsValid())
             {

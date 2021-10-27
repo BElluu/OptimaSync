@@ -18,7 +18,7 @@ namespace OptimaSync.Service
             this.syncUI = syncUI;
             this.buildSyncHelper = buildSyncHelper;
         }
-        public void RegisterOptima(string path, bool isProgrammer)
+        public void RegisterOptima(string path, DownloadTypeEnum type)
         {
             string registerFile;
 
@@ -27,7 +27,7 @@ namespace OptimaSync.Service
                 return;
             }
 
-            if (isProgrammer)
+            if (type == DownloadTypeEnum.PROGRAMMER)
             {
                 path = Properties.Settings.Default.ProgrammersPath;
                 registerFile = "RejestrProgramisty.bat";

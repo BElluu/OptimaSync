@@ -61,17 +61,14 @@ namespace OptimaSync.UI
 
         public void OpenLogsDirectory()
         {
-
             string logsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OSync");
-            if (Directory.Exists(logsDirectory))
-            {
-                System.Diagnostics.Process.Start("explorer.exe", logsDirectory);
-            }
-            else
+            if (!Directory.Exists(logsDirectory))
             {
                 Log.Logger.Error(Messages.LOGS_DIRECTORY_NOT_EXIST);
                 MessageBox.Show(Messages.LOGS_DIRECTORY_NOT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+            System.Diagnostics.Process.Start("explorer.exe", logsDirectory);
         }
 
         public void OpenUserManual()

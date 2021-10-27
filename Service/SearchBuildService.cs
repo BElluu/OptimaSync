@@ -18,7 +18,6 @@ namespace OptimaSync.Service
         SearchBuildServiceHelper searchBuildServiceHelper = new SearchBuildServiceHelper();
         public DirectoryInfo FindLastBuild()
         {
-
             if (!NetworkDrive.HaveAccessToHost("natalie"))
             {
                 SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do natalie", NotificationForm.enumType.Error));
@@ -68,6 +67,8 @@ namespace OptimaSync.Service
                 syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return;
             }
+
+            //TODO Add latest version after try download version.
 
             var myCurrentVersions = GetLatestDownloadedVersion();
 

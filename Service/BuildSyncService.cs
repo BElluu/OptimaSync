@@ -22,14 +22,14 @@ namespace OptimaSync.Service
             this.searchBuild = searchBuild;
         }
 
-        public void PrepareOptimaBuild(bool withSoa, bool isProgrammer)
+        public void PrepareOptimaBuild(DownloadTypeEnum type)
         {
             syncUI.EnableElementsOnForm(false);
-            registerDLL.RegisterOptima(DownloadBuild(isProgrammer, withSoa), isProgrammer);
+            registerDLL.RegisterOptima(DownloadBuild(type), type);
             syncUI.EnableElementsOnForm(true);
         }
 
-        public string DownloadBuild(bool isProgrammer, bool withSOA)
+        public string DownloadBuild(DownloadTypeEnum type)
         {
             var dir = searchBuild.FindLastBuild();
             if (dir == null)
@@ -37,27 +37,26 @@ namespace OptimaSync.Service
                 return null;
             }
 
-            string extractionPath = buildSyncHelper.ChooseExtractionPath(isProgrammer, withSOA, dir);
+            string extractionPath = buildSyncHelper.ChooseExtractionPath(type, dir);
 
             if (extractionPath == null)
             {
                 return null;
             }
 
-            if (!buildSyncHelper.DoesLockFileExist(extractionPath))
+            if (!buildSyncHelper.DoesLockFileExist(extractionPath) &&
+                buildSyncHelper.BuildVersionsAreSame(dir.ToString(), type, dir.Name))
             {
-                if (buildSyncHelper.BuildVersionsAreSame(dir.ToString(), isProgrammer, withSOA, dir.Name))
-                {
-                    SyncUI.Invoke(() => MainForm.Notification(Messages.YOU_HAVE_LATEST_BUILD, NotificationForm.enumType.Informaton));
-                    Log.Information(Messages.YOU_HAVE_LATEST_BUILD);
-                    syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
-                    return null;
-                }
+                SyncUI.Invoke(() => MainForm.Notification(Messages.YOU_HAVE_LATEST_BUILD, NotificationForm.enumType.Informaton));
+                Log.Information(Messages.YOU_HAVE_LATEST_BUILD);
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                return null;
             }
 
             try
             {
-                if ((!isProgrammer && !withSOA) && !Directory.Exists(extractionPath))
+                if ((type == DownloadTypeEnum.BASIC || type == DownloadTypeEnum.SOA) && 
+                    !Directory.Exists(extractionPath))
                 {
                     DirectoryInfo directoryInfo = Directory.CreateDirectory(extractionPath);
                 }

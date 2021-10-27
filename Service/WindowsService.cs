@@ -19,7 +19,24 @@ namespace OptimaSync.Service
         {
             this.syncUI = syncUI;
         }
-        public bool StopSOAService()
+
+        public bool SoaIsStopped()
+        {
+            return StopSOAService();
+        }
+
+        public bool DoesSOAServiceExist()
+        {
+            ServiceController windowsServices = ServiceController.GetServices()
+                .FirstOrDefault(s => s.ServiceName == SOA_SERVICE);
+            if (windowsServices == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool StopSOAService()
         {
             ServiceController SoaService = new ServiceController(SOA_SERVICE);
             if (SoaService.Status.Equals(ServiceControllerStatus.Running) ||
@@ -62,22 +79,6 @@ namespace OptimaSync.Service
                 Log.Error(Messages.SOA_SERVICE_UNKNOWN_STATUS);
                 return false;
             }
-        }
-
-        public bool SoaIsStopped()
-        {
-            return StopSOAService();
-        }
-
-        public bool DoesSOAServiceExist()
-        {
-            ServiceController windowsServices = ServiceController.GetServices()
-                .FirstOrDefault(s => s.ServiceName == SOA_SERVICE);
-            if (windowsServices == null)
-            {
-                return false;
-            }
-                return true;
         }
     }
 }

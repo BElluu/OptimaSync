@@ -14,14 +14,19 @@ namespace OptimaSync
     {
         private static string AUTO_UPDATE_CONFIG = "https://osync.devopsowy.pl/AutoUpdater.xml";
 
-        BuildSyncService buildSyncService = new BuildSyncService();
-        SyncUI syncUI = new SyncUI();
-        ValidatorUI validatorUI = new ValidatorUI();
-        SearchBuildService searchBuildService = new SearchBuildService();
+        BuildSyncService buildSyncService;
+        SyncUI syncUI;
+        ValidatorUI validatorUI;
+        SearchBuildService searchBuildService;
 
         private static MainForm _instance;
-        public MainForm()
+        public MainForm(BuildSyncService buildSyncService, SyncUI syncUI, ValidatorUI validatorUI, SearchBuildService searchBuildService)
         {
+            this.buildSyncService = buildSyncService;
+            this.syncUI = syncUI;
+            this.validatorUI = validatorUI;
+            this.searchBuildService = searchBuildService;
+
             InitializeComponent();
             this.DestTextBox.Text = Properties.Settings.Default.BuildDestPath;
             this.OptimaSOATextBox.Text = Properties.Settings.Default.BuildSOAPath;
