@@ -1,4 +1,5 @@
 ﻿using OptimaSync.Constant;
+using OptimaSync.Helper;
 using Serilog;
 using System;
 using System.IO;
@@ -41,7 +42,7 @@ namespace OptimaSync.UI
 
         public void EnableElementsOnForm(bool state)
         {
-            if (!Properties.Settings.Default.IsProgrammer)
+            if (AppConfigHelper.GetConfigValue("DownloadType") != DownloadTypeEnum.PROGRAMMER.ToString())
             {
                 Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
                 Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);

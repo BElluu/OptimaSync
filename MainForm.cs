@@ -7,6 +7,8 @@ using OptimaSync.Constant;
 using Serilog;
 using System.ComponentModel;
 using OptimaSync.Common;
+using System.Configuration;
+using OptimaSync.Helper;
 
 namespace OptimaSync
 {
@@ -119,7 +121,7 @@ namespace OptimaSync
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            buildSyncService.PrepareOptimaBuild(validatorUI.WithSOASupport(), validatorUI.isProgrammer());
+            buildSyncService.PrepareOptimaBuild(AppConfigHelper.GetConfigValue("DownloadType"));
         }
 
         private void OpenLogsButton_Click(object sender, EventArgs e)

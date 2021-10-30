@@ -26,10 +26,10 @@ namespace OptimaSync.Helper
             this.syncUI = syncUI;
         }
 
-        public bool BuildVersionsAreSame(string buildPath, DownloadTypeEnum type, string buildDirectoryName)
+        public bool BuildVersionsAreSame(string buildPath, string buildDirectoryName)
         {
             List<string> buildVersions = new List<string>();
-            if (type == DownloadTypeEnum.PROGRAMMER)
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
             {
                 string destProgrammerDll = Properties.Settings.Default.ProgrammersPath + "\\" + CHECK_VERSION_FILE;
 
@@ -47,7 +47,9 @@ namespace OptimaSync.Helper
                 string destSoaDll = Properties.Settings.Default.BuildSOAPath + "\\" + CHECK_VERSION_FILE;
                 string destBuildDll = Properties.Settings.Default.BuildDestPath + "\\" + buildDirectoryName + "\\" + CHECK_VERSION_FILE;
 
-                if ((!File.Exists(destSoaDll) && type == DownloadTypeEnum.SOA) || (!File.Exists(destBuildDll) && type == DownloadTypeEnum.BASIC))
+                if ((!File.Exists(destSoaDll) &&
+                    AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString()) || 
+                    (!File.Exists(destBuildDll) && AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString()))
                 {
                     return false;
                 }
@@ -73,20 +75,21 @@ namespace OptimaSync.Helper
             return false;
         }
 
-        public string ChooseExtractionPath(DownloadTypeEnum type, DirectoryInfo dir)
+        public string ChooseExtractionPath(DirectoryInfo dir)
         {
-            if (type == DownloadTypeEnum.SOA && !SOARequirementsAreMet())
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString() &&
+                !SOARequirementsAreMet())
             {
                 return null;
             }
 
-            switch (type)
+            switch (AppConfigHelper.GetConfigValue("DownloadType"))
             {
-                case DownloadTypeEnum.PROGRAMMER:
+                case "PROGRAMMER":
                     return Properties.Settings.Default.ProgrammersPath;
-                case DownloadTypeEnum.SOA:
+                case "SOA":
                     return Properties.Settings.Default.BuildSOAPath;
-                case DownloadTypeEnum.BASIC:
+                case "BASIC":
                     return Properties.Settings.Default.BuildDestPath;
                 default:
                     syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);

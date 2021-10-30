@@ -29,26 +29,5 @@ namespace OptimaSync.UI
             }
             return true;
         }
-
-        public bool WithSOASupport()
-        {
-            CheckBox SOACheckBox = MainForm.Instance.SOACheckBox;
-            if (SOACheckBox.Checked)
-            {
-                return true;
-            }
-            return false;
-
-        }
-
-        public bool isProgrammer()
-        {
-            CheckBox ProgrammerCheckBox = MainForm.Instance.programmerCheckbox;
-            if (ProgrammerCheckBox.Checked)
-            {
-                return true;
-            }
-            return false;
-        }
     }
 }

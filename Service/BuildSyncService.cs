@@ -22,14 +22,14 @@ namespace OptimaSync.Service
             this.searchBuild = searchBuild;
         }
 
-        public void PrepareOptimaBuild(DownloadTypeEnum type)
+        public void PrepareOptimaBuild(string type)
         {
             syncUI.EnableElementsOnForm(false);
-            registerDLL.RegisterOptima(DownloadBuild(type), type);
+            registerDLL.RegisterOptima(DownloadBuild());
             syncUI.EnableElementsOnForm(true);
         }
 
-        public string DownloadBuild(DownloadTypeEnum type)
+        public string DownloadBuild()
         {
             var dir = searchBuild.FindLastBuild();
             if (dir == null)
@@ -37,7 +37,7 @@ namespace OptimaSync.Service
                 return null;
             }
 
-            string extractionPath = buildSyncHelper.ChooseExtractionPath(type, dir);
+            string extractionPath = buildSyncHelper.ChooseExtractionPath(dir);
 
             if (extractionPath == null)
             {
@@ -45,7 +45,7 @@ namespace OptimaSync.Service
             }
 
             if (!buildSyncHelper.DoesLockFileExist(extractionPath) &&
-                buildSyncHelper.BuildVersionsAreSame(dir.ToString(), type, dir.Name))
+                buildSyncHelper.BuildVersionsAreSame(dir.ToString(), dir.Name))
             {
                 SyncUI.Invoke(() => MainForm.Notification(Messages.YOU_HAVE_LATEST_BUILD, NotificationForm.enumType.Informaton));
                 Log.Information(Messages.YOU_HAVE_LATEST_BUILD);
@@ -55,7 +55,8 @@ namespace OptimaSync.Service
 
             try
             {
-                if ((type == DownloadTypeEnum.BASIC || type == DownloadTypeEnum.SOA) && 
+                if ((AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString() ||
+                    AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString()) && 
                     !Directory.Exists(extractionPath))
                 {
                     DirectoryInfo directoryInfo = Directory.CreateDirectory(extractionPath);
