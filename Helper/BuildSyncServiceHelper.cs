@@ -97,7 +97,7 @@ namespace OptimaSync.Helper
                 case "SOA":
                     return AppConfigHelper.GetConfigValue("SOADestination");
                 case "BASIC":
-                    return AppConfigHelper.GetConfigValue("Destination");
+                    return AppConfigHelper.GetConfigValue("Destination") + "\\" + dir.Name;
                 default:
                     syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                     return null;

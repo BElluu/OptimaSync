@@ -55,8 +55,7 @@ namespace OptimaSync.Service
 
             try
             {
-                if ((AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString() ||
-                    AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString()) && 
+                if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString() && 
                     !Directory.Exists(extractionPath))
                 {
                     DirectoryInfo directoryInfo = Directory.CreateDirectory(extractionPath);
