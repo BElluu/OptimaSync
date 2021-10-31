@@ -161,6 +161,7 @@ namespace OptimaSync
             }
             else
             {
+                AppConfigHelper.SetConfigValue("DownloadType", DownloadTypeEnum.BASIC.ToString());
                 syncUI.DisableElementsWhileProgrammer();
             }
         }
