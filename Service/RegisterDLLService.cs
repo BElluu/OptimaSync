@@ -29,7 +29,7 @@ namespace OptimaSync.Service
 
             if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
             {
-                path = Properties.Settings.Default.ProgrammersPath;
+                path = AppConfigHelper.GetConfigValue("ProgrammerDestination");
                 registerFile = "RejestrProgramisty.bat";
             }
             else

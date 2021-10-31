@@ -77,13 +77,12 @@ namespace OptimaSync.UI
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(USER_MANUAL) { UseShellExecute = true });
         }
 
-        public void DisableElementsWhileProgrammer(bool isProgrammer)
+        public void DisableElementsWhileProgrammer()
         {
             bool state;
-            if (isProgrammer)
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
             {
                 state = false;
-                MainForm.Instance.RunOptimaCheckBox.Enabled = state;
                 SetStateOfRunOptimaCheckBox(state);
             }
             else
@@ -93,7 +92,7 @@ namespace OptimaSync.UI
 
             MainForm.Instance.SOACheckBox.Checked = false;
             MainForm.Instance.SOACheckBox.Enabled = state;
-            MainForm.Instance.RunOptimaCheckBox.Checked = Properties.Settings.Default.RunOptima;
+            MainForm.Instance.RunOptimaCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("RunOptima"));
             MainForm.Instance.RunOptimaCheckBox.Enabled = state;
             MainForm.Instance.destDirectoryLabel.Enabled = state;
             MainForm.Instance.DestTextBox.Enabled = state;
@@ -106,8 +105,8 @@ namespace OptimaSync.UI
         private void SetStateOfRunOptimaCheckBox(bool state)
         {
             MainForm.Instance.RunOptimaCheckBox.Checked = state;
-            Properties.Settings.Default.RunOptima = state;
-            Properties.Settings.Default.Save();
+            MainForm.Instance.RunOptimaCheckBox.Enabled = state;
+            AppConfigHelper.SetConfigValue("RunOptima", state.ToString());
         }
     }
 }

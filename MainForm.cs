@@ -30,13 +30,16 @@ namespace OptimaSync
             this.searchBuildService = searchBuildService;
 
             InitializeComponent();
-            this.DestTextBox.Text = Properties.Settings.Default.BuildDestPath;
-            this.OptimaSOATextBox.Text = Properties.Settings.Default.BuildSOAPath;
+            this.DestTextBox.Text = AppConfigHelper.GetConfigValue("Destination");
+            this.OptimaSOATextBox.Text = AppConfigHelper.GetConfigValue("SOADestination");
             this.versionLabelValue.Text = syncUI.GetAppVersion();
-            this.programmerCheckbox.Checked = Properties.Settings.Default.IsProgrammer;
-            this.RunOptimaCheckBox.Checked = Properties.Settings.Default.RunOptima;
-            this.newVersionNotificationCheckBox.Checked = Properties.Settings.Default.NewVersionNotifications;
-            this.turnOnSoundNotificationCheckBox.Checked = Properties.Settings.Default.NotificationsSound;
+            this.RunOptimaCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("RunOptima"));
+            this.newVersionNotificationCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("AutoCheckVersion"));
+            this.turnOnSoundNotificationCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("NotificationSound"));
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
+            {
+                this.programmerCheckbox.Checked = true;
+            }
             _instance = this;
             AutoUpdater.Start(AUTO_UPDATE_CONFIG);
             InitCheckVersionTimer();
@@ -52,7 +55,7 @@ namespace OptimaSync
 
         private void MainForm_Shown(Object sender, EventArgs e)
         {
-            syncUI.DisableElementsWhileProgrammer(Properties.Settings.Default.IsProgrammer);
+            syncUI.DisableElementsWhileProgrammer();
         }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -108,15 +111,13 @@ namespace OptimaSync
         private void ButtonDestinationDirectory_Click(object sender, EventArgs e)
         {
             syncUI.PathToTextbox(DestTextBox);
-            Properties.Settings.Default.BuildDestPath = DestTextBox.Text;
-            Properties.Settings.Default.Save();
+            AppConfigHelper.SetConfigValue("Destination", DestTextBox.Text);
         }
 
         private void ButtonOptimaSOADirectory_Click(object sender, EventArgs e)
         {
             syncUI.PathToTextbox(OptimaSOATextBox);
-            Properties.Settings.Default.BuildSOAPath = OptimaSOATextBox.Text;
-            Properties.Settings.Default.Save();
+            AppConfigHelper.SetConfigValue("SOADestination", OptimaSOATextBox.Text);
         }
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -142,7 +143,7 @@ namespace OptimaSync
             NotificationForm notificationForm = new NotificationForm();
             notificationForm.showNotification(message, notificationType);
 
-            if (Properties.Settings.Default.NotificationsSound == true)
+            if (Convert.ToBoolean(AppConfigHelper.GetConfigValue("NotificationSound")) == true)
             {
                 SoundPlayer.PlayNotificationSound();
             }
@@ -157,15 +158,12 @@ namespace OptimaSync
         {
             if (programmerCheckbox.Checked)
             {
-                Properties.Settings.Default.IsProgrammer = true;
-                Properties.Settings.Default.Save();
-                syncUI.DisableElementsWhileProgrammer(true);
+                AppConfigHelper.SetConfigValue("DownloadType", DownloadTypeEnum.PROGRAMMER.ToString());
+                syncUI.DisableElementsWhileProgrammer();
             }
             else
             {
-                Properties.Settings.Default.IsProgrammer = false;
-                Properties.Settings.Default.Save();
-                syncUI.DisableElementsWhileProgrammer(false);
+                syncUI.DisableElementsWhileProgrammer();
             }
         }
 
@@ -173,13 +171,11 @@ namespace OptimaSync
         {
             if (RunOptimaCheckBox.Checked)
             {
-                Properties.Settings.Default.RunOptima = true;
-                Properties.Settings.Default.Save();
+                AppConfigHelper.SetConfigValue("RunOptima", "true");
             }
             else
             {
-                Properties.Settings.Default.RunOptima = false;
-                Properties.Settings.Default.Save();
+                AppConfigHelper.SetConfigValue("RunOptima", "false");
             }
         }
 
@@ -203,13 +199,11 @@ namespace OptimaSync
         {
             if (newVersionNotificationCheckBox.Checked)
             {
-                Properties.Settings.Default.NewVersionNotifications = true;
-                Properties.Settings.Default.Save();
+                AppConfigHelper.SetConfigValue("AutoCheckVersion", "true");
             }
             else
             {
-                Properties.Settings.Default.NewVersionNotifications = false;
-                Properties.Settings.Default.Save();
+                AppConfigHelper.SetConfigValue("AutoCheckVersion", "false");
             }
         }
 
@@ -217,13 +211,11 @@ namespace OptimaSync
         {
             if (turnOnSoundNotificationCheckBox.Checked)
             {
-                Properties.Settings.Default.NotificationsSound = true;
-                Properties.Settings.Default.Save();
+                AppConfigHelper.SetConfigValue("NotificationSound", "true");
             }
             else
             {
-                Properties.Settings.Default.NotificationsSound = false;
-                Properties.Settings.Default.Save();
+                AppConfigHelper.SetConfigValue("NotificationSound", "false");
             }
         }
 

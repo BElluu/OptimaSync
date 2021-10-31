@@ -2,6 +2,7 @@
 using OptimaSync.Service;
 using OptimaSync.UI;
 using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -31,7 +32,7 @@ namespace OptimaSync.Helper
             List<string> buildVersions = new List<string>();
             if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
             {
-                string destProgrammerDll = Properties.Settings.Default.ProgrammersPath + "\\" + CHECK_VERSION_FILE;
+                string destProgrammerDll = AppConfigHelper.GetConfigValue("ProgrammerDestination") + "\\" + CHECK_VERSION_FILE;
 
                 if (!File.Exists(destProgrammerDll))
                 {
@@ -44,8 +45,8 @@ namespace OptimaSync.Helper
             }
             else
             {
-                string destSoaDll = Properties.Settings.Default.BuildSOAPath + "\\" + CHECK_VERSION_FILE;
-                string destBuildDll = Properties.Settings.Default.BuildDestPath + "\\" + buildDirectoryName + "\\" + CHECK_VERSION_FILE;
+                string destSoaDll = AppConfigHelper.GetConfigValue("SOADestination") + "\\" + CHECK_VERSION_FILE;
+                string destBuildDll = AppConfigHelper.GetConfigValue("Destination") + "\\" + buildDirectoryName + "\\" + CHECK_VERSION_FILE;
 
                 if ((!File.Exists(destSoaDll) &&
                     AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString()) || 
@@ -86,11 +87,11 @@ namespace OptimaSync.Helper
             switch (AppConfigHelper.GetConfigValue("DownloadType"))
             {
                 case "PROGRAMMER":
-                    return Properties.Settings.Default.ProgrammersPath;
+                    return AppConfigHelper.GetConfigValue("ProgrammerDestination");
                 case "SOA":
-                    return Properties.Settings.Default.BuildSOAPath;
+                    return AppConfigHelper.GetConfigValue("SOADestination");
                 case "BASIC":
-                    return Properties.Settings.Default.BuildDestPath;
+                    return AppConfigHelper.GetConfigValue("Destination");
                 default:
                     syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                     return null;
@@ -108,7 +109,7 @@ namespace OptimaSync.Helper
 
         public void RunOptima(string path)
         {
-            if (Properties.Settings.Default.RunOptima)
+            if (Convert.ToBoolean(AppConfigHelper.GetConfigValue("RunOptima")))
             {
                 Process.Start(path + "\\" + "Comarch OPT!MA.exe");
             }

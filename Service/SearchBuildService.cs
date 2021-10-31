@@ -29,7 +29,7 @@ namespace OptimaSync.Service
             try
             {
                 syncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);
-                var directory = new DirectoryInfo(Properties.Settings.Default.BuildSourcePath);
+                var directory = new DirectoryInfo(AppConfigHelper.GetConfigValue("CompilationPath"));
                 var lastBuild = directory.GetDirectories()
                     .Where(q => EXCLUDED_STRINGS.All(c => !q.Name.Contains(c, StringComparison.InvariantCultureIgnoreCase)))
                     .OrderByDescending(f => f.LastWriteTime)
@@ -47,7 +47,7 @@ namespace OptimaSync.Service
         }
         public void AutoCheckNewVersion()
         {
-            if (Properties.Settings.Default.NewVersionNotifications == false)
+            if (Convert.ToBoolean(AppConfigHelper.GetConfigValue("AutoCheckVersion")) == false)
             {
                 return;
             }
@@ -63,7 +63,7 @@ namespace OptimaSync.Service
             FileVersionInfo lastBuildVersionFile = FileVersionInfo.GetVersionInfo(lastBuildCommonDllPath);
             string lastBuildCommonDllVersion = lastBuildVersionFile.ProductVersion.ToString();
 
-            if (lastBuildCommonDllVersion == Properties.Settings.Default.LatestCheckedVersion)
+            if (lastBuildCommonDllVersion == AppConfigHelper.GetConfigValue("LatestVersionChecked"))
             {
                 syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return;
@@ -77,8 +77,7 @@ namespace OptimaSync.Service
             {
                SyncUI.Invoke(() => MainForm.Notification("Nowa wersja: " + lastBuildCommonDllVersion, NotificationForm.enumType.Informaton));
                 Log.Information("Nowa wersja: " + lastBuildCommonDllVersion);
-                Properties.Settings.Default.LatestCheckedVersion = lastBuildCommonDllVersion;
-                Properties.Settings.Default.Save();
+                AppConfigHelper.SetConfigValue("LatestVersionChecked", lastBuildCommonDllVersion);
             }
             syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
         }
