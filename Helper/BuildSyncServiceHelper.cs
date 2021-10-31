@@ -84,6 +84,12 @@ namespace OptimaSync.Helper
                 return null;
             }
 
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString() &&
+                !validatorUI.DestPathIsValid())
+            {
+                return null;
+            }
+
             switch (AppConfigHelper.GetConfigValue("DownloadType"))
             {
                 case "PROGRAMMER":

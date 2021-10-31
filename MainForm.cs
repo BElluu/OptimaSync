@@ -18,15 +18,13 @@ namespace OptimaSync
 
         BuildSyncService buildSyncService;
         SyncUI syncUI;
-        ValidatorUI validatorUI;
         SearchBuildService searchBuildService;
 
         private static MainForm _instance;
-        public MainForm(BuildSyncService buildSyncService, SyncUI syncUI, ValidatorUI validatorUI, SearchBuildService searchBuildService)
+        public MainForm(BuildSyncService buildSyncService, SyncUI syncUI, SearchBuildService searchBuildService)
         {
             this.buildSyncService = buildSyncService;
             this.syncUI = syncUI;
-            this.validatorUI = validatorUI;
             this.searchBuildService = searchBuildService;
 
             InitializeComponent();
@@ -122,7 +120,7 @@ namespace OptimaSync
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            buildSyncService.PrepareOptimaBuild(AppConfigHelper.GetConfigValue("DownloadType"));
+            buildSyncService.GetOptimaBuild();
         }
 
         private void OpenLogsButton_Click(object sender, EventArgs e)

@@ -10,11 +10,11 @@ namespace OptimaSync.Service
     public class BuildSyncService
     {
         SyncUI syncUI;
-        RegisterDLLService registerDLL;
+        RegisterOptimaService registerDLL;
         BuildSyncServiceHelper buildSyncHelper;
         SearchBuildService searchBuild;
 
-        public BuildSyncService(SyncUI syncUI, RegisterDLLService registerDLL, BuildSyncServiceHelper buildSyncHelper, SearchBuildService searchBuild)
+        public BuildSyncService(SyncUI syncUI, RegisterOptimaService registerDLL, BuildSyncServiceHelper buildSyncHelper, SearchBuildService searchBuild)
         {
             this.syncUI = syncUI;
             this.registerDLL = registerDLL;
@@ -22,7 +22,7 @@ namespace OptimaSync.Service
             this.searchBuild = searchBuild;
         }
 
-        public void PrepareOptimaBuild(string type)
+        public void GetOptimaBuild()
         {
             syncUI.EnableElementsOnForm(false);
             registerDLL.RegisterOptima(DownloadBuild());

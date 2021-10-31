@@ -88,7 +88,7 @@ namespace OptimaSync.Service
 
             DownloadedLatestVersions.Add(searchBuildServiceHelper.GetProgrammerVersion());
             DownloadedLatestVersions.Add(searchBuildServiceHelper.GetSoaVersion());
-            DownloadedLatestVersions.Add(searchBuildServiceHelper.GetLastBuildVersion());
+            DownloadedLatestVersions.Add(searchBuildServiceHelper.GetBasicVersion());
 
             return DownloadedLatestVersions;
         }

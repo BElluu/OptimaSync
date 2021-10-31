@@ -36,7 +36,7 @@ namespace OptimaSync.Helper
             return soaCommonDllVerson;
         }
 
-        public string GetLastBuildVersion()
+        public string GetBasicVersion()
         {
 
             string lastBuildCommonDllPath = null;

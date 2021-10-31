@@ -8,19 +8,21 @@ using System.Windows.Forms;
 
 namespace OptimaSync.Service
 {
-    public class RegisterDLLService
+    public class RegisterOptimaService
     {
         SyncUI syncUI;
         BuildSyncServiceHelper buildSyncHelper;
+        RunOptimaService runOptima;
 
-        public RegisterDLLService(SyncUI syncUI, BuildSyncServiceHelper buildSyncHelper)
+        public RegisterOptimaService(SyncUI syncUI, BuildSyncServiceHelper buildSyncHelper, RunOptimaService runOptima)
         {
             this.syncUI = syncUI;
             this.buildSyncHelper = buildSyncHelper;
+            this.runOptima = runOptima;
         }
         public void RegisterOptima(string path)
         {
-            string registerFile;
+            string registerFile = "Rejestr.bat";
 
             if (path == null)
             {
@@ -32,11 +34,13 @@ namespace OptimaSync.Service
                 path = AppConfigHelper.GetConfigValue("ProgrammerDestination");
                 registerFile = "RejestrProgramisty.bat";
             }
-            else
-            {
-                registerFile = "Rejestr.bat";
-            }
 
+            RegisterDLLFile(registerFile, path);
+            runOptima.Start(path);
+        }
+
+        private void RegisterDLLFile(string registerFile, string path)
+        {
             try
             {
                 syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_INPROGRESS);
@@ -59,17 +63,6 @@ namespace OptimaSync.Service
                 Log.Error(ex.Message);
                 syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 MessageBox.Show(Messages.REGISTER_OPTIMA_ERROR, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            try
-            {
-                buildSyncHelper.RunOptima(path);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.Message);
-                syncUI.ChangeProgressLabel("Nie udało się uruchomić O!");
-                SyncUI.Invoke(() => MainForm.Notification("Nie udało się uruchomić O!", NotificationForm.enumType.Warning));
             }
         }
     }
