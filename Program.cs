@@ -7,6 +7,7 @@ using Serilog;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using OptimaSync.Config;
 
 namespace OptimaSync
 {
@@ -15,16 +16,7 @@ namespace OptimaSync
         [STAThread]
         static void Main()
         {
-            string downloadTypeSetting = ConfigurationManager.AppSettings.Get("DownloadType");
-            bool runOptimaSetting = Convert.ToBoolean(ConfigurationManager.AppSettings.Get("RunOptima"));
-            string latestVersionCheckedSetting = ConfigurationManager.AppSettings.Get("LatestVersionChecked");
-            string compilationPathSetting = ConfigurationManager.AppSettings.Get("CompilationPath");
-            string destinationSetting = ConfigurationManager.AppSettings.Get("Destination");
-            string soaDestinationSetting = ConfigurationManager.AppSettings.Get("SOADestination");
-            string programmerDestinationSetting = ConfigurationManager.AppSettings.Get("ProgrammerDestination");
-            bool autoCheckVersion = Convert.ToBoolean(ConfigurationManager.AppSettings.Get("AutoCheckVersion"));
-            bool notificationSound = Convert.ToBoolean(ConfigurationManager.AppSettings.Get("NotificationSound"));
-
+            ConfigAppCreator.Create();
             ConfigureSerilog();
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
