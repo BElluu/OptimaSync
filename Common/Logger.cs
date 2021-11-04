@@ -11,6 +11,7 @@ namespace OptimaSync.Common
         {
             Log.Write(logEvent, message);
             Log.CloseAndFlush();
+            ConfigureSerilog();
         }
 
         public static void ConfigureSerilog()
