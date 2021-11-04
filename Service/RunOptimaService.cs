@@ -1,8 +1,9 @@
-﻿using OptimaSync.Helper;
+﻿using OptimaSync.Common;
+using OptimaSync.Helper;
 using OptimaSync.UI;
-using Serilog;
 using System;
 using System.Diagnostics;
+using Serilog.Events;
 
 namespace OptimaSync.Service
 {
@@ -23,7 +24,7 @@ namespace OptimaSync.Service
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex.Message);
+                    Logger.Write(LogEventLevel.Warning, ex.Message);
                     syncUI.ChangeProgressLabel("Nie udało się uruchomić O!");
                     SyncUI.Invoke(() => MainForm.Notification("Nie udało się uruchomić O!", NotificationForm.enumType.Warning));
                 }

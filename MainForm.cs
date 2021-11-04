@@ -4,11 +4,10 @@ using System;
 using System.Windows.Forms;
 using OptimaSync.UI;
 using OptimaSync.Constant;
-using Serilog;
 using System.ComponentModel;
 using OptimaSync.Common;
-using System.Configuration;
 using OptimaSync.Helper;
+using Serilog.Events;
 
 namespace OptimaSync
 {
@@ -131,7 +130,7 @@ namespace OptimaSync
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
+                Logger.Write(LogEventLevel.Error, ex.Message);
                 MessageBox.Show(ex.Message, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

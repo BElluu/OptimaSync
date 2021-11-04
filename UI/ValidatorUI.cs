@@ -1,6 +1,7 @@
-﻿using OptimaSync.Constant;
-using Serilog;
+﻿using OptimaSync.Common;
+using OptimaSync.Constant;
 using System.Windows.Forms;
+using Serilog.Events;
 
 namespace OptimaSync.UI
 {
@@ -12,7 +13,7 @@ namespace OptimaSync.UI
             if (string.IsNullOrEmpty(DestPath))
             {
                 MessageBox.Show(Messages.DEST_PATH_CANNOT_BE_EMPTY, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Log.Error(Messages.DEST_PATH_CANNOT_BE_EMPTY);
+                Logger.Write(LogEventLevel.Error, Messages.DEST_PATH_CANNOT_BE_EMPTY);
                 return false;
             }
             return true;
@@ -24,7 +25,7 @@ namespace OptimaSync.UI
             if (string.IsNullOrEmpty(SOAPath))
             {
                 MessageBox.Show(Messages.SOA_PATH_CANNOT_BE_EMPTY, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Log.Error(Messages.SOA_PATH_CANNOT_BE_EMPTY);
+                Logger.Write(LogEventLevel.Error, Messages.SOA_PATH_CANNOT_BE_EMPTY);
                 return false;
             }
             return true;

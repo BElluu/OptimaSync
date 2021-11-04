@@ -2,12 +2,12 @@
 using OptimaSync.Constant;
 using OptimaSync.Helper;
 using OptimaSync.UI;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Serilog.Events;
 
 namespace OptimaSync.Service
 {
@@ -22,7 +22,7 @@ namespace OptimaSync.Service
             if (!NetworkDrive.HaveAccessToHost(buildServer))
             {
                 SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do " + buildServer, NotificationForm.enumType.Error));
-                Log.Error(Messages.ACCESS_TO_HOST_ERROR);
+                Logger.Write(LogEventLevel.Error, "Brak dostępu do " + buildServer + "! Sprawdź czy masz internet lub połączenie VPN.");
                 return null;
             }
 
@@ -39,7 +39,7 @@ namespace OptimaSync.Service
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
+                Logger.Write(LogEventLevel.Error, ex.Message);
                 syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
                 return null;
@@ -69,14 +69,12 @@ namespace OptimaSync.Service
                 return;
             }
 
-            //TODO Add latest version after try download version.
-
             var myCurrentVersions = GetLatestDownloadedVersion();
 
             if (myCurrentVersions.Any(x => !lastBuildCommonDllVersion.Contains(x)))
             {
                SyncUI.Invoke(() => MainForm.Notification("Nowa wersja: " + lastBuildCommonDllVersion, NotificationForm.enumType.Informaton));
-                Log.Information("Nowa wersja: " + lastBuildCommonDllVersion);
+                Logger.Write( LogEventLevel.Information,"Nowa wersja: " + lastBuildCommonDllVersion);
                 AppConfigHelper.SetConfigValue("LatestVersionChecked", lastBuildCommonDllVersion);
             }
             syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);

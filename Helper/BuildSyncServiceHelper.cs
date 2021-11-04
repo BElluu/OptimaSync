@@ -1,13 +1,14 @@
-﻿using OptimaSync.Constant;
+﻿using OptimaSync.Common;
+using OptimaSync.Constant;
 using OptimaSync.Service;
 using OptimaSync.UI;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Serilog.Events;
 
 namespace OptimaSync.Helper
 {
@@ -141,14 +142,14 @@ namespace OptimaSync.Helper
 
             if (!windowsService.DoesSOAServiceExist())
             {
-                Log.Error(Messages.SOA_SERVICE_DONT_EXIST);
+                Logger.Write(LogEventLevel.Error ,Messages.SOA_SERVICE_DONT_EXIST);
                 MessageBox.Show(Messages.SOA_SERVICE_DONT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             if (!windowsService.SoaIsStopped())
             {
-                Log.Error(Messages.SOA_SERVICE_NOT_STOPPED);
+                Logger.Write(LogEventLevel.Error, Messages.SOA_SERVICE_NOT_STOPPED);
                 MessageBox.Show(Messages.SOA_SERVICE_NOT_STOPPED, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
