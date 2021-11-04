@@ -8,7 +8,7 @@ namespace OptimaSync.Helper
     {
         public string GetProgrammerVersion()
         {
-            string programmerCommonDllPath = Properties.Settings.Default.ProgrammersPath + "\\" + BuildSyncServiceHelper.CHECK_VERSION_FILE;
+            string programmerCommonDllPath = AppConfigHelper.GetConfigValue("ProgrammerDestination") + "\\" + BuildSyncServiceHelper.CHECK_VERSION_FILE;
 
             if (!File.Exists(programmerCommonDllPath))
             {
@@ -23,7 +23,7 @@ namespace OptimaSync.Helper
 
         public string GetSoaVersion()
         {
-            string soaCommonDllPath = Properties.Settings.Default.BuildSOAPath + "\\" + BuildSyncServiceHelper.CHECK_VERSION_FILE;
+            string soaCommonDllPath = AppConfigHelper.GetConfigValue("SOADestination") + "\\" + BuildSyncServiceHelper.CHECK_VERSION_FILE;
 
             if (!File.Exists(soaCommonDllPath))
             {
@@ -36,11 +36,11 @@ namespace OptimaSync.Helper
             return soaCommonDllVerson;
         }
 
-        public string GetLastBuildVersion()
+        public string GetBasicVersion()
         {
 
             string lastBuildCommonDllPath = null;
-            var directory = new DirectoryInfo(Properties.Settings.Default.BuildDestPath);
+            var directory = new DirectoryInfo(AppConfigHelper.GetConfigValue("Destination"));
             var lastBuild = directory.GetDirectories()
                 .OrderByDescending(f => f.LastWriteTime)
                 .FirstOrDefault();

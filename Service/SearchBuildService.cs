@@ -11,17 +11,17 @@ using System.Linq;
 
 namespace OptimaSync.Service
 {
-    internal class SearchBuildService
+    public class SearchBuildService
     {
         static string[] EXCLUDED_STRINGS = { "CIV", "SQL", "test", "rar", "FIXES" };
         SyncUI syncUI = new SyncUI();
         SearchBuildServiceHelper searchBuildServiceHelper = new SearchBuildServiceHelper();
-        internal DirectoryInfo FindLastBuild()
+        public DirectoryInfo FindLastBuild()
         {
-
-            if (!NetworkDrive.HaveAccessToHost("natalie"))
+            string buildServer = AppConfigHelper.GetConfigValue("BuildServer");
+            if (!NetworkDrive.HaveAccessToHost(buildServer))
             {
-                SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do natalie", NotificationForm.enumType.Error));
+                SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do " + buildServer, NotificationForm.enumType.Error));
                 Log.Error(Messages.ACCESS_TO_HOST_ERROR);
                 return null;
             }
@@ -29,7 +29,7 @@ namespace OptimaSync.Service
             try
             {
                 syncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);
-                var directory = new DirectoryInfo(Properties.Settings.Default.BuildSourcePath);
+                var directory = new DirectoryInfo(AppConfigHelper.GetConfigValue("CompilationPath"));
                 var lastBuild = directory.GetDirectories()
                     .Where(q => EXCLUDED_STRINGS.All(c => !q.Name.Contains(c, StringComparison.InvariantCultureIgnoreCase)))
                     .OrderByDescending(f => f.LastWriteTime)
@@ -47,7 +47,7 @@ namespace OptimaSync.Service
         }
         public void AutoCheckNewVersion()
         {
-            if (Properties.Settings.Default.NewVersionNotifications == false)
+            if (Convert.ToBoolean(AppConfigHelper.GetConfigValue("AutoCheckVersion")) == false)
             {
                 return;
             }
@@ -63,11 +63,13 @@ namespace OptimaSync.Service
             FileVersionInfo lastBuildVersionFile = FileVersionInfo.GetVersionInfo(lastBuildCommonDllPath);
             string lastBuildCommonDllVersion = lastBuildVersionFile.ProductVersion.ToString();
 
-            if (lastBuildCommonDllVersion == Properties.Settings.Default.LatestCheckedVersion)
+            if (lastBuildCommonDllVersion == AppConfigHelper.GetConfigValue("LatestVersionChecked"))
             {
                 syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return;
             }
+
+            //TODO Add latest version after try download version.
 
             var myCurrentVersions = GetLatestDownloadedVersion();
 
@@ -75,8 +77,7 @@ namespace OptimaSync.Service
             {
                SyncUI.Invoke(() => MainForm.Notification("Nowa wersja: " + lastBuildCommonDllVersion, NotificationForm.enumType.Informaton));
                 Log.Information("Nowa wersja: " + lastBuildCommonDllVersion);
-                Properties.Settings.Default.LatestCheckedVersion = lastBuildCommonDllVersion;
-                Properties.Settings.Default.Save();
+                AppConfigHelper.SetConfigValue("LatestVersionChecked", lastBuildCommonDllVersion);
             }
             syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
         }
@@ -87,7 +88,7 @@ namespace OptimaSync.Service
 
             DownloadedLatestVersions.Add(searchBuildServiceHelper.GetProgrammerVersion());
             DownloadedLatestVersions.Add(searchBuildServiceHelper.GetSoaVersion());
-            DownloadedLatestVersions.Add(searchBuildServiceHelper.GetLastBuildVersion());
+            DownloadedLatestVersions.Add(searchBuildServiceHelper.GetBasicVersion());
 
             return DownloadedLatestVersions;
         }

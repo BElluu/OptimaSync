@@ -9,19 +9,27 @@ namespace OptimaSync.Service
 {
     public class BuildSyncService
     {
-        SyncUI syncUI = new SyncUI();
-        RegisterDLLService registerDLL = new RegisterDLLService();
-        BuildSyncServiceHelper buildSyncHelper = new BuildSyncServiceHelper();
-        SearchBuildService searchBuild = new SearchBuildService();
+        SyncUI syncUI;
+        RegisterOptimaService registerDLL;
+        BuildSyncServiceHelper buildSyncHelper;
+        SearchBuildService searchBuild;
 
-        public void PrepareOptimaBuild(bool withSoa, bool isProgrammer)
+        public BuildSyncService(SyncUI syncUI, RegisterOptimaService registerDLL, BuildSyncServiceHelper buildSyncHelper, SearchBuildService searchBuild)
+        {
+            this.syncUI = syncUI;
+            this.registerDLL = registerDLL;
+            this.buildSyncHelper = buildSyncHelper;
+            this.searchBuild = searchBuild;
+        }
+
+        public void GetOptimaBuild()
         {
             syncUI.EnableElementsOnForm(false);
-            registerDLL.RegisterOptima(DownloadBuild(isProgrammer, withSoa), isProgrammer);
+            registerDLL.RegisterOptima(DownloadBuild());
             syncUI.EnableElementsOnForm(true);
         }
 
-        public string DownloadBuild(bool isProgrammer, bool withSOA)
+        public string DownloadBuild()
         {
             var dir = searchBuild.FindLastBuild();
             if (dir == null)
@@ -29,27 +37,26 @@ namespace OptimaSync.Service
                 return null;
             }
 
-            string extractionPath = buildSyncHelper.ChooseExtractionPath(isProgrammer, withSOA, dir);
+            string extractionPath = buildSyncHelper.ChooseExtractionPath(dir);
 
             if (extractionPath == null)
             {
                 return null;
             }
 
-            if (!buildSyncHelper.DoesLockFileExist(extractionPath))
+            if (!buildSyncHelper.DoesLockFileExist(extractionPath) &&
+                buildSyncHelper.BuildVersionsAreSame(dir.ToString(), dir.Name))
             {
-                if (buildSyncHelper.BuildVersionsAreSame(dir.ToString(), isProgrammer, withSOA, dir.Name))
-                {
-                    SyncUI.Invoke(() => MainForm.Notification(Messages.YOU_HAVE_LATEST_BUILD, NotificationForm.enumType.Informaton));
-                    Log.Information(Messages.YOU_HAVE_LATEST_BUILD);
-                    syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
-                    return null;
-                }
+                SyncUI.Invoke(() => MainForm.Notification(Messages.YOU_HAVE_LATEST_BUILD, NotificationForm.enumType.Informaton));
+                Log.Information(Messages.YOU_HAVE_LATEST_BUILD);
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                return null;
             }
 
             try
             {
-                if ((!isProgrammer && !withSOA) && !Directory.Exists(extractionPath))
+                if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString() && 
+                    !Directory.Exists(extractionPath))
                 {
                     DirectoryInfo directoryInfo = Directory.CreateDirectory(extractionPath);
                 }

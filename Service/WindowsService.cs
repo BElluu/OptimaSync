@@ -8,12 +8,35 @@ using System.ServiceProcess;
 
 namespace OptimaSync.Service
 {
-    internal class WindowsService
+    public class WindowsService
     {
-        SyncUI syncUI = new SyncUI();
         public static readonly string SOA_SERVICE = "ComarchAutomatSynchronizacji";
         public static readonly string SOA_PROCESS = "ComarchOptimaSerwisOperacjiAutomatycznych";
-        internal int StopSOAService()
+
+        SyncUI syncUI;
+
+        public WindowsService(SyncUI syncUI)
+        {
+            this.syncUI = syncUI;
+        }
+
+        public bool SoaIsStopped()
+        {
+            return StopSOAService();
+        }
+
+        public bool DoesSOAServiceExist()
+        {
+            ServiceController windowsServices = ServiceController.GetServices()
+                .FirstOrDefault(s => s.ServiceName == SOA_SERVICE);
+            if (windowsServices == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private bool StopSOAService()
         {
             ServiceController SoaService = new ServiceController(SOA_SERVICE);
             if (SoaService.Status.Equals(ServiceControllerStatus.Running) ||
@@ -31,44 +54,30 @@ namespace OptimaSync.Service
                         process.Kill();
                     }
                     Log.Information("Zatrzymano " + SOA_SERVICE);
-                    return 0;
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     Log.Error(ex.Message);
-                    return 1;
+                    return false;
                 }
             }
 
             else if (SoaService.Status.Equals(ServiceControllerStatus.Stopped))
             {
                 Log.Information(Messages.SOA_SERVICE_IS_STOPPED);
-                return 0;
+                return true;
             }
             else if (SoaService.Status.Equals(ServiceControllerStatus.StopPending))
             {
                 SoaService.WaitForStatus(ServiceControllerStatus.Stopped);
                 Log.Information(Messages.SOA_SERVICE_IS_STOPPED);
-                return 0;
+                return true;
             }
             else
             {
                 Log.Error(Messages.SOA_SERVICE_UNKNOWN_STATUS);
-                return 1;
-            }
-        }
-
-        internal bool DoesSOAServiceExist()
-        {
-            ServiceController windowsServices = ServiceController.GetServices()
-                .FirstOrDefault(s => s.ServiceName == SOA_SERVICE);
-            if (windowsServices == null)
-            {
                 return false;
-            }
-            else
-            {
-                return true;
             }
         }
     }

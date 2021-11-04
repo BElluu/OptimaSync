@@ -1,4 +1,5 @@
 ﻿using OptimaSync.Constant;
+using OptimaSync.Helper;
 using Serilog;
 using System;
 using System.IO;
@@ -41,7 +42,7 @@ namespace OptimaSync.UI
 
         public void EnableElementsOnForm(bool state)
         {
-            if (Properties.Settings.Default.IsProgrammer == false)
+            if (AppConfigHelper.GetConfigValue("DownloadType") != DownloadTypeEnum.PROGRAMMER.ToString())
             {
                 Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
                 Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);
@@ -61,17 +62,14 @@ namespace OptimaSync.UI
 
         public void OpenLogsDirectory()
         {
-
             string logsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OSync");
-            if (Directory.Exists(logsDirectory))
-            {
-                System.Diagnostics.Process.Start("explorer.exe", logsDirectory);
-            }
-            else
+            if (!Directory.Exists(logsDirectory))
             {
                 Log.Logger.Error(Messages.LOGS_DIRECTORY_NOT_EXIST);
                 MessageBox.Show(Messages.LOGS_DIRECTORY_NOT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+            System.Diagnostics.Process.Start("explorer.exe", logsDirectory);
         }
 
         public void OpenUserManual()
@@ -79,13 +77,12 @@ namespace OptimaSync.UI
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(USER_MANUAL) { UseShellExecute = true });
         }
 
-        public void DisableElementsWhileProgrammer(bool isProgrammer)
+        public void DisableElementsWhileProgrammer()
         {
             bool state;
-            if (isProgrammer)
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
             {
                 state = false;
-                MainForm.Instance.RunOptimaCheckBox.Enabled = state;
                 SetStateOfRunOptimaCheckBox(state);
             }
             else
@@ -95,7 +92,7 @@ namespace OptimaSync.UI
 
             MainForm.Instance.SOACheckBox.Checked = false;
             MainForm.Instance.SOACheckBox.Enabled = state;
-            MainForm.Instance.RunOptimaCheckBox.Checked = Properties.Settings.Default.RunOptima;
+            MainForm.Instance.RunOptimaCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("RunOptima"));
             MainForm.Instance.RunOptimaCheckBox.Enabled = state;
             MainForm.Instance.destDirectoryLabel.Enabled = state;
             MainForm.Instance.DestTextBox.Enabled = state;
@@ -108,8 +105,8 @@ namespace OptimaSync.UI
         private void SetStateOfRunOptimaCheckBox(bool state)
         {
             MainForm.Instance.RunOptimaCheckBox.Checked = state;
-            Properties.Settings.Default.RunOptima = state;
-            Properties.Settings.Default.Save();
+            MainForm.Instance.RunOptimaCheckBox.Enabled = state;
+            AppConfigHelper.SetConfigValue("RunOptima", state.ToString());
         }
     }
 }
