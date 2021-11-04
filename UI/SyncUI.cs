@@ -1,10 +1,11 @@
-﻿using OptimaSync.Constant;
+﻿using OptimaSync.Common;
+using OptimaSync.Constant;
 using OptimaSync.Helper;
-using Serilog;
 using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Serilog.Events;
 
 namespace OptimaSync.UI
 {
@@ -65,7 +66,7 @@ namespace OptimaSync.UI
             string logsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OSync");
             if (!Directory.Exists(logsDirectory))
             {
-                Log.Logger.Error(Messages.LOGS_DIRECTORY_NOT_EXIST);
+                Logger.Write(LogEventLevel.Error, Messages.LOGS_DIRECTORY_NOT_EXIST);
                 MessageBox.Show(Messages.LOGS_DIRECTORY_NOT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }

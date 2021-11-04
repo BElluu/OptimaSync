@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
 using OptimaSync.Constant;
-using Serilog;
 using OptimaSync.UI;
 using OptimaSync.Helper;
+using OptimaSync.Common;
+using Serilog.Events;
 
 namespace OptimaSync.Service
 {
@@ -48,7 +49,7 @@ namespace OptimaSync.Service
                 buildSyncHelper.BuildVersionsAreSame(dir.ToString(), dir.Name))
             {
                 SyncUI.Invoke(() => MainForm.Notification(Messages.YOU_HAVE_LATEST_BUILD, NotificationForm.enumType.Informaton));
-                Log.Information(Messages.YOU_HAVE_LATEST_BUILD);
+                Logger.Write(LogEventLevel.Information ,Messages.YOU_HAVE_LATEST_BUILD);
                 syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return null;
             }
@@ -82,12 +83,12 @@ namespace OptimaSync.Service
                     syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", ++i, filesToCopy.Length));
                 }
 
-                Log.Information("Skopiowano " + dir.Name);
+                Logger.Write(LogEventLevel.Information ,"Skopiowano " + dir.Name);
                 return extractionPath;
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
+                Logger.Write(LogEventLevel.Error, ex.Message);
                 syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
                 return null;

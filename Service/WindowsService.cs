@@ -1,10 +1,11 @@
-﻿using OptimaSync.Constant;
+﻿using OptimaSync.Common;
+using OptimaSync.Constant;
 using OptimaSync.UI;
-using Serilog;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
+using Serilog.Events;
 
 namespace OptimaSync.Service
 {
@@ -53,30 +54,30 @@ namespace OptimaSync.Service
                     {
                         process.Kill();
                     }
-                    Log.Information("Zatrzymano " + SOA_SERVICE);
+                    Logger.Write(LogEventLevel.Information, "Zatrzymano " + SOA_SERVICE);
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex.Message);
+                    Logger.Write(LogEventLevel.Error, ex.Message);
                     return false;
                 }
             }
 
             else if (SoaService.Status.Equals(ServiceControllerStatus.Stopped))
             {
-                Log.Information(Messages.SOA_SERVICE_IS_STOPPED);
+                Logger.Write(LogEventLevel.Information, Messages.SOA_SERVICE_IS_STOPPED);
                 return true;
             }
             else if (SoaService.Status.Equals(ServiceControllerStatus.StopPending))
             {
                 SoaService.WaitForStatus(ServiceControllerStatus.Stopped);
-                Log.Information(Messages.SOA_SERVICE_IS_STOPPED);
+                Logger.Write(LogEventLevel.Information, Messages.SOA_SERVICE_IS_STOPPED);
                 return true;
             }
             else
             {
-                Log.Error(Messages.SOA_SERVICE_UNKNOWN_STATUS);
+                Logger.Write(LogEventLevel.Error, Messages.SOA_SERVICE_UNKNOWN_STATUS);
                 return false;
             }
         }
