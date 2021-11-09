@@ -33,7 +33,13 @@ namespace OptimaSync.Service
 
             try
             {
-                await DownloadP(lastBuildDir, extractionPath);
+                if (lastBuildDir == null || string.IsNullOrEmpty(extractionPath) || haveLatestVersion(lastBuildDir, extractionPath))
+                {
+                    syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                    return;
+                }
+
+                await DownloadOptimaFiles(lastBuildDir, extractionPath);
                 registerDLL.RegisterOptima(extractionPath);
                 /*            if(DownloadBuild(dir, extractionPath))
                             {
@@ -55,37 +61,51 @@ namespace OptimaSync.Service
             }
         }
 
-        public async Task DownloadP(DirectoryInfo lastBuildDir, string extractionPath)
+        public async Task DownloadOptimaFiles(DirectoryInfo lastBuildDir, string extractionPath)
         {
             var files = filesToCopy(lastBuildDir);
             int i = 0;
-/*            Func<string, bool> downloadStatus = (currFile) => {
 
-                string currentFilename = Path.GetFileName(currFile);
+            if (lastBuildDir == null || extractionPath == null)
+            {
+                return;
+            }
 
-                string targetFilePath = extractionPath + "\\" + currentFilename;
-                try
-                {
-                    syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
-                    foreach (string dirPath in Directory.GetDirectories(lastBuildDir.ToString(), "*", SearchOption.AllDirectories))
-                    {
-                        Directory.CreateDirectory(dirPath.Replace(lastBuildDir.ToString(), extractionPath));
-                    }
-                    //syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", 0, files.Length));
+            if (!buildSyncHelper.DoesLockFileExist(extractionPath) &&
+                buildSyncHelper.BuildVersionsAreSame(lastBuildDir.ToString(), lastBuildDir.Name))
+            {
+                SyncUI.Invoke(() => MainForm.Notification(Messages.YOU_HAVE_LATEST_BUILD, NotificationForm.enumType.Informaton));
+                Logger.Write(LogEventLevel.Information, Messages.YOU_HAVE_LATEST_BUILD);
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                return;
+            }
+            /*            Func<string, bool> downloadStatus = (currFile) => {
 
-                    File.Copy(currFile, targetFilePath, true);
-                    syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", ++i, files.Length));
-                    Logger.Write(LogEventLevel.Information, "Skopiowano " + lastBuildDir.Name);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Write(LogEventLevel.Error, ex.Message);
-                    syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
-                    SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
-                    return false;
-                }
-                return true;
-            };*/
+                            string currentFilename = Path.GetFileName(currFile);
+
+                            string targetFilePath = extractionPath + "\\" + currentFilename;
+                            try
+                            {
+                                syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
+                                foreach (string dirPath in Directory.GetDirectories(lastBuildDir.ToString(), "*", SearchOption.AllDirectories))
+                                {
+                                    Directory.CreateDirectory(dirPath.Replace(lastBuildDir.ToString(), extractionPath));
+                                }
+                                //syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", 0, files.Length));
+
+                                File.Copy(currFile, targetFilePath, true);
+                                syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", ++i, files.Length));
+                                Logger.Write(LogEventLevel.Information, "Skopiowano " + lastBuildDir.Name);
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Write(LogEventLevel.Error, ex.Message);
+                                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
+                                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
+                                return false;
+                            }
+                            return true;
+                        };*/
 
             await Task.Run(() =>
             {
@@ -122,6 +142,19 @@ namespace OptimaSync.Service
         private string[] filesToCopy(DirectoryInfo lastBuildDir)
         {
             return Directory.GetFiles(lastBuildDir.ToString(), "*.*", SearchOption.AllDirectories);
+        }
+
+        private bool haveLatestVersion(DirectoryInfo lastBuildDir, string extractionPath)
+        {
+            if (!buildSyncHelper.DoesLockFileExist(extractionPath) &&
+                buildSyncHelper.BuildVersionsAreSame(lastBuildDir.ToString(), lastBuildDir.Name))
+            {
+                SyncUI.Invoke(() => MainForm.Notification(Messages.YOU_HAVE_LATEST_BUILD, NotificationForm.enumType.Informaton));
+                Logger.Write(LogEventLevel.Information, Messages.YOU_HAVE_LATEST_BUILD);
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                return true;
+            }
+            return false;
         }
 
         /*        public bool DownloadBuild(DirectoryInfo lastBuildDir, string extractionPath)

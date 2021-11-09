@@ -113,6 +113,7 @@ namespace OptimaSync
             this.SOACheckBox.TabIndex = 1;
             this.SOACheckBox.Text = "Kompilacja z obsługą SOA";
             this.SOACheckBox.UseVisualStyleBackColor = true;
+            this.SOACheckBox.Click += new System.EventHandler(this.SOACheckBox_Click);
             // 
             // downloadBuildButton
             // 
