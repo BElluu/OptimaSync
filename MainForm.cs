@@ -165,6 +165,17 @@ namespace OptimaSync
             }
         }
 
+        private void SOACheckBox_Click(object sender, EventArgs e)
+        {
+            if (SOACheckBox.Checked)
+            {
+                AppConfigHelper.SetConfigValue("DownloadType", DownloadTypeEnum.SOA.ToString());
+            } else
+            {
+                AppConfigHelper.SetConfigValue("DownloadType", DownloadTypeEnum.BASIC.ToString());
+            }
+        }
+
         private void RunOptimaCheckBox_Click(object sender, EventArgs e)
         {
             if (RunOptimaCheckBox.Checked)
@@ -174,22 +185,6 @@ namespace OptimaSync
             else
             {
                 AppConfigHelper.SetConfigValue("RunOptima", "false");
-            }
-        }
-
-        private void InitCheckVersionTimer()
-        {
-            Timer checkVersionTimer = new Timer();
-            checkVersionTimer.Tick += new EventHandler(CheckVersionTimer);
-            checkVersionTimer.Interval = 1000 * 60 * 20;
-            checkVersionTimer.Start();
-        }
-
-        private void CheckVersionTimer(object sender, EventArgs e)
-        {
-            if (!backgroundWorkerNotification.IsBusy)
-            {
-            backgroundWorkerNotification.RunWorkerAsync();
             }
         }
 
@@ -220,6 +215,22 @@ namespace OptimaSync
         private void backgroundWorkerNotification_DoWork(object sender, DoWorkEventArgs e)
         {
             searchBuildService.AutoCheckNewVersion();
+        }
+
+        private void InitCheckVersionTimer()
+        {
+            Timer checkVersionTimer = new Timer();
+            checkVersionTimer.Tick += new EventHandler(CheckVersionTimer);
+            checkVersionTimer.Interval = 1000 * 60 * 20;
+            checkVersionTimer.Start();
+        }
+
+        private void CheckVersionTimer(object sender, EventArgs e)
+        {
+            if (!backgroundWorkerNotification.IsBusy)
+            {
+                backgroundWorkerNotification.RunWorkerAsync();
+            }
         }
     }
 }

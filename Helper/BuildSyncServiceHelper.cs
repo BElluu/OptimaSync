@@ -31,6 +31,7 @@ namespace OptimaSync.Helper
         public bool BuildVersionsAreSame(string buildPath, string buildDirectoryName)
         {
             List<string> buildVersions = new List<string>();
+
             if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
             {
                 string destProgrammerDll = AppConfigHelper.GetConfigValue("ProgrammerDestination") + "\\" + CHECK_VERSION_FILE;
@@ -57,7 +58,11 @@ namespace OptimaSync.Helper
                 }
 
                 List<string> versionList = new List<string>();
-                versionList.Add(destSoaDll);
+                if (!string.IsNullOrEmpty(AppConfigHelper.GetConfigValue("SOADestination")))
+                {
+                    versionList.Add(destSoaDll);
+                }
+
                 versionList.Add(destBuildDll);
 
                 foreach(var version in versionList)
