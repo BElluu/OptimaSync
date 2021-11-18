@@ -26,11 +26,20 @@ namespace OptimaSync.Service
         public void GetOptimaBuild()
         {
             syncUI.EnableElementsOnForm(false);
-            var lastBuildDir = searchBuild.FindLastBuild();
-            string extractionPath = buildSyncHelper.ChooseExtractionPath(lastBuildDir);
+
+            string buildServer = AppConfigHelper.GetConfigValue("BuildServer");
+            if (!NetworkDrive.HaveAccessToHost(buildServer))
+            {
+                SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do " + buildServer, NotificationForm.enumType.Error));
+                Logger.Write(LogEventLevel.Error, "Brak dostępu do " + buildServer + "! Sprawdź czy masz internet lub połączenie VPN.");
+                return;
+            }
 
             try
             {
+                var lastBuildDir = searchBuild.FindLastBuild();
+                string extractionPath = buildSyncHelper.ChooseExtractionPath(lastBuildDir);
+
                 if (lastBuildDir == null || string.IsNullOrEmpty(extractionPath) || haveLatestVersion(lastBuildDir, extractionPath))
                 {
                     syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);

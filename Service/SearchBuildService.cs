@@ -18,14 +18,6 @@ namespace OptimaSync.Service
         SearchBuildServiceHelper searchBuildServiceHelper = new SearchBuildServiceHelper();
         public DirectoryInfo FindLastBuild()
         {
-            string buildServer = AppConfigHelper.GetConfigValue("BuildServer");
-            if (!NetworkDrive.HaveAccessToHost(buildServer))
-            {
-                SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do " + buildServer, NotificationForm.enumType.Error));
-                Logger.Write(LogEventLevel.Error, "Brak dostępu do " + buildServer + "! Sprawdź czy masz internet lub połączenie VPN.");
-                return null;
-            }
-
             try
             {
                 syncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);
