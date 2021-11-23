@@ -47,6 +47,7 @@ namespace OptimaSync.Service
                 }
 
                 DownloadBuild(lastBuildDir, extractionPath);
+                searchBuild.SetLastDownloadedVersion(lastBuildDir);
                 registerDLL.RegisterOptima(extractionPath);
             }
             catch

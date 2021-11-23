@@ -37,6 +37,14 @@ namespace OptimaSync.Service
                 return null;
             }
         }
+
+        public void SetLastDownloadedVersion(DirectoryInfo lastDownloadedBuild)
+        {
+            string lastDownloadedBuildCommonDllPath = lastDownloadedBuild.ToString() + '\\' + BuildSyncServiceHelper.CHECK_VERSION_FILE;
+            FileVersionInfo lastDownloadedBuildVersionFile = FileVersionInfo.GetVersionInfo(lastDownloadedBuildCommonDllPath);
+            string lastDownloadedBuildCommonDllVersion = lastDownloadedBuildVersionFile.ProductVersion.ToString();
+            AppConfigHelper.SetConfigValue("LatestVersionChecked", lastDownloadedBuildCommonDllVersion);
+        }
         public void AutoCheckNewVersion()
         {
             if (Convert.ToBoolean(AppConfigHelper.GetConfigValue("AutoCheckVersion")) == false)
