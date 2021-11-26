@@ -26,7 +26,7 @@ namespace OptimaSync.Config
                     new Add(){key = "DownloadType", value = "BASIC"},
                     new Add(){key = "RunOptima", value = "false"},
                     new Add(){key = "LatestVersionChecked", value = ""},
-                    new Add(){key = "CompilationPath", value = "\\natalie\\cdnkop-gotowe\\archiwum.optima\\"},
+                    new Add(){key = "CompilationPath", value = "\\\\natalie\\cdnkop-gotowe\\archiwum.optima\\"},
                     new Add(){key = "Destination", value = ""},
                     new Add(){key = "SOADestination", value = ""},
                     new Add(){key = "ProgrammerDestination", value = "D:\\Optima"},

@@ -98,7 +98,7 @@ namespace OptimaSync
             // labelProgress
             // 
             this.labelProgress.AutoSize = true;
-            this.labelProgress.Location = new System.Drawing.Point(13, 76);
+            this.labelProgress.Location = new System.Drawing.Point(10, 74);
             this.labelProgress.Name = "labelProgress";
             this.labelProgress.Size = new System.Drawing.Size(170, 15);
             this.labelProgress.TabIndex = 2;
@@ -117,7 +117,7 @@ namespace OptimaSync
             // 
             // downloadBuildButton
             // 
-            this.downloadBuildButton.Location = new System.Drawing.Point(13, 37);
+            this.downloadBuildButton.Location = new System.Drawing.Point(12, 37);
             this.downloadBuildButton.Name = "downloadBuildButton";
             this.downloadBuildButton.Size = new System.Drawing.Size(116, 23);
             this.downloadBuildButton.TabIndex = 0;
@@ -279,7 +279,7 @@ namespace OptimaSync
             // 
             this.authorLabel.AutoSize = true;
             this.authorLabel.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.authorLabel.Location = new System.Drawing.Point(10, 191);
+            this.authorLabel.Location = new System.Drawing.Point(10, 190);
             this.authorLabel.Name = "authorLabel";
             this.authorLabel.Size = new System.Drawing.Size(176, 12);
             this.authorLabel.TabIndex = 4;
