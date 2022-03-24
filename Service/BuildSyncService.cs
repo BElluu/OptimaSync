@@ -25,18 +25,18 @@ namespace OptimaSync.Service
 
         public void GetOptimaBuild()
         {
-            syncUI.EnableElementsOnForm(false);
-
-            string buildServer = AppConfigHelper.GetConfigValue("BuildServer");
-            if (!NetworkDrive.HaveAccessToHost(buildServer))
-            {
-                SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do " + buildServer, NotificationForm.enumType.Error));
-                Logger.Write(LogEventLevel.Error, "Brak dostępu do " + buildServer + "! Sprawdź czy masz internet lub połączenie VPN.");
-                return;
-            }
-
             try
             {
+                syncUI.EnableElementsOnForm(false);
+
+                string buildServer = AppConfigHelper.GetConfigValue("BuildServer");
+                if (!NetworkDrive.HaveAccessToHost(buildServer))
+                {
+                    SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do " + buildServer, NotificationForm.enumType.Error));
+                    Logger.Write(LogEventLevel.Error, "Brak dostępu do " + buildServer + "! Sprawdź czy masz internet lub połączenie VPN.");
+                    return;
+                }
+
                 var lastBuildDir = searchBuild.FindLastBuild();
                 string extractionPath = buildSyncHelper.ChooseExtractionPath(lastBuildDir);
 
@@ -45,14 +45,11 @@ namespace OptimaSync.Service
                     syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                     return;
                 }
-
-                DownloadBuild(lastBuildDir, extractionPath);
-                searchBuild.SetLastDownloadedVersion(lastBuildDir);
-                registerDLL.RegisterOptima(extractionPath);
-            }
-            catch
-            {
-                syncUI.EnableElementsOnForm(true);
+                if (DownloadBuild(lastBuildDir, extractionPath))
+                {
+                    searchBuild.SetLastDownloadedVersion(lastBuildDir);
+                    registerDLL.RegisterOptima(extractionPath);
+                }
             }
             finally
             {

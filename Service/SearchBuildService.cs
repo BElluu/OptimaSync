@@ -13,7 +13,7 @@ namespace OptimaSync.Service
 {
     public class SearchBuildService
     {
-        static string[] EXCLUDED_STRINGS = { "CIV", "SQL", "test", "rar", "FIXES" };
+        static string[] EXCLUDED_STRINGS = { "CIV", "SQL", "test", "rar", "FIXES", "sPrint" };
         SyncUI syncUI = new SyncUI();
         SearchBuildServiceHelper searchBuildServiceHelper = new SearchBuildServiceHelper();
         public DirectoryInfo FindLastBuild()
@@ -24,6 +24,7 @@ namespace OptimaSync.Service
                 var directory = new DirectoryInfo(AppConfigHelper.GetConfigValue("CompilationPath"));
                 var lastBuild = directory.GetDirectories()
                     .Where(q => EXCLUDED_STRINGS.All(c => !q.Name.Contains(c, StringComparison.InvariantCultureIgnoreCase)))
+                    .Where(q => q.GetFiles("Common.dll").Length == 1)
                     .OrderByDescending(f => f.LastWriteTime)
                     .First();
 
