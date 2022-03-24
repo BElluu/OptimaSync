@@ -47,32 +47,43 @@ namespace OptimaSync.Helper
             }
             else
             {
+                List<string> versionList = new List<string>();
+
                 string destSoaDll = AppConfigHelper.GetConfigValue("SOADestination") + "\\" + CHECK_VERSION_FILE;
                 string destBuildDll = AppConfigHelper.GetConfigValue("Destination") + "\\" + buildDirectoryName + "\\" + CHECK_VERSION_FILE;
 
-                if ((!File.Exists(destSoaDll) &&
-                    AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString()) || 
-                    (!File.Exists(destBuildDll) && AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString()))
+                if (File.Exists(destSoaDll) && AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString())
                 {
-                    return false;
+                    if (!string.IsNullOrEmpty(AppConfigHelper.GetConfigValue("SOADestination")))
+                    {
+                        versionList.Add(destSoaDll);
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
 
-                List<string> versionList = new List<string>();
-                if (!string.IsNullOrEmpty(AppConfigHelper.GetConfigValue("SOADestination")))
+                if (File.Exists(destBuildDll) && AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString())
                 {
-                    versionList.Add(destSoaDll);
+                    if (!string.IsNullOrEmpty(AppConfigHelper.GetConfigValue("Destination")))
+                    {
+                        versionList.Add(destBuildDll);
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
 
-                versionList.Add(destBuildDll);
-
-                foreach(var version in versionList)
+                foreach (var version in versionList)
                 {
                     FileVersionInfo dll = FileVersionInfo.GetVersionInfo(version);
                     string dllVersion = dll.ProductVersion.ToString();
                     buildVersions.Add(dllVersion);
                 }
             }
-            FileVersionInfo latestVersionDll  = FileVersionInfo.GetVersionInfo(buildPath + "\\" + CHECK_VERSION_FILE);
+            FileVersionInfo latestVersionDll = FileVersionInfo.GetVersionInfo(buildPath + "\\" + CHECK_VERSION_FILE);
             string latestVersion = latestVersionDll.ProductVersion.ToString();
 
             if (buildVersions.Any(v => v.Contains(latestVersion)))
@@ -147,7 +158,7 @@ namespace OptimaSync.Helper
 
             if (!windowsService.DoesSOAServiceExist())
             {
-                Logger.Write(LogEventLevel.Error ,Messages.SOA_SERVICE_DONT_EXIST);
+                Logger.Write(LogEventLevel.Error, Messages.SOA_SERVICE_DONT_EXIST);
                 MessageBox.Show(Messages.SOA_SERVICE_DONT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }

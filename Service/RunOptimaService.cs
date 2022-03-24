@@ -20,7 +20,12 @@ namespace OptimaSync.Service
             {
                 try
                 {
-                    Process.Start(path + "\\" + "Comarch OPT!MA.exe");
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo();
+                    processStartInfo.WorkingDirectory = path;
+                    processStartInfo.FileName = path + "\\" + "Comarch OPT!MA.exe";
+                    processStartInfo.CreateNoWindow = true;
+                    Process.Start(processStartInfo);
+                    
                 }
                 catch (Exception ex)
                 {
