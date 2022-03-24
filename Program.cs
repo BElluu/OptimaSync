@@ -25,7 +25,7 @@ namespace OptimaSync
             RunOptimaService runOptimaService = new RunOptimaService(syncUI);
             RegisterOptimaService registerDLL = new RegisterOptimaService(syncUI, buildSyncServiceHelper, runOptimaService);
             SearchBuildService searchBuildService = new SearchBuildService();
-            BuildSyncService buildSyncService = new BuildSyncService(syncUI, registerDLL, buildSyncServiceHelper,searchBuildService);
+            DownloaderService buildSyncService = new DownloaderService(syncUI, registerDLL, buildSyncServiceHelper,searchBuildService);
             var controller = new ApplicationController(new MainForm(buildSyncService, syncUI, searchBuildService));
             controller.Run(Environment.GetCommandLineArgs());
         }

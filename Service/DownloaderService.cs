@@ -5,17 +5,18 @@ using OptimaSync.UI;
 using OptimaSync.Helper;
 using OptimaSync.Common;
 using Serilog.Events;
+using System.Collections.Generic;
 
 namespace OptimaSync.Service
 {
-    public class BuildSyncService
+    public class DownloaderService
     {
         SyncUI syncUI;
         RegisterOptimaService registerDLL;
         BuildSyncServiceHelper buildSyncHelper;
         SearchBuildService searchBuild;
 
-        public BuildSyncService(SyncUI syncUI, RegisterOptimaService registerDLL, BuildSyncServiceHelper buildSyncHelper, SearchBuildService searchBuild)
+        public DownloaderService(SyncUI syncUI, RegisterOptimaService registerDLL, BuildSyncServiceHelper buildSyncHelper, SearchBuildService searchBuild)
         {
             this.syncUI = syncUI;
             this.registerDLL = registerDLL;
@@ -99,6 +100,96 @@ namespace OptimaSync.Service
                 SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
                 return false;
             }
+        }
+
+        public void GetOptimaProduction(DirectoryInfo prodVersion)
+        {
+            try
+            {
+                syncUI.EnableElementsOnForm(false);
+
+                string productionServer = AppConfigHelper.GetConfigValue("ProductionServer");
+                if (!NetworkDrive.HaveAccessToHost(productionServer))
+                {
+                    SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do " + productionServer, NotificationForm.enumType.Error));
+                    Logger.Write(LogEventLevel.Error, "Brak dostępu do " + productionServer + "! Sprawdź czy masz internet lub połączenie VPN.");
+                    return;
+                }
+
+                string extractionPath = buildSyncHelper.ChooseExtractionPath(prodVersion);
+
+                if (string.IsNullOrEmpty(extractionPath))
+                {
+                    syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                    return;
+                }
+                if (DownloadProduction(prodVersion, extractionPath))
+                {
+                    registerDLL.RegisterOptima(extractionPath);
+                }
+            }
+            finally
+            {
+                syncUI.EnableElementsOnForm(true);
+            }
+        }
+        public bool DownloadProduction(DirectoryInfo prodDir, string extractionPath)
+        {
+            var files = filesToCopy(prodDir);
+
+            try
+            {
+                if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString() &&
+                    !Directory.Exists(extractionPath))
+                {
+                    DirectoryInfo directoryInfo = Directory.CreateDirectory(extractionPath);
+                }
+
+                if (!buildSyncHelper.DoesLockFileExist(extractionPath))
+                {
+                    buildSyncHelper.CreateLockFile(extractionPath);
+                }
+
+                syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
+                foreach (string dir in Directory.GetDirectories(prodDir.ToString(), "*", SearchOption.AllDirectories))
+                {
+                    Directory.CreateDirectory(dir.Replace(prodDir.ToString(), extractionPath));
+                }
+
+                syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", 0, files.Length));
+                int i = 0;
+
+                foreach (string file in files)
+                {
+                    File.Copy(file, file.Replace(prodDir.ToString(), extractionPath), true);
+                    syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", ++i, files.Length));
+                }
+
+                Logger.Write(LogEventLevel.Information, "Skopiowano " + prodDir.Name);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Write(LogEventLevel.Error, ex.Message);
+                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
+                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
+                return false;
+            }
+        }
+
+        public Dictionary<string, string> GetListOfProd()
+        {
+            var listOfBuilds = new Dictionary<string, string>();
+
+            var directory = new DirectoryInfo(AppConfigHelper.GetConfigValue("ProductionPath"));
+            var prodVersions = directory.GetDirectories();
+
+            foreach (DirectoryInfo prod in prodVersions)
+            {
+                listOfBuilds.Add(prod.Name, prod.ToString());
+            };
+
+            return listOfBuilds;
         }
 
         private string[] filesToCopy(DirectoryInfo lastBuildDir)

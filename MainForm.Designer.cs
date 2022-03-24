@@ -33,6 +33,8 @@ namespace OptimaSync
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SyncTab = new System.Windows.Forms.TabPage();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.labelProgress = new System.Windows.Forms.Label();
             this.SOACheckBox = new System.Windows.Forms.CheckBox();
             this.downloadBuildButton = new System.Windows.Forms.Button();
@@ -55,13 +57,14 @@ namespace OptimaSync
             this.openLogsButton = new System.Windows.Forms.Button();
             this.versionLabelValue = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
-            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorkerBuild = new System.ComponentModel.BackgroundWorker();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.notifyIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.exitNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorkerNotification = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorkerProd = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.SyncTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
@@ -84,6 +87,8 @@ namespace OptimaSync
             // 
             // SyncTab
             // 
+            this.SyncTab.Controls.Add(this.comboBox1);
+            this.SyncTab.Controls.Add(this.button1);
             this.SyncTab.Controls.Add(this.labelProgress);
             this.SyncTab.Controls.Add(this.SOACheckBox);
             this.SyncTab.Controls.Add(this.downloadBuildButton);
@@ -94,6 +99,24 @@ namespace OptimaSync
             this.SyncTab.TabIndex = 0;
             this.SyncTab.Text = "Sync";
             this.SyncTab.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(144, 109);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 23);
+            this.comboBox1.TabIndex = 4;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(127, 154);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // labelProgress
             // 
@@ -325,11 +348,11 @@ namespace OptimaSync
             this.versionLabel.TabIndex = 0;
             this.versionLabel.Text = "Wersja: ";
             // 
-            // backgroundWorker
+            // backgroundWorkerBuild
             // 
-            this.backgroundWorker.WorkerReportsProgress = true;
-            this.backgroundWorker.WorkerSupportsCancellation = true;
-            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
+            this.backgroundWorkerBuild.WorkerReportsProgress = true;
+            this.backgroundWorkerBuild.WorkerSupportsCancellation = true;
+            this.backgroundWorkerBuild.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
             // 
             // notifyIcon
             // 
@@ -374,6 +397,12 @@ namespace OptimaSync
             this.backgroundWorkerNotification.WorkerSupportsCancellation = true;
             this.backgroundWorkerNotification.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerNotification_DoWork);
             // 
+            // backgroundWorkerProd
+            // 
+            this.backgroundWorkerProd.WorkerReportsProgress = true;
+            this.backgroundWorkerProd.WorkerSupportsCancellation = true;
+            this.backgroundWorkerProd.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerProd_DoWork);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -417,7 +446,7 @@ namespace OptimaSync
         public System.Windows.Forms.Button buttonOptimaSOADirectory;
         public System.Windows.Forms.Button buttonDestinationDirectory;
         public System.Windows.Forms.Label labelProgress;
-        public System.ComponentModel.BackgroundWorker backgroundWorker;
+        public System.ComponentModel.BackgroundWorker backgroundWorkerBuild;
         private System.Windows.Forms.Label versionLabelValue;
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Button openManualButton;
@@ -435,6 +464,9 @@ namespace OptimaSync
         private System.Windows.Forms.ToolStripMenuItem downloadNotifyIconMenu;
         private System.Windows.Forms.ToolStripMenuItem exitNotifyIconMenu;
         public System.ComponentModel.BackgroundWorker backgroundWorkerNotification;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        public System.ComponentModel.BackgroundWorker backgroundWorkerProd;
     }
 }
 

@@ -26,13 +26,15 @@ namespace OptimaSync.Config
                     new Add(){key = "DownloadType", value = "BASIC"},
                     new Add(){key = "RunOptima", value = "false"},
                     new Add(){key = "LatestVersionChecked", value = ""},
+                    new Add(){key = "ProductionPath", value = "D:\\OptimaProd"},
                     new Add(){key = "CompilationPath", value = "\\\\natalie\\cdnkop-gotowe\\archiwum.optima\\"},
                     new Add(){key = "Destination", value = ""},
                     new Add(){key = "SOADestination", value = ""},
                     new Add(){key = "ProgrammerDestination", value = "D:\\Optima"},
                     new Add(){key = "AutoCheckVersion", value = "false"},
                     new Add(){key = "NotificationSound", value = "false"},
-                    new Add(){key = "BuildServer", value = "Natalie"}
+                    new Add(){key = "BuildServer", value = "Natalie"},
+                    new Add(){key = "ProductionServer", value = "Columbia"}
                 }.ToList()
             };
             configurationApp.appSettings = appSettings;

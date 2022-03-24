@@ -8,6 +8,7 @@ using System.ComponentModel;
 using OptimaSync.Common;
 using OptimaSync.Helper;
 using Serilog.Events;
+using System.IO;
 
 namespace OptimaSync
 {
@@ -15,28 +16,20 @@ namespace OptimaSync
     {
         private static string AUTO_UPDATE_CONFIG = "https://osync.devopsowy.pl/AutoUpdater.xml";
 
-        BuildSyncService buildSyncService;
+        DownloaderService downloaderService;
         SyncUI syncUI;
         SearchBuildService searchBuildService;
 
         private static MainForm _instance;
-        public MainForm(BuildSyncService buildSyncService, SyncUI syncUI, SearchBuildService searchBuildService)
+        public MainForm(DownloaderService buildSyncService, SyncUI syncUI, SearchBuildService searchBuildService)
         {
-            this.buildSyncService = buildSyncService;
+            this.downloaderService = buildSyncService;
             this.syncUI = syncUI;
             this.searchBuildService = searchBuildService;
 
             InitializeComponent();
-            this.DestTextBox.Text = AppConfigHelper.GetConfigValue("Destination");
-            this.OptimaSOATextBox.Text = AppConfigHelper.GetConfigValue("SOADestination");
-            this.versionLabelValue.Text = syncUI.GetAppVersion();
-            this.RunOptimaCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("RunOptima"));
-            this.newVersionNotificationCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("AutoCheckVersion"));
-            this.turnOnSoundNotificationCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("NotificationSound"));
-            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
-            {
-                this.programmerCheckbox.Checked = true;
-            }
+            SetValuesFromConfig();
+            FillProductionVersionList();
             _instance = this;
             AutoUpdater.Start(AUTO_UPDATE_CONFIG);
             InitCheckVersionTimer();
@@ -91,7 +84,7 @@ namespace OptimaSync
 
         private void downloadNotifyIconMenu_Click(object sender, EventArgs e)
         {
-            backgroundWorker.RunWorkerAsync();
+            backgroundWorkerBuild.RunWorkerAsync();
         }
 
         private void exitNotifyIconMenu_Click(object sender, EventArgs e)
@@ -102,7 +95,7 @@ namespace OptimaSync
 
         private void DownloadBuildButton_Click(object sender, EventArgs e)
         {
-            backgroundWorker.RunWorkerAsync();
+            backgroundWorkerBuild.RunWorkerAsync();
         }
 
         private void ButtonDestinationDirectory_Click(object sender, EventArgs e)
@@ -119,7 +112,7 @@ namespace OptimaSync
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            buildSyncService.GetOptimaBuild();
+            downloaderService.GetOptimaBuild();
         }
 
         private void OpenLogsButton_Click(object sender, EventArgs e)
@@ -217,6 +210,11 @@ namespace OptimaSync
             searchBuildService.AutoCheckNewVersion();
         }
 
+        private void backgroundWorkerProd_DoWork(object sender, DoWorkEventArgs e)
+        {
+            downloaderService.GetOptimaProduction((DirectoryInfo)comboBox1.SelectedValue);
+        }
+
         private void InitCheckVersionTimer()
         {
             Timer checkVersionTimer = new Timer();
@@ -231,6 +229,35 @@ namespace OptimaSync
             {
                 backgroundWorkerNotification.RunWorkerAsync();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //ProductionSyncService production = new ProductionSyncService();
+            //production.GetListOfProd();
+        }
+
+        private void FillProductionVersionList()
+        {
+            var dict = downloaderService.GetListOfProd();
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.DataSource = new BindingSource(dict, null);
+            comboBox1.DisplayMember = "Key";
+            comboBox1.ValueMember = "Value";
+        }
+
+        private void SetValuesFromConfig()
+        {
+            this.DestTextBox.Text = AppConfigHelper.GetConfigValue("Destination");
+            this.OptimaSOATextBox.Text = AppConfigHelper.GetConfigValue("SOADestination");
+            this.versionLabelValue.Text = syncUI.GetAppVersion();
+            this.RunOptimaCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("RunOptima"));
+            this.newVersionNotificationCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("AutoCheckVersion"));
+            this.turnOnSoundNotificationCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("NotificationSound"));
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
+                this.programmerCheckbox.Checked = true;
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString())
+                this.SOACheckBox.Checked = true;
         }
     }
 }
