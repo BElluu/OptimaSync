@@ -1,4 +1,6 @@
-﻿using System.Net.NetworkInformation;
+﻿using OptimaSync.UI;
+using Serilog.Events;
+using System.Net.NetworkInformation;
 
 namespace OptimaSync.Common
 {
@@ -11,7 +13,15 @@ namespace OptimaSync.Common
             try
             {
                 PingReply pingReply = pinger.Send(HostName, 5000);
-                return pingReply.Status == IPStatus.Success;
+                if(pingReply.Status == IPStatus.Success)
+                {
+                    return true;
+                }else
+                {
+                    SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do " + HostName, NotificationForm.enumType.Error));
+                    Logger.Write(LogEventLevel.Error, "Brak dostępu do " + HostName + "! Sprawdź czy masz internet lub połączenie VPN.");
+                }
+                return false;
             }
             catch
             {

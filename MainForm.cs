@@ -46,6 +46,7 @@ namespace OptimaSync
         private void MainForm_Shown(Object sender, EventArgs e)
         {
             syncUI.DisableElementsWhileProgrammer();
+            prodVersionDropMenu.Enabled = false;
         }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -210,11 +211,6 @@ namespace OptimaSync
             searchBuildService.AutoCheckNewVersion();
         }
 
-        private void backgroundWorkerProd_DoWork(object sender, DoWorkEventArgs e)
-        {
-            downloaderService.GetOptimaProduction((DirectoryInfo)comboBox1.SelectedValue);
-        }
-
         private void InitCheckVersionTimer()
         {
             Timer checkVersionTimer = new Timer();
@@ -231,19 +227,13 @@ namespace OptimaSync
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //ProductionSyncService production = new ProductionSyncService();
-            //production.GetListOfProd();
-        }
-
         private void FillProductionVersionList()
         {
             var dict = downloaderService.GetListOfProd();
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.DataSource = new BindingSource(dict, null);
-            comboBox1.DisplayMember = "Key";
-            comboBox1.ValueMember = "Value";
+            prodVersionDropMenu.DropDownStyle = ComboBoxStyle.DropDownList;
+            prodVersionDropMenu.DataSource = new BindingSource(dict, null);
+            prodVersionDropMenu.DisplayMember = "Key";
+            prodVersionDropMenu.ValueMember = "Value";
         }
 
         private void SetValuesFromConfig()
@@ -259,5 +249,17 @@ namespace OptimaSync
             if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString())
                 this.SOACheckBox.Checked = true;
         }
+
+        private void buildRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            prodVersionDropMenu.Enabled = false;
+        }
+
+        private void prodRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            prodVersionDropMenu.Enabled = true;
+        }
     }
 }
+
+// downloaderService.GetOptimaProduction((DirectoryInfo)prodVersionDropMenu.SelectedValue);

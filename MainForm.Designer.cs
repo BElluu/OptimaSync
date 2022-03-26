@@ -33,8 +33,10 @@ namespace OptimaSync
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SyncTab = new System.Windows.Forms.TabPage();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.eDeclarationCheckBox = new System.Windows.Forms.CheckBox();
+            this.prodRadio = new System.Windows.Forms.RadioButton();
+            this.buildRadio = new System.Windows.Forms.RadioButton();
+            this.prodVersionDropMenu = new System.Windows.Forms.ComboBox();
             this.labelProgress = new System.Windows.Forms.Label();
             this.SOACheckBox = new System.Windows.Forms.CheckBox();
             this.downloadBuildButton = new System.Windows.Forms.Button();
@@ -87,8 +89,10 @@ namespace OptimaSync
             // 
             // SyncTab
             // 
-            this.SyncTab.Controls.Add(this.comboBox1);
-            this.SyncTab.Controls.Add(this.button1);
+            this.SyncTab.Controls.Add(this.eDeclarationCheckBox);
+            this.SyncTab.Controls.Add(this.prodRadio);
+            this.SyncTab.Controls.Add(this.buildRadio);
+            this.SyncTab.Controls.Add(this.prodVersionDropMenu);
             this.SyncTab.Controls.Add(this.labelProgress);
             this.SyncTab.Controls.Add(this.SOACheckBox);
             this.SyncTab.Controls.Add(this.downloadBuildButton);
@@ -100,28 +104,52 @@ namespace OptimaSync
             this.SyncTab.Text = "Sync";
             this.SyncTab.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // eDeclarationCheckBox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(144, 109);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 23);
-            this.comboBox1.TabIndex = 4;
+            this.eDeclarationCheckBox.AutoSize = true;
+            this.eDeclarationCheckBox.Location = new System.Drawing.Point(115, 12);
+            this.eDeclarationCheckBox.Name = "eDeclarationCheckBox";
+            this.eDeclarationCheckBox.Size = new System.Drawing.Size(91, 19);
+            this.eDeclarationCheckBox.TabIndex = 7;
+            this.eDeclarationCheckBox.Text = "e-Deklaracje";
+            this.eDeclarationCheckBox.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // prodRadio
             // 
-            this.button1.Location = new System.Drawing.Point(127, 154);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.prodRadio.AutoSize = true;
+            this.prodRadio.Location = new System.Drawing.Point(103, 37);
+            this.prodRadio.Name = "prodRadio";
+            this.prodRadio.Size = new System.Drawing.Size(78, 19);
+            this.prodRadio.TabIndex = 6;
+            this.prodRadio.Text = "Produkcja";
+            this.prodRadio.UseVisualStyleBackColor = true;
+            this.prodRadio.CheckedChanged += new System.EventHandler(this.prodRadio_CheckedChanged);
+            // 
+            // buildRadio
+            // 
+            this.buildRadio.AutoSize = true;
+            this.buildRadio.Checked = true;
+            this.buildRadio.Location = new System.Drawing.Point(13, 37);
+            this.buildRadio.Name = "buildRadio";
+            this.buildRadio.Size = new System.Drawing.Size(84, 19);
+            this.buildRadio.TabIndex = 5;
+            this.buildRadio.TabStop = true;
+            this.buildRadio.Text = "Kompilacja";
+            this.buildRadio.UseVisualStyleBackColor = true;
+            this.buildRadio.CheckedChanged += new System.EventHandler(this.buildRadio_CheckedChanged);
+            // 
+            // prodVersionDropMenu
+            // 
+            this.prodVersionDropMenu.FormattingEnabled = true;
+            this.prodVersionDropMenu.Location = new System.Drawing.Point(13, 62);
+            this.prodVersionDropMenu.Name = "prodVersionDropMenu";
+            this.prodVersionDropMenu.Size = new System.Drawing.Size(121, 23);
+            this.prodVersionDropMenu.TabIndex = 4;
             // 
             // labelProgress
             // 
             this.labelProgress.AutoSize = true;
-            this.labelProgress.Location = new System.Drawing.Point(10, 74);
+            this.labelProgress.Location = new System.Drawing.Point(6, 188);
             this.labelProgress.Name = "labelProgress";
             this.labelProgress.Size = new System.Drawing.Size(170, 15);
             this.labelProgress.TabIndex = 2;
@@ -132,19 +160,19 @@ namespace OptimaSync
             this.SOACheckBox.AutoSize = true;
             this.SOACheckBox.Location = new System.Drawing.Point(13, 12);
             this.SOACheckBox.Name = "SOACheckBox";
-            this.SOACheckBox.Size = new System.Drawing.Size(164, 19);
+            this.SOACheckBox.Size = new System.Drawing.Size(96, 19);
             this.SOACheckBox.TabIndex = 1;
-            this.SOACheckBox.Text = "Kompilacja z obsługą SOA";
+            this.SOACheckBox.Text = "Obsługa SOA";
             this.SOACheckBox.UseVisualStyleBackColor = true;
             this.SOACheckBox.Click += new System.EventHandler(this.SOACheckBox_Click);
             // 
             // downloadBuildButton
             // 
-            this.downloadBuildButton.Location = new System.Drawing.Point(12, 37);
+            this.downloadBuildButton.Location = new System.Drawing.Point(13, 119);
             this.downloadBuildButton.Name = "downloadBuildButton";
-            this.downloadBuildButton.Size = new System.Drawing.Size(116, 23);
+            this.downloadBuildButton.Size = new System.Drawing.Size(96, 23);
             this.downloadBuildButton.TabIndex = 0;
-            this.downloadBuildButton.Text = "Pobierz kompilację";
+            this.downloadBuildButton.Text = "Pobierz";
             this.downloadBuildButton.UseVisualStyleBackColor = true;
             this.downloadBuildButton.Click += new System.EventHandler(this.DownloadBuildButton_Click);
             // 
@@ -397,12 +425,6 @@ namespace OptimaSync
             this.backgroundWorkerNotification.WorkerSupportsCancellation = true;
             this.backgroundWorkerNotification.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerNotification_DoWork);
             // 
-            // backgroundWorkerProd
-            // 
-            this.backgroundWorkerProd.WorkerReportsProgress = true;
-            this.backgroundWorkerProd.WorkerSupportsCancellation = true;
-            this.backgroundWorkerProd.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerProd_DoWork);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -464,9 +486,11 @@ namespace OptimaSync
         private System.Windows.Forms.ToolStripMenuItem downloadNotifyIconMenu;
         private System.Windows.Forms.ToolStripMenuItem exitNotifyIconMenu;
         public System.ComponentModel.BackgroundWorker backgroundWorkerNotification;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        public System.Windows.Forms.ComboBox prodVersionDropMenu;
         public System.ComponentModel.BackgroundWorker backgroundWorkerProd;
+        private System.Windows.Forms.RadioButton prodRadio;
+        private System.Windows.Forms.RadioButton buildRadio;
+        private System.Windows.Forms.CheckBox eDeclarationCheckBox;
     }
 }
 

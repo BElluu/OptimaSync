@@ -24,6 +24,53 @@ namespace OptimaSync.Service
             this.searchBuild = searchBuild;
         }
 
+        public void GetOptima(bool buildVersion, string prodVersionPath)
+        {
+            string server = string.Empty;
+            string extractionPath = string.Empty;
+            DirectoryInfo versionToDownload = null;
+            try
+            {
+                syncUI.EnableElementsOnForm(false);
+
+                if (buildVersion)
+                {
+                    /*server = AppConfigHelper.GetConfigValue("BuildServer");
+                    versionToDownload = searchBuild.FindLastBuild();*/
+                    server = AppConfigHelper.GetConfigValue("BuildServer");
+
+                    if (!NetworkDrive.HaveAccessToHost(server))
+                        return;
+                    if (!DataForBuildVersionAreValid(out extractionPath, out versionToDownload))
+                        return;
+                }
+                else if (!buildVersion)
+                {
+                    /*server = AppConfigHelper.GetConfigValue("ProductionServer");
+                    versionToDownload = new DirectoryInfo(prodVersionPath);*/
+                    server = AppConfigHelper.GetConfigValue("ProductionVersion");
+                    if (!NetworkDrive.HaveAccessToHost(server))
+                        return;
+                    if (!DataForProductionVersionAreValid(out extractionPath, out versionToDownload, prodVersionPath))
+                        return;
+                }
+
+               // string extractionPath = buildSyncHelper.ChooseExtractionPath(versionToDownload);
+
+                if (DownloadBuild(versionToDownload, extractionPath))
+                {
+                    if(buildVersion)
+                        searchBuild.SetLastDownloadedVersion(versionToDownload);
+                    registerDLL.RegisterOptima(extractionPath);
+                }
+
+            }
+            finally
+            {
+                syncUI.EnableElementsOnForm(true);
+            }
+        }
+
         public void GetOptimaBuild()
         {
             try
@@ -190,6 +237,32 @@ namespace OptimaSync.Service
             };
 
             return listOfBuilds;
+        }
+
+        private bool DataForBuildVersionAreValid(out string extractionPath, out DirectoryInfo versionToDownload)
+        {
+            versionToDownload = searchBuild.FindLastBuild();
+            extractionPath = buildSyncHelper.ChooseExtractionPath(versionToDownload);
+
+            if (versionToDownload == null || string.IsNullOrEmpty(extractionPath) || haveLatestVersion(versionToDownload, extractionPath))
+            {
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                return false;
+            }
+            return true;
+        }
+
+        private bool DataForProductionVersionAreValid(out string extractionPath, out DirectoryInfo versionToDownload, string prodVersionPath)
+        {
+            versionToDownload = new DirectoryInfo(prodVersionPath); ;
+            extractionPath = buildSyncHelper.ChooseExtractionPath(versionToDownload);
+
+            if (versionToDownload == null || string.IsNullOrEmpty(extractionPath))
+            {
+                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                return false;
+            }
+            return true;
         }
 
         private string[] filesToCopy(DirectoryInfo lastBuildDir)
