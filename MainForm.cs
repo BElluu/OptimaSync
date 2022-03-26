@@ -113,7 +113,19 @@ namespace OptimaSync
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            downloaderService.GetOptimaBuild();
+            //downloaderService.GetOptimaBuild();
+            bool buildVersion = true;
+            string prodVersionPath = string.Empty;
+            if(prodRadio.Checked)
+            {
+                buildVersion = false;
+            }
+            this.Invoke(new Action(() =>
+            {
+                prodVersionPath = prodVersionDropMenu.SelectedValue.ToString();
+            }));
+            //var prodVersion = prodVersionDropMenu.SelectedValue;
+            downloaderService.GetOptima(buildVersion, prodVersionPath);
         }
 
         private void OpenLogsButton_Click(object sender, EventArgs e)

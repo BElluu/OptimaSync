@@ -149,7 +149,7 @@ namespace OptimaSync.Service
             }
         }
 
-        public void GetOptimaProduction(DirectoryInfo prodVersion)
+/*        public void GetOptimaProduction(DirectoryInfo prodVersion)
         {
             try
             {
@@ -222,7 +222,7 @@ namespace OptimaSync.Service
                 SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
                 return false;
             }
-        }
+        }*/
 
         public Dictionary<string, string> GetListOfProd()
         {
