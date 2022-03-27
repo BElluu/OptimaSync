@@ -82,10 +82,17 @@ namespace OptimaSync.UI
             Invoke(() => MainForm.Instance.buildRadio.Enabled = state);
             Invoke(() => MainForm.Instance.prodRadio.Enabled = state);
             Invoke(() => MainForm.Instance.eDeclarationCheckBox.Enabled = state);
+
             var prodRadioStatus = MainForm.Instance.prodRadio.Checked;
             if(prodRadioStatus)
             {
                 Invoke(() => MainForm.Instance.prodVersionDropMenu.Enabled = state);
+            }
+
+            if(AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
+            {
+                Invoke(() => MainForm.Instance.DestTextBox.Enabled = false);
+                Invoke(() => MainForm.Instance.OptimaSOATextBox.Enabled = false);
             }
         }
 
