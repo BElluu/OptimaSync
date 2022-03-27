@@ -488,9 +488,9 @@ namespace OptimaSync
         public System.ComponentModel.BackgroundWorker backgroundWorkerNotification;
         public System.Windows.Forms.ComboBox prodVersionDropMenu;
         public System.ComponentModel.BackgroundWorker backgroundWorkerProd;
-        private System.Windows.Forms.RadioButton prodRadio;
-        private System.Windows.Forms.RadioButton buildRadio;
-        private System.Windows.Forms.CheckBox eDeclarationCheckBox;
+        public System.Windows.Forms.RadioButton prodRadio;
+        public System.Windows.Forms.RadioButton buildRadio;
+        public System.Windows.Forms.CheckBox eDeclarationCheckBox;
     }
 }
 

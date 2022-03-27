@@ -48,7 +48,7 @@ namespace OptimaSync.Service
                 {
                     /*server = AppConfigHelper.GetConfigValue("ProductionServer");
                     versionToDownload = new DirectoryInfo(prodVersionPath);*/
-                    server = AppConfigHelper.GetConfigValue("ProductionVersion");
+                    server = AppConfigHelper.GetConfigValue("ProductionServer");
                     if (!NetworkDrive.HaveAccessToHost(server))
                         return;
                     if (!DataForProductionVersionAreValid(out extractionPath, out versionToDownload, prodVersionPath))
@@ -57,7 +57,7 @@ namespace OptimaSync.Service
 
                // string extractionPath = buildSyncHelper.ChooseExtractionPath(versionToDownload);
 
-                if (DownloadBuild(versionToDownload, extractionPath))
+                if (DownloadOptima(versionToDownload, extractionPath))
                 {
                     if(buildVersion)
                         searchBuild.SetLastDownloadedVersion(versionToDownload);
@@ -71,7 +71,7 @@ namespace OptimaSync.Service
             }
         }
 
-        public void GetOptimaBuild()
+/*        public void GetOptimaBuild()
         {
             try
             {
@@ -93,7 +93,7 @@ namespace OptimaSync.Service
                     syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                     return;
                 }
-                if (DownloadBuild(lastBuildDir, extractionPath))
+                if (DownloadOptima(lastBuildDir, extractionPath))
                 {
                     searchBuild.SetLastDownloadedVersion(lastBuildDir);
                     registerDLL.RegisterOptima(extractionPath);
@@ -103,11 +103,11 @@ namespace OptimaSync.Service
             {
                 syncUI.EnableElementsOnForm(true);
             }
-        }
+        }*/
 
-        public bool DownloadBuild(DirectoryInfo lastBuildDir, string extractionPath)
+        public bool DownloadOptima(DirectoryInfo versionToDownload, string extractionPath)
         {
-            var files = filesToCopy(lastBuildDir);
+            var files = filesToCopy(versionToDownload);
 
             try
             {
@@ -123,9 +123,9 @@ namespace OptimaSync.Service
                 }
 
                 syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
-                foreach (string dir in Directory.GetDirectories(lastBuildDir.ToString(), "*", SearchOption.AllDirectories))
+                foreach (string dir in Directory.GetDirectories(versionToDownload.ToString(), "*", SearchOption.AllDirectories))
                 {
-                    Directory.CreateDirectory(dir.Replace(lastBuildDir.ToString(), extractionPath));
+                    Directory.CreateDirectory(dir.Replace(versionToDownload.ToString(), extractionPath));
                 }
 
                 syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", 0, files.Length));
@@ -133,11 +133,11 @@ namespace OptimaSync.Service
 
                 foreach (string file in files)
                 {
-                    File.Copy(file, file.Replace(lastBuildDir.ToString(), extractionPath), true);
+                    File.Copy(file, file.Replace(versionToDownload.ToString(), extractionPath), true);
                     syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", ++i, files.Length));
                 }
 
-                Logger.Write(LogEventLevel.Information, "Skopiowano " + lastBuildDir.Name);
+                Logger.Write(LogEventLevel.Information, "Skopiowano " + versionToDownload.Name);
                 return true;
             }
             catch (Exception ex)
