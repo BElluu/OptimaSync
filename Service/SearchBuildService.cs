@@ -16,7 +16,7 @@ namespace OptimaSync.Service
         static string[] EXCLUDED_STRINGS = { "CIV", "SQL", "test", "rar", "FIXES", "sPrint" };
         SyncUI syncUI = new SyncUI();
         SearchBuildServiceHelper searchBuildServiceHelper = new SearchBuildServiceHelper();
-        public DirectoryInfo FindLastBuild()
+        public DirectoryInfo FindLastOptimaBuild()
         {
             try
             {
@@ -39,6 +39,35 @@ namespace OptimaSync.Service
             }
         }
 
+        public DirectoryInfo FindLastEDeclarationBuild()
+        {
+            try
+            {
+                syncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);
+                var eDeclarationLocation = new DirectoryInfo(AppConfigHelper.GetConfigValue("eDeclarationPath"));
+                var lastEDeclarationBuildFirstStage = eDeclarationLocation.GetDirectories()
+                    .Where(q => !q.Name.Contains("Deklaracje", StringComparison.InvariantCultureIgnoreCase))
+                    .OrderByDescending(f => f.LastWriteTime)
+                    .First();
+
+                var lastEDeclarationBuildSecondStage = lastEDeclarationBuildFirstStage.GetDirectories()
+                    .OrderByDescending(f => f.LastWriteTime)
+                    .First();
+
+                var lastEDeclarationBuildDirectory = lastEDeclarationBuildSecondStage.GetDirectories()
+                    .Where(q => q.Name.Contains("unpacked"))
+                    .First();
+
+                return lastEDeclarationBuildDirectory;
+            }catch (Exception ex)
+            {
+                Logger.Write(LogEventLevel.Error, ex.Message);
+                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
+                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
+                return null;
+            }
+        }
+
         public void SetLastDownloadedVersion(DirectoryInfo lastDownloadedBuild)
         {
             string lastDownloadedBuildCommonDllPath = lastDownloadedBuild.ToString() + '\\' + BuildSyncServiceHelper.CHECK_VERSION_FILE;
@@ -53,7 +82,7 @@ namespace OptimaSync.Service
                 return;
             }
 
-            var lastBuild = FindLastBuild();
+            var lastBuild = FindLastOptimaBuild();
 
             if (lastBuild == null)
             {

@@ -24,7 +24,7 @@ namespace OptimaSync.Service
             this.searchBuild = searchBuild;
         }
 
-        public void GetOptima(bool buildVersion, string prodVersionPath)
+        public void GetOptima(bool buildVersion, string prodVersionPath, bool shouldDownloadEDeclaration)
         {
             string server = string.Empty;
             string extractionPath = string.Empty;
@@ -36,7 +36,7 @@ namespace OptimaSync.Service
                 if (buildVersion)
                 {
                     /*server = AppConfigHelper.GetConfigValue("BuildServer");
-                    versionToDownload = searchBuild.FindLastBuild();*/
+                    versionToDownload = searchBuild.FindLastOptimaBuild();*/
                     server = AppConfigHelper.GetConfigValue("BuildServer");
 
                     if (!NetworkDrive.HaveAccessToHost(server))
@@ -64,10 +64,33 @@ namespace OptimaSync.Service
                     registerDLL.RegisterOptima(extractionPath);
                 }
 
+                if(shouldDownloadEDeclaration)
+                {
+                    DownloadEDeclaration(extractionPath);
+                }
+
             }
             finally
             {
                 syncUI.EnableElementsOnForm(true);
+            }
+        }
+
+        private void DownloadEDeclaration(string extractionPath)
+        {
+            var eDeclarationToDownload = searchBuild.FindLastEDeclarationBuild();
+            var files = filesToCopy(eDeclarationToDownload);
+
+            try
+            {
+                if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString() &&
+                    !Directory.Exists(extractionPath + "\\Deklaracje"))
+                {
+                    DirectoryInfo directoryInfo = Directory.CreateDirectory(extractionPath + "\\Deklaracje");
+                }
+            }catch (Exception ex)
+            {
+
             }
         }
 
@@ -85,7 +108,7 @@ namespace OptimaSync.Service
                     return;
                 }
 
-                var lastBuildDir = searchBuild.FindLastBuild();
+                var lastBuildDir = searchBuild.FindLastOptimaBuild();
                 string extractionPath = buildSyncHelper.ChooseExtractionPath(lastBuildDir);
 
                 if (lastBuildDir == null || string.IsNullOrEmpty(extractionPath) || haveLatestVersion(lastBuildDir, extractionPath))
@@ -105,7 +128,7 @@ namespace OptimaSync.Service
             }
         }*/
 
-        public bool DownloadOptima(DirectoryInfo versionToDownload, string extractionPath)
+        private bool DownloadOptima(DirectoryInfo versionToDownload, string extractionPath)
         {
             var files = filesToCopy(versionToDownload);
 
@@ -241,7 +264,7 @@ namespace OptimaSync.Service
 
         private bool DataForBuildVersionAreValid(out string extractionPath, out DirectoryInfo versionToDownload)
         {
-            versionToDownload = searchBuild.FindLastBuild();
+            versionToDownload = searchBuild.FindLastOptimaBuild();
             extractionPath = buildSyncHelper.ChooseExtractionPath(versionToDownload);
 
             if (versionToDownload == null || string.IsNullOrEmpty(extractionPath) || haveLatestVersion(versionToDownload, extractionPath))

@@ -20,10 +20,11 @@
         // ProgressLabel and Notification Messages
 
         public static readonly string ERROR_CHECK_LOGS = "Błąd! Sprawdź logi.";
-        public static readonly string REGISTER_OPTIMA_SUCCESSFUL = "Kompilacja gotowa do pracy :)";
-        public static readonly string REGISTER_OPTIMA_INPROGRESS = "Rejestrowanie kompilacji...";
+        public static readonly string REGISTER_OPTIMA_SUCCESSFUL = "Optima gotowa do pracy :)";
+        public static readonly string REGISTER_OPTIMA_INPROGRESS = "Rejestrowanie Optimy...";
         public static readonly string SEARCHING_FOR_BUILD = "Wyszukiwanie kompilacji.";
-        public static readonly string DOWNLOADING_BUILD = "Pobieranie kompilacji";
+        public static readonly string DOWNLOADING_BUILD = "Pobieranie Optimy";
+        public static readonly string DOWNLOADING_EDECLARATION = "Pobieranie e-Deklaracji";
         public static readonly string OSA_READY_TO_WORK = "OSA gotowa do pracy :)";
         public static readonly string STOPPING_SOA_SERVICE = "Zatrzymywanie usługi SOA.";
         public static readonly string OSA_WORKING_IN_BACKGROUND = "OptimaSync działa w tle";
