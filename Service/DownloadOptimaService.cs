@@ -9,19 +9,21 @@ using System.Collections.Generic;
 
 namespace OptimaSync.Service
 {
-    public class DownloaderService
+    public class DownloadOptimaService
     {
         SyncUI syncUI;
         RegisterOptimaService registerDLL;
-        BuildSyncServiceHelper buildSyncHelper;
-        SearchBuildService searchBuild;
+        DownloadServiceHelper buildSyncHelper;
+        SearchOptimaBuildService searchBuild;
+        DownloadEDeclarationService downloadEDeclaration;
 
-        public DownloaderService(SyncUI syncUI, RegisterOptimaService registerDLL, BuildSyncServiceHelper buildSyncHelper, SearchBuildService searchBuild)
+        public DownloadOptimaService(SyncUI syncUI, RegisterOptimaService registerDLL, DownloadServiceHelper buildSyncHelper, SearchOptimaBuildService searchBuild, DownloadEDeclarationService downloadEDeclaration)
         {
             this.syncUI = syncUI;
             this.registerDLL = registerDLL;
             this.buildSyncHelper = buildSyncHelper;
             this.searchBuild = searchBuild;
+            this.downloadEDeclaration = downloadEDeclaration;
         }
 
         public void GetOptima(bool buildVersion, string prodVersionPath, bool shouldDownloadEDeclaration)
@@ -66,7 +68,7 @@ namespace OptimaSync.Service
 
                 if(shouldDownloadEDeclaration)
                 {
-                    DownloadEDeclaration(extractionPath);
+                    downloadEDeclaration.DownloadEDeclaration(extractionPath);
                 }
 
             }
@@ -76,7 +78,7 @@ namespace OptimaSync.Service
             }
         }
 
-        private void DownloadEDeclaration(string extractionPath)
+/*        private void DownloadEDeclaration(string extractionPath)
         {
             var eDeclarationToDownload = searchBuild.FindLastEDeclarationBuild();
             var files = filesToCopy(eDeclarationToDownload);
@@ -92,7 +94,7 @@ namespace OptimaSync.Service
             {
 
             }
-        }
+        }*/
 
 /*        public void GetOptimaBuild()
         {

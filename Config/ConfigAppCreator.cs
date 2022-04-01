@@ -34,7 +34,7 @@ namespace OptimaSync.Config
                     new Add(){key = "ProgrammerDestination", value = "D:\\Optima"},
                     new Add(){key = "AutoCheckVersion", value = "false"},
                     new Add(){key = "NotificationSound", value = "false"},
-                    new Add(){key = "DownloadEDeclaration", value = "false"}, // TODO download if true
+                    new Add(){key = "DownloadEDeclaration", value = "false"},
                     new Add(){key = "BuildServer", value = "Natalie"},
                     new Add(){key = "ProductionServer", value = "Columbia"},
                     new Add(){key = "eDeclarationServer", value = "Columbia"}

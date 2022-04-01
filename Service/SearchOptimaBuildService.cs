@@ -11,11 +11,17 @@ using Serilog.Events;
 
 namespace OptimaSync.Service
 {
-    public class SearchBuildService
+    public class SearchOptimaBuildService
     {
         static string[] EXCLUDED_STRINGS = { "CIV", "SQL", "test", "rar", "FIXES", "sPrint" };
-        SyncUI syncUI = new SyncUI();
-        SearchBuildServiceHelper searchBuildServiceHelper = new SearchBuildServiceHelper();
+        SyncUI syncUI;
+        SearchBuildServiceHelper searchBuildServiceHelper;
+
+        public SearchOptimaBuildService(SyncUI syncUI, SearchBuildServiceHelper searchBuildServiceHelper)
+        {
+            this.syncUI = syncUI;
+            this.searchBuildServiceHelper = searchBuildServiceHelper;
+        }
         public DirectoryInfo FindLastOptimaBuild()
         {
             try
@@ -70,7 +76,7 @@ namespace OptimaSync.Service
 
         public void SetLastDownloadedVersion(DirectoryInfo lastDownloadedBuild)
         {
-            string lastDownloadedBuildCommonDllPath = lastDownloadedBuild.ToString() + '\\' + BuildSyncServiceHelper.CHECK_VERSION_FILE;
+            string lastDownloadedBuildCommonDllPath = lastDownloadedBuild.ToString() + '\\' + DownloadServiceHelper.CHECK_VERSION_FILE;
             FileVersionInfo lastDownloadedBuildVersionFile = FileVersionInfo.GetVersionInfo(lastDownloadedBuildCommonDllPath);
             string lastDownloadedBuildCommonDllVersion = lastDownloadedBuildVersionFile.ProductVersion.ToString();
             AppConfigHelper.SetConfigValue("LatestVersionChecked", lastDownloadedBuildCommonDllVersion);
@@ -89,7 +95,7 @@ namespace OptimaSync.Service
                 syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return;
             }
-            string lastBuildCommonDllPath = lastBuild.ToString() + '\\' + BuildSyncServiceHelper.CHECK_VERSION_FILE;
+            string lastBuildCommonDllPath = lastBuild.ToString() + '\\' + DownloadServiceHelper.CHECK_VERSION_FILE;
             FileVersionInfo lastBuildVersionFile = FileVersionInfo.GetVersionInfo(lastBuildCommonDllPath);
             string lastBuildCommonDllVersion = lastBuildVersionFile.ProductVersion.ToString();
 

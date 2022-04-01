@@ -8,7 +8,6 @@ using System.ComponentModel;
 using OptimaSync.Common;
 using OptimaSync.Helper;
 using Serilog.Events;
-using System.IO;
 
 namespace OptimaSync
 {
@@ -16,12 +15,12 @@ namespace OptimaSync
     {
         private static string AUTO_UPDATE_CONFIG = "https://osync.devopsowy.pl/AutoUpdater.xml";
 
-        DownloaderService downloaderService;
+        DownloadOptimaService downloaderService;
         SyncUI syncUI;
-        SearchBuildService searchBuildService;
+        SearchOptimaBuildService searchBuildService;
 
         private static MainForm _instance;
-        public MainForm(DownloaderService buildSyncService, SyncUI syncUI, SearchBuildService searchBuildService)
+        public MainForm(DownloadOptimaService buildSyncService, SyncUI syncUI, SearchOptimaBuildService searchBuildService)
         {
             this.downloaderService = buildSyncService;
             this.syncUI = syncUI;
@@ -125,7 +124,7 @@ namespace OptimaSync
                 prodVersionPath = prodVersionDropMenu.SelectedValue.ToString();
             }));
             //var prodVersion = prodVersionDropMenu.SelectedValue;
-            downloaderService.GetOptima(buildVersion, prodVersionPath);
+            downloaderService.GetOptima(buildVersion, prodVersionPath, Convert.ToBoolean(AppConfigHelper.GetConfigValue("DownloadEDeclaration")));
         }
 
         private void OpenLogsButton_Click(object sender, EventArgs e)
@@ -270,6 +269,18 @@ namespace OptimaSync
         private void prodRadio_CheckedChanged(object sender, EventArgs e)
         {
             prodVersionDropMenu.Enabled = true;
+        }
+
+        private void eDeclarationCheckBox_Click(object sender, EventArgs e)
+        {
+            if (eDeclarationCheckBox.Checked)
+            {
+                AppConfigHelper.SetConfigValue("DownloadEDeclaration", "true");
+            }
+            else
+            {
+                AppConfigHelper.SetConfigValue("DownloadEDeclaration", "false");
+            }
         }
     }
 }

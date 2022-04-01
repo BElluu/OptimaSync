@@ -12,7 +12,7 @@ using Serilog.Events;
 
 namespace OptimaSync.Helper
 {
-    public class BuildSyncServiceHelper
+    public class DownloadServiceHelper
     {
         public static readonly string LOCK_FILE = "osync.lock";
         public static readonly string CHECK_VERSION_FILE = "Common.dll";
@@ -21,7 +21,7 @@ namespace OptimaSync.Helper
         WindowsService windowsService;
         SyncUI syncUI;
 
-        public BuildSyncServiceHelper(ValidatorUI validatorUI, WindowsService windowsService, SyncUI syncUI)
+        public DownloadServiceHelper(ValidatorUI validatorUI, WindowsService windowsService, SyncUI syncUI)
         {
             this.validatorUI = validatorUI;
             this.windowsService = windowsService;
@@ -146,6 +146,11 @@ namespace OptimaSync.Helper
         public void DeleteLockFile(string lockFilePath)
         {
             File.Delete(lockFilePath + "\\" + LOCK_FILE);
+        }
+
+        public string[] filesToCopy(DirectoryInfo lastBuildDir)
+        {
+            return Directory.GetFiles(lastBuildDir.ToString(), "*.*", SearchOption.AllDirectories);
         }
 
         private bool SOARequirementsAreMet()

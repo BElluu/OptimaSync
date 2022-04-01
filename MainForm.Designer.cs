@@ -113,6 +113,7 @@ namespace OptimaSync
             this.eDeclarationCheckBox.TabIndex = 7;
             this.eDeclarationCheckBox.Text = "e-Deklaracje";
             this.eDeclarationCheckBox.UseVisualStyleBackColor = true;
+            this.eDeclarationCheckBox.Click += new System.EventHandler(this.eDeclarationCheckBox_Click);
             // 
             // prodRadio
             // 
