@@ -12,7 +12,7 @@ using Serilog.Events;
 
 namespace OptimaSync.Helper
 {
-    public class BuildSyncServiceHelper
+    public class DownloadServiceHelper
     {
         public static readonly string LOCK_FILE = "osync.lock";
         public static readonly string CHECK_VERSION_FILE = "Common.dll";
@@ -21,7 +21,7 @@ namespace OptimaSync.Helper
         WindowsService windowsService;
         SyncUI syncUI;
 
-        public BuildSyncServiceHelper(ValidatorUI validatorUI, WindowsService windowsService, SyncUI syncUI)
+        public DownloadServiceHelper(ValidatorUI validatorUI, WindowsService windowsService, SyncUI syncUI)
         {
             this.validatorUI = validatorUI;
             this.windowsService = windowsService;
@@ -32,7 +32,7 @@ namespace OptimaSync.Helper
         {
             List<string> buildVersions = new List<string>();
 
-            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.PROGRAMMER.ToString())
             {
                 string destProgrammerDll = AppConfigHelper.GetConfigValue("ProgrammerDestination") + "\\" + CHECK_VERSION_FILE;
 
@@ -52,7 +52,7 @@ namespace OptimaSync.Helper
                 string destSoaDll = AppConfigHelper.GetConfigValue("SOADestination") + "\\" + CHECK_VERSION_FILE;
                 string destBuildDll = AppConfigHelper.GetConfigValue("Destination") + "\\" + buildDirectoryName + "\\" + CHECK_VERSION_FILE;
 
-                if (File.Exists(destSoaDll) && AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString())
+                if (File.Exists(destSoaDll) && AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.SOA.ToString())
                 {
                     if (!string.IsNullOrEmpty(AppConfigHelper.GetConfigValue("SOADestination")))
                     {
@@ -64,7 +64,7 @@ namespace OptimaSync.Helper
                     }
                 }
 
-                if (File.Exists(destBuildDll) && AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString())
+                if (File.Exists(destBuildDll) && AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.BASIC.ToString())
                 {
                     if (!string.IsNullOrEmpty(AppConfigHelper.GetConfigValue("Destination")))
                     {
@@ -95,13 +95,13 @@ namespace OptimaSync.Helper
 
         public string ChooseExtractionPath(DirectoryInfo dir)
         {
-            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString() &&
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.SOA.ToString() &&
                 !SOARequirementsAreMet())
             {
                 return null;
             }
 
-            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.BASIC.ToString() &&
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.BASIC.ToString() &&
                 !validatorUI.DestPathIsValid())
             {
                 return null;
@@ -146,6 +146,11 @@ namespace OptimaSync.Helper
         public void DeleteLockFile(string lockFilePath)
         {
             File.Delete(lockFilePath + "\\" + LOCK_FILE);
+        }
+
+        public string[] filesToCopy(DirectoryInfo lastBuildDir)
+        {
+            return Directory.GetFiles(lastBuildDir.ToString(), "*.*", SearchOption.AllDirectories);
         }
 
         private bool SOARequirementsAreMet()

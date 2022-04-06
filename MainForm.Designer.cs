@@ -33,6 +33,10 @@ namespace OptimaSync
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.SyncTab = new System.Windows.Forms.TabPage();
+            this.eDeclarationCheckBox = new System.Windows.Forms.CheckBox();
+            this.prodRadio = new System.Windows.Forms.RadioButton();
+            this.buildRadio = new System.Windows.Forms.RadioButton();
+            this.prodVersionDropMenu = new System.Windows.Forms.ComboBox();
             this.labelProgress = new System.Windows.Forms.Label();
             this.SOACheckBox = new System.Windows.Forms.CheckBox();
             this.downloadBuildButton = new System.Windows.Forms.Button();
@@ -55,13 +59,14 @@ namespace OptimaSync
             this.openLogsButton = new System.Windows.Forms.Button();
             this.versionLabelValue = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
-            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorkerBuild = new System.ComponentModel.BackgroundWorker();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.notifyIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.exitNotifyIconMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorkerNotification = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorkerProd = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.SyncTab.SuspendLayout();
             this.SettingsTab.SuspendLayout();
@@ -84,6 +89,10 @@ namespace OptimaSync
             // 
             // SyncTab
             // 
+            this.SyncTab.Controls.Add(this.eDeclarationCheckBox);
+            this.SyncTab.Controls.Add(this.prodRadio);
+            this.SyncTab.Controls.Add(this.buildRadio);
+            this.SyncTab.Controls.Add(this.prodVersionDropMenu);
             this.SyncTab.Controls.Add(this.labelProgress);
             this.SyncTab.Controls.Add(this.SOACheckBox);
             this.SyncTab.Controls.Add(this.downloadBuildButton);
@@ -95,10 +104,53 @@ namespace OptimaSync
             this.SyncTab.Text = "Sync";
             this.SyncTab.UseVisualStyleBackColor = true;
             // 
+            // eDeclarationCheckBox
+            // 
+            this.eDeclarationCheckBox.AutoSize = true;
+            this.eDeclarationCheckBox.Location = new System.Drawing.Point(115, 12);
+            this.eDeclarationCheckBox.Name = "eDeclarationCheckBox";
+            this.eDeclarationCheckBox.Size = new System.Drawing.Size(91, 19);
+            this.eDeclarationCheckBox.TabIndex = 7;
+            this.eDeclarationCheckBox.Text = "e-Deklaracje";
+            this.eDeclarationCheckBox.UseVisualStyleBackColor = true;
+            this.eDeclarationCheckBox.Click += new System.EventHandler(this.eDeclarationCheckBox_Click);
+            // 
+            // prodRadio
+            // 
+            this.prodRadio.AutoSize = true;
+            this.prodRadio.Location = new System.Drawing.Point(103, 37);
+            this.prodRadio.Name = "prodRadio";
+            this.prodRadio.Size = new System.Drawing.Size(78, 19);
+            this.prodRadio.TabIndex = 6;
+            this.prodRadio.Text = "Produkcja";
+            this.prodRadio.UseVisualStyleBackColor = true;
+            this.prodRadio.CheckedChanged += new System.EventHandler(this.prodRadio_CheckedChanged);
+            // 
+            // buildRadio
+            // 
+            this.buildRadio.AutoSize = true;
+            this.buildRadio.Checked = true;
+            this.buildRadio.Location = new System.Drawing.Point(13, 37);
+            this.buildRadio.Name = "buildRadio";
+            this.buildRadio.Size = new System.Drawing.Size(84, 19);
+            this.buildRadio.TabIndex = 5;
+            this.buildRadio.TabStop = true;
+            this.buildRadio.Text = "Kompilacja";
+            this.buildRadio.UseVisualStyleBackColor = true;
+            this.buildRadio.CheckedChanged += new System.EventHandler(this.buildRadio_CheckedChanged);
+            // 
+            // prodVersionDropMenu
+            // 
+            this.prodVersionDropMenu.FormattingEnabled = true;
+            this.prodVersionDropMenu.Location = new System.Drawing.Point(13, 62);
+            this.prodVersionDropMenu.Name = "prodVersionDropMenu";
+            this.prodVersionDropMenu.Size = new System.Drawing.Size(121, 23);
+            this.prodVersionDropMenu.TabIndex = 4;
+            // 
             // labelProgress
             // 
             this.labelProgress.AutoSize = true;
-            this.labelProgress.Location = new System.Drawing.Point(10, 74);
+            this.labelProgress.Location = new System.Drawing.Point(6, 188);
             this.labelProgress.Name = "labelProgress";
             this.labelProgress.Size = new System.Drawing.Size(170, 15);
             this.labelProgress.TabIndex = 2;
@@ -109,19 +161,19 @@ namespace OptimaSync
             this.SOACheckBox.AutoSize = true;
             this.SOACheckBox.Location = new System.Drawing.Point(13, 12);
             this.SOACheckBox.Name = "SOACheckBox";
-            this.SOACheckBox.Size = new System.Drawing.Size(164, 19);
+            this.SOACheckBox.Size = new System.Drawing.Size(96, 19);
             this.SOACheckBox.TabIndex = 1;
-            this.SOACheckBox.Text = "Kompilacja z obsługą SOA";
+            this.SOACheckBox.Text = "Obsługa SOA";
             this.SOACheckBox.UseVisualStyleBackColor = true;
             this.SOACheckBox.Click += new System.EventHandler(this.SOACheckBox_Click);
             // 
             // downloadBuildButton
             // 
-            this.downloadBuildButton.Location = new System.Drawing.Point(12, 37);
+            this.downloadBuildButton.Location = new System.Drawing.Point(13, 119);
             this.downloadBuildButton.Name = "downloadBuildButton";
-            this.downloadBuildButton.Size = new System.Drawing.Size(116, 23);
+            this.downloadBuildButton.Size = new System.Drawing.Size(96, 23);
             this.downloadBuildButton.TabIndex = 0;
-            this.downloadBuildButton.Text = "Pobierz kompilację";
+            this.downloadBuildButton.Text = "Pobierz";
             this.downloadBuildButton.UseVisualStyleBackColor = true;
             this.downloadBuildButton.Click += new System.EventHandler(this.DownloadBuildButton_Click);
             // 
@@ -325,11 +377,11 @@ namespace OptimaSync
             this.versionLabel.TabIndex = 0;
             this.versionLabel.Text = "Wersja: ";
             // 
-            // backgroundWorker
+            // backgroundWorkerBuild
             // 
-            this.backgroundWorker.WorkerReportsProgress = true;
-            this.backgroundWorker.WorkerSupportsCancellation = true;
-            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
+            this.backgroundWorkerBuild.WorkerReportsProgress = true;
+            this.backgroundWorkerBuild.WorkerSupportsCancellation = true;
+            this.backgroundWorkerBuild.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker_DoWork);
             // 
             // notifyIcon
             // 
@@ -417,7 +469,7 @@ namespace OptimaSync
         public System.Windows.Forms.Button buttonOptimaSOADirectory;
         public System.Windows.Forms.Button buttonDestinationDirectory;
         public System.Windows.Forms.Label labelProgress;
-        public System.ComponentModel.BackgroundWorker backgroundWorker;
+        public System.ComponentModel.BackgroundWorker backgroundWorkerBuild;
         private System.Windows.Forms.Label versionLabelValue;
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Button openManualButton;
@@ -435,6 +487,11 @@ namespace OptimaSync
         private System.Windows.Forms.ToolStripMenuItem downloadNotifyIconMenu;
         private System.Windows.Forms.ToolStripMenuItem exitNotifyIconMenu;
         public System.ComponentModel.BackgroundWorker backgroundWorkerNotification;
+        public System.Windows.Forms.ComboBox prodVersionDropMenu;
+        public System.ComponentModel.BackgroundWorker backgroundWorkerProd;
+        public System.Windows.Forms.RadioButton prodRadio;
+        public System.Windows.Forms.RadioButton buildRadio;
+        public System.Windows.Forms.CheckBox eDeclarationCheckBox;
     }
 }
 

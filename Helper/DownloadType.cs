@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OptimaSync.Helper
 {
-   public enum DownloadTypeEnum
+   public enum DownloadType
     {
         BASIC,
         PROGRAMMER,

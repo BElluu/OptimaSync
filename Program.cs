@@ -21,12 +21,15 @@ namespace OptimaSync
             SyncUI syncUI = new SyncUI();
             WindowsService windowsService = new WindowsService(syncUI);
             ValidatorUI validatorUI = new ValidatorUI();
-            BuildSyncServiceHelper buildSyncServiceHelper = new BuildSyncServiceHelper(validatorUI, windowsService, syncUI);
+            DownloadServiceHelper downloadHelper = new DownloadServiceHelper(validatorUI, windowsService, syncUI);
+            SearchBuildServiceHelper searchBuildHelper = new SearchBuildServiceHelper();
             RunOptimaService runOptimaService = new RunOptimaService(syncUI);
-            RegisterOptimaService registerDLL = new RegisterOptimaService(syncUI, buildSyncServiceHelper, runOptimaService);
-            SearchBuildService searchBuildService = new SearchBuildService();
-            BuildSyncService buildSyncService = new BuildSyncService(syncUI, registerDLL, buildSyncServiceHelper,searchBuildService);
-            var controller = new ApplicationController(new MainForm(buildSyncService, syncUI, searchBuildService));
+            RegisterOptimaService registerDLL = new RegisterOptimaService(syncUI, downloadHelper, runOptimaService);
+            SearchOptimaBuildService searchOptimaBuild = new SearchOptimaBuildService(syncUI, searchBuildHelper);
+            SearchEDeclarationBuildService searchEDeclarationBuild = new SearchEDeclarationBuildService(syncUI);
+            DownloadEDeclarationService downloadEDeclaration = new DownloadEDeclarationService(searchEDeclarationBuild,downloadHelper,syncUI);
+            DownloadOptimaService downloadOptima = new DownloadOptimaService(syncUI, registerDLL, downloadHelper,searchOptimaBuild,downloadEDeclaration);
+            var controller = new ApplicationController(new MainForm(downloadOptima, syncUI, searchOptimaBuild));
             controller.Run(Environment.GetCommandLineArgs());
         }
     }

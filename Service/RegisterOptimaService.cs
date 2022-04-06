@@ -12,10 +12,10 @@ namespace OptimaSync.Service
     public class RegisterOptimaService
     {
         SyncUI syncUI;
-        BuildSyncServiceHelper buildSyncHelper;
+        DownloadServiceHelper buildSyncHelper;
         RunOptimaService runOptima;
 
-        public RegisterOptimaService(SyncUI syncUI, BuildSyncServiceHelper buildSyncHelper, RunOptimaService runOptima)
+        public RegisterOptimaService(SyncUI syncUI, DownloadServiceHelper buildSyncHelper, RunOptimaService runOptima)
         {
             this.syncUI = syncUI;
             this.buildSyncHelper = buildSyncHelper;
@@ -30,7 +30,7 @@ namespace OptimaSync.Service
                 return;
             }
 
-            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.PROGRAMMER.ToString())
             {
                 path = AppConfigHelper.GetConfigValue("ProgrammerDestination");
                 registerFile = "RejestrProgramisty.bat";
