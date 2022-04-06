@@ -119,8 +119,19 @@ namespace OptimaSync.Service
         public Dictionary<string, string> GetListOfProd()
         {
             var listOfBuilds = new Dictionary<string, string>();
+            DirectoryInfo directory;
+            try
+            {
+                directory = new DirectoryInfo(AppConfigHelper.GetConfigValue("ProductionPath"));
 
-            var directory = new DirectoryInfo(AppConfigHelper.GetConfigValue("ProductionPath"));
+            }catch(Exception ex)
+            {
+                Logger.Write(LogEventLevel.Error, ex.Message);
+                Logger.Write(LogEventLevel.Error, "Nie mozna zaladowac listy wersji produkcyjnych");
+                listOfBuilds.Add("", "");
+                return listOfBuilds;
+            }
+            
             var prodVersions = directory.GetDirectories();
 
             foreach (DirectoryInfo prod in prodVersions)
