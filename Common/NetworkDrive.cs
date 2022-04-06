@@ -1,5 +1,7 @@
-﻿using OptimaSync.UI;
+﻿using OptimaSync.Constant;
+using OptimaSync.UI;
 using Serilog.Events;
+using System;
 using System.Net.NetworkInformation;
 
 namespace OptimaSync.Common
@@ -23,8 +25,10 @@ namespace OptimaSync.Common
                 }
                 return false;
             }
-            catch
+            catch (Exception ex)
             {
+                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
+                Logger.Write(LogEventLevel.Error, ex.Message);
                 return false;
             }
             finally
