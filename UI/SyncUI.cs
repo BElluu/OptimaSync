@@ -43,34 +43,6 @@ namespace OptimaSync.UI
 
         public void EnableElementsOnForm(bool state)
         {
-            /*            if (AppConfigHelper.GetConfigValue("DownloadType") != DownloadTypeEnum.PROGRAMMER.ToString())
-                        {
-                            Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
-                            Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);
-                            Invoke(() => MainForm.Instance.programmerCheckbox.Enabled = state);
-                            Invoke(() => MainForm.Instance.RunOptimaCheckBox.Enabled = state);
-                            Invoke(() => MainForm.Instance.DestTextBox.Enabled = state);
-                            Invoke(() => MainForm.Instance.OptimaSOATextBox.Enabled = state);
-                            Invoke(() => MainForm.Instance.buttonDestinationDirectory.Enabled = state);
-                            Invoke(() => MainForm.Instance.buttonOptimaSOADirectory.Enabled = state);
-                            Invoke(() => MainForm.Instance.buildRadio.Enabled = state);
-                            Invoke(() => MainForm.Instance.prodRadio.Enabled = state);
-                            Invoke(() => MainForm.Instance.eDeclarationCheckBox.Enabled = state);
-                        }
-                        else
-                        {
-                            Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
-                            Invoke(() => MainForm.Instance.programmerCheckbox.Enabled = state);
-                            Invoke(() => MainForm.Instance.buildRadio.Enabled = state);
-                            Invoke(() => MainForm.Instance.prodRadio.Enabled = state);
-                            Invoke(() => MainForm.Instance.eDeclarationCheckBox.Enabled = state);
-                        }
-
-                        if(MainForm.Instance.prodRadio.Checked)
-                        {
-                            MainForm.Instance.prodVersionDropMenu.Enabled = state;
-                        }*/
-
             Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
             Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);
             Invoke(() => MainForm.Instance.programmerCheckbox.Enabled = state);
@@ -89,7 +61,7 @@ namespace OptimaSync.UI
                 Invoke(() => MainForm.Instance.prodVersionDropMenu.Enabled = state);
             }
 
-            if(AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
+            if(AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.PROGRAMMER.ToString())
             {
                 Invoke(() => MainForm.Instance.DestTextBox.Enabled = false);
                 Invoke(() => MainForm.Instance.OptimaSOATextBox.Enabled = false);
@@ -116,7 +88,7 @@ namespace OptimaSync.UI
         public void DisableElementsWhileProgrammer()
         {
             bool state;
-            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.PROGRAMMER.ToString())
             {
                 state = false;
                 SetStateOfRunOptimaCheckBox(state);

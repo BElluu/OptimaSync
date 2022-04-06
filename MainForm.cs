@@ -112,7 +112,6 @@ namespace OptimaSync
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            //downloaderService.GetOptimaBuild();
             bool buildVersion = true;
             string prodVersionPath = string.Empty;
             if(prodRadio.Checked)
@@ -123,7 +122,6 @@ namespace OptimaSync
             {
                 prodVersionPath = prodVersionDropMenu.SelectedValue.ToString();
             }));
-            //var prodVersion = prodVersionDropMenu.SelectedValue;
             downloaderService.GetOptima(buildVersion, prodVersionPath, Convert.ToBoolean(AppConfigHelper.GetConfigValue("DownloadEDeclaration")));
         }
 
@@ -160,12 +158,12 @@ namespace OptimaSync
         {
             if (programmerCheckbox.Checked)
             {
-                AppConfigHelper.SetConfigValue("DownloadType", DownloadTypeEnum.PROGRAMMER.ToString());
+                AppConfigHelper.SetConfigValue("DownloadType", DownloadType.PROGRAMMER.ToString());
                 syncUI.DisableElementsWhileProgrammer();
             }
             else
             {
-                AppConfigHelper.SetConfigValue("DownloadType", DownloadTypeEnum.BASIC.ToString());
+                AppConfigHelper.SetConfigValue("DownloadType", DownloadType.BASIC.ToString());
                 syncUI.DisableElementsWhileProgrammer();
             }
         }
@@ -174,10 +172,10 @@ namespace OptimaSync
         {
             if (SOACheckBox.Checked)
             {
-                AppConfigHelper.SetConfigValue("DownloadType", DownloadTypeEnum.SOA.ToString());
+                AppConfigHelper.SetConfigValue("DownloadType", DownloadType.SOA.ToString());
             } else
             {
-                AppConfigHelper.SetConfigValue("DownloadType", DownloadTypeEnum.BASIC.ToString());
+                AppConfigHelper.SetConfigValue("DownloadType", DownloadType.BASIC.ToString());
             }
         }
 
@@ -255,9 +253,9 @@ namespace OptimaSync
             this.RunOptimaCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("RunOptima"));
             this.newVersionNotificationCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("AutoCheckVersion"));
             this.turnOnSoundNotificationCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("NotificationSound"));
-            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.PROGRAMMER.ToString())
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.PROGRAMMER.ToString())
                 this.programmerCheckbox.Checked = true;
-            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadTypeEnum.SOA.ToString())
+            if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.SOA.ToString())
                 this.SOACheckBox.Checked = true;
         }
 
@@ -284,5 +282,3 @@ namespace OptimaSync
         }
     }
 }
-
-// downloaderService.GetOptimaProduction((DirectoryInfo)prodVersionDropMenu.SelectedValue);
