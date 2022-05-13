@@ -18,7 +18,7 @@ namespace OptimaSync.Service
         {
         }
 
-        public bool SoaIsStopped()
+        public static bool SoaIsStopped()
         {
             return StopSOAService();
         }
@@ -34,7 +34,7 @@ namespace OptimaSync.Service
             return true;
         }
 
-        private bool StopSOAService()
+        private static bool StopSOAService()
         {
             ServiceController SoaService = new ServiceController(SOA_SERVICE);
             if (SoaService.Status.Equals(ServiceControllerStatus.Running) ||

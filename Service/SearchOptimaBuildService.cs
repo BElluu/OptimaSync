@@ -18,7 +18,7 @@ namespace OptimaSync.Service
         public SearchOptimaBuildService()
         {
         }
-        public DirectoryInfo FindLastOptimaBuild()
+        public static DirectoryInfo FindLastOptimaBuild()
         {
             try
             {
@@ -33,34 +33,6 @@ namespace OptimaSync.Service
                 return lastBuild;
             }
             catch (Exception ex)
-            {
-                Logger.Write(LogEventLevel.Error, ex.Message);
-                SyncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
-                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.notificationType.Error));
-                return null;
-            }
-        }
-
-        public DirectoryInfo FindLastEDeclarationBuild()
-        {
-            try
-            {
-                SyncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);
-                var eDeclarationLocation = new DirectoryInfo(AppConfigHelper.GetConfigValue("eDeclarationPath"));
-                var lastEDeclarationBuildFirstStage = eDeclarationLocation.GetDirectories()
-                    .Where(q => !q.Name.Contains("Deklaracje", StringComparison.InvariantCultureIgnoreCase))
-                    .OrderByDescending(f => f.LastWriteTime)
-                    .First();
-
-                var lastEDeclarationBuildSecondStage = lastEDeclarationBuildFirstStage.GetDirectories()
-                    .OrderByDescending(f => f.LastWriteTime)
-                    .First();
-
-                var lastEDeclarationBuildDirectory = lastEDeclarationBuildSecondStage.GetDirectories()
-                    .First(q => q.Name.Contains("unpacked"));
-
-                return lastEDeclarationBuildDirectory;
-            }catch (Exception ex)
             {
                 Logger.Write(LogEventLevel.Error, ex.Message);
                 SyncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
@@ -111,7 +83,7 @@ namespace OptimaSync.Service
             SyncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
         }
 
-        private List<string> GetLatestDownloadedVersion()
+        private static List<string> GetLatestDownloadedVersion()
         {
             List<string> DownloadedLatestVersions = new List<string>();
 

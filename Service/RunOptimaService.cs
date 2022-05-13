@@ -4,17 +4,16 @@ using OptimaSync.UI;
 using System;
 using System.Diagnostics;
 using Serilog.Events;
+using System.IO;
 
 namespace OptimaSync.Service
 {
     public class RunOptimaService
     {
-        private readonly SyncUI syncUI;
-        public RunOptimaService(SyncUI syncUI)
+        public RunOptimaService()
         {
-            this.syncUI = syncUI;
         }
-        public void Start(string path)
+        public static void Start(string path)
         {
             if (Convert.ToBoolean(AppConfigHelper.GetConfigValue("RunOptima")))
             {
@@ -22,7 +21,7 @@ namespace OptimaSync.Service
                 {
                     ProcessStartInfo processStartInfo = new ProcessStartInfo();
                     processStartInfo.WorkingDirectory = path;
-                    processStartInfo.FileName = path + "\\" + "Comarch OPT!MA.exe";
+                    processStartInfo.FileName = path + Path.DirectorySeparatorChar + "Comarch OPT!MA.exe";
                     processStartInfo.CreateNoWindow = true;
                     Process.Start(processStartInfo);
                     

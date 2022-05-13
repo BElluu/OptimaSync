@@ -20,14 +20,12 @@ namespace OptimaSync
             Application.SetCompatibleTextRenderingDefault(false);
             SyncUI syncUI = new SyncUI();
             WindowsService windowsService = new WindowsService();
-            DownloadServiceHelper downloadHelper = new DownloadServiceHelper(windowsService);
-            RunOptimaService runOptimaService = new RunOptimaService(syncUI);
-            RegisterOptimaService registerDLL = new RegisterOptimaService(runOptimaService);
+            DownloadServiceHelper downloadHelper = new DownloadServiceHelper();
+            RegisterOptimaService registerDLL = new RegisterOptimaService();
             SearchOptimaBuildService searchOptimaBuild = new SearchOptimaBuildService();
-            SearchEDeclarationBuildService searchEDeclarationBuild = new SearchEDeclarationBuildService();
-            DownloadEDeclarationService downloadEDeclaration = new DownloadEDeclarationService(searchEDeclarationBuild,syncUI);
-            DownloadOptimaService downloadOptima = new DownloadOptimaService(registerDLL, downloadHelper,searchOptimaBuild,downloadEDeclaration);
-            var controller = new ApplicationController(new MainForm(downloadOptima, syncUI, searchOptimaBuild));
+            DownloadEDeclarationService downloadEDeclaration = new DownloadEDeclarationService();
+            DownloadOptimaService downloadOptima = new DownloadOptimaService(registerDLL, downloadHelper,downloadEDeclaration);
+            var controller = new ApplicationController(new MainForm(downloadOptima, searchOptimaBuild));
             controller.Run(Environment.GetCommandLineArgs());
         }
     }

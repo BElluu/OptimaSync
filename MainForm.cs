@@ -16,14 +16,12 @@ namespace OptimaSync
         private static string AUTO_UPDATE_CONFIG = "https://osync.devopsowy.pl/AutoUpdater.xml";
 
         private readonly DownloadOptimaService downloaderService;
-        private readonly SyncUI syncUI;
         private readonly SearchOptimaBuildService searchBuildService;
 
         private static MainForm _instance = null;
-        public MainForm(DownloadOptimaService buildSyncService, SyncUI syncUI, SearchOptimaBuildService searchBuildService)
+        public MainForm(DownloadOptimaService buildSyncService, SearchOptimaBuildService searchBuildService)
         {
             this.downloaderService = buildSyncService;
-            this.syncUI = syncUI;
             this.searchBuildService = searchBuildService;
 
             InitializeComponent();
@@ -44,7 +42,7 @@ namespace OptimaSync
 
         private void MainForm_Shown(Object sender, EventArgs e)
         {
-            syncUI.DisableElementsWhileProgrammer();
+            SyncUI.DisableElementsWhileProgrammer();
             prodVersionDropMenu.Enabled = false;
         }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -159,12 +157,12 @@ namespace OptimaSync
             if (programmerCheckbox.Checked)
             {
                 AppConfigHelper.SetConfigValue("DownloadType", DownloadType.PROGRAMMER.ToString());
-                syncUI.DisableElementsWhileProgrammer();
+                SyncUI.DisableElementsWhileProgrammer();
             }
             else
             {
                 AppConfigHelper.SetConfigValue("DownloadType", DownloadType.BASIC.ToString());
-                syncUI.DisableElementsWhileProgrammer();
+                SyncUI.DisableElementsWhileProgrammer();
             }
         }
 

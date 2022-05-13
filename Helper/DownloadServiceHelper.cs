@@ -16,12 +16,8 @@ namespace OptimaSync.Helper
     {
         public static readonly string LOCK_FILE = "osync.lock";
         public static readonly string CHECK_VERSION_FILE = "Common.dll";
-        private readonly WindowsService windowsService;
 
-        public DownloadServiceHelper(WindowsService windowsService)
-        {
-            this.windowsService = windowsService;
-        }
+        public DownloadServiceHelper() { }
 
         public static bool BuildVersionsAreSame(string buildPath, string buildDirectoryName)
         {
@@ -148,7 +144,7 @@ namespace OptimaSync.Helper
                 return false;
             }
 
-            if (!windowsService.SoaIsStopped())
+            if (!WindowsService.SoaIsStopped())
             {
                 Logger.Write(LogEventLevel.Error, Messages.SOA_SERVICE_NOT_STOPPED);
                 MessageBox.Show(Messages.SOA_SERVICE_NOT_STOPPED, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);

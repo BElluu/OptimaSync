@@ -7,6 +7,7 @@ namespace OptimaSync.UI
 {
     public class ValidatorUI
     {
+        protected ValidatorUI() { }
         public static bool DestPathIsValid()
         {
             string DestPath = MainForm.Instance.DestTextBox.Text;

@@ -12,6 +12,7 @@ namespace OptimaSync.UI
     public class SyncUI
     {
         static readonly string USER_MANUAL = "https://osync.devopsowy.pl/Instrukcja.pdf";
+        static readonly string EXPLORER_PATH = @"C:\Windows\explorer.exe";
         public static void Invoke(Action action)
         {
             MainForm mainForm = Application.OpenForms.Cast<MainForm>().FirstOrDefault();
@@ -77,7 +78,7 @@ namespace OptimaSync.UI
                 MessageBox.Show(Messages.LOGS_DIRECTORY_NOT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            System.Diagnostics.Process.Start(@"C:\Windows\explorer.exe", logsDirectory);
+            System.Diagnostics.Process.Start(EXPLORER_PATH, logsDirectory);
         }
 
         public static void OpenUserManual()
@@ -85,7 +86,7 @@ namespace OptimaSync.UI
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(USER_MANUAL) { UseShellExecute = true });
         }
 
-        public void DisableElementsWhileProgrammer()
+        public static void DisableElementsWhileProgrammer()
         {
             bool state;
             if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.PROGRAMMER.ToString())

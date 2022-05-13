@@ -10,17 +10,13 @@ namespace OptimaSync.Service
 {
     public class DownloadEDeclarationService
     {
-        private readonly SearchEDeclarationBuildService searchEDeclaration;
-        private readonly SyncUI syncUI;
-        public DownloadEDeclarationService(SearchEDeclarationBuildService searchEDeclarationBuildService, SyncUI syncUI)
+        public DownloadEDeclarationService()
         {
-            searchEDeclaration = searchEDeclarationBuildService;
-            this.syncUI = syncUI;
         }
 
         public bool DownloadEDeclaration(string extractionPath)
         {
-            var eDeclarationToDownload = searchEDeclaration.FindLastEDeclarationBuild();
+            var eDeclarationToDownload = SearchEDeclarationBuildService.FindLastEDeclarationBuild();
             var files = DownloadServiceHelper.filesToCopy(eDeclarationToDownload);
             var declarationDirectory = extractionPath + "\\Deklaracje";
 

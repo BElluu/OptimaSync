@@ -13,14 +13,12 @@ namespace OptimaSync.Service
     {
         private readonly RegisterOptimaService registerDLL;
         private readonly DownloadServiceHelper buildSyncHelper;
-        private readonly SearchOptimaBuildService searchBuild;
         private readonly DownloadEDeclarationService downloadEDeclaration;
 
-        public DownloadOptimaService(RegisterOptimaService registerDLL, DownloadServiceHelper buildSyncHelper, SearchOptimaBuildService searchBuild, DownloadEDeclarationService downloadEDeclaration)
+        public DownloadOptimaService(RegisterOptimaService registerDLL, DownloadServiceHelper buildSyncHelper, DownloadEDeclarationService downloadEDeclaration)
         {
             this.registerDLL = registerDLL;
             this.buildSyncHelper = buildSyncHelper;
-            this.searchBuild = searchBuild;
             this.downloadEDeclaration = downloadEDeclaration;
         }
 
@@ -70,7 +68,7 @@ namespace OptimaSync.Service
             }
         }
 
-        private bool DownloadOptima(DirectoryInfo versionToDownload, string extractionPath)
+        private static bool DownloadOptima(DirectoryInfo versionToDownload, string extractionPath)
         {
             var files = filesToCopy(versionToDownload);
 
@@ -145,7 +143,7 @@ namespace OptimaSync.Service
 
         private bool DataForBuildVersionAreValid(out string extractionPath, out DirectoryInfo versionToDownload)
         {
-            versionToDownload = searchBuild.FindLastOptimaBuild();
+            versionToDownload = SearchOptimaBuildService.FindLastOptimaBuild();
             extractionPath = buildSyncHelper.ChooseExtractionPath(versionToDownload);
 
             if (versionToDownload == null || string.IsNullOrEmpty(extractionPath) || haveLatestVersion(versionToDownload, extractionPath))
@@ -174,7 +172,7 @@ namespace OptimaSync.Service
             return Directory.GetFiles(lastBuildDir.ToString(), "*.*", SearchOption.AllDirectories);
         }
 
-        private bool haveLatestVersion(DirectoryInfo lastBuildDir, string extractionPath)
+        private static bool haveLatestVersion(DirectoryInfo lastBuildDir, string extractionPath)
         {
             if (!DownloadServiceHelper.DoesLockFileExist(extractionPath) &&
                 DownloadServiceHelper.BuildVersionsAreSame(lastBuildDir.ToString(), lastBuildDir.Name))

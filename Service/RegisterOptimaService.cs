@@ -11,11 +11,8 @@ namespace OptimaSync.Service
 {
     public class RegisterOptimaService
     {
-        private readonly RunOptimaService runOptima;
-
-        public RegisterOptimaService(RunOptimaService runOptima)
+        public RegisterOptimaService()
         {
-            this.runOptima = runOptima;
         }
         public void RegisterOptima(string path)
         {
@@ -33,10 +30,10 @@ namespace OptimaSync.Service
             }
 
             RegisterDLLFile(registerFile, path);
-            runOptima.Start(path);
+            RunOptimaService.Start(path);
         }
 
-        private void RegisterDLLFile(string registerFile, string path)
+        private static void RegisterDLLFile(string registerFile, string path)
         {
             try
             {
