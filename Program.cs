@@ -19,16 +19,14 @@ namespace OptimaSync
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             SyncUI syncUI = new SyncUI();
-            WindowsService windowsService = new WindowsService(syncUI);
-            ValidatorUI validatorUI = new ValidatorUI();
-            DownloadServiceHelper downloadHelper = new DownloadServiceHelper(validatorUI, windowsService, syncUI);
-            SearchBuildServiceHelper searchBuildHelper = new SearchBuildServiceHelper();
+            WindowsService windowsService = new WindowsService();
+            DownloadServiceHelper downloadHelper = new DownloadServiceHelper(windowsService);
             RunOptimaService runOptimaService = new RunOptimaService(syncUI);
-            RegisterOptimaService registerDLL = new RegisterOptimaService(syncUI, downloadHelper, runOptimaService);
-            SearchOptimaBuildService searchOptimaBuild = new SearchOptimaBuildService(syncUI, searchBuildHelper);
-            SearchEDeclarationBuildService searchEDeclarationBuild = new SearchEDeclarationBuildService(syncUI);
-            DownloadEDeclarationService downloadEDeclaration = new DownloadEDeclarationService(searchEDeclarationBuild,downloadHelper,syncUI);
-            DownloadOptimaService downloadOptima = new DownloadOptimaService(syncUI, registerDLL, downloadHelper,searchOptimaBuild,downloadEDeclaration);
+            RegisterOptimaService registerDLL = new RegisterOptimaService(runOptimaService);
+            SearchOptimaBuildService searchOptimaBuild = new SearchOptimaBuildService();
+            SearchEDeclarationBuildService searchEDeclarationBuild = new SearchEDeclarationBuildService();
+            DownloadEDeclarationService downloadEDeclaration = new DownloadEDeclarationService(searchEDeclarationBuild,syncUI);
+            DownloadOptimaService downloadOptima = new DownloadOptimaService(registerDLL, downloadHelper,searchOptimaBuild,downloadEDeclaration);
             var controller = new ApplicationController(new MainForm(downloadOptima, syncUI, searchOptimaBuild));
             controller.Run(Environment.GetCommandLineArgs());
         }

@@ -11,15 +11,13 @@ namespace OptimaSync.Service
 {
     public class DownloadOptimaService
     {
-        SyncUI syncUI;
-        RegisterOptimaService registerDLL;
-        DownloadServiceHelper buildSyncHelper;
-        SearchOptimaBuildService searchBuild;
-        DownloadEDeclarationService downloadEDeclaration;
+        private readonly RegisterOptimaService registerDLL;
+        private readonly DownloadServiceHelper buildSyncHelper;
+        private readonly SearchOptimaBuildService searchBuild;
+        private readonly DownloadEDeclarationService downloadEDeclaration;
 
-        public DownloadOptimaService(SyncUI syncUI, RegisterOptimaService registerDLL, DownloadServiceHelper buildSyncHelper, SearchOptimaBuildService searchBuild, DownloadEDeclarationService downloadEDeclaration)
+        public DownloadOptimaService(RegisterOptimaService registerDLL, DownloadServiceHelper buildSyncHelper, SearchOptimaBuildService searchBuild, DownloadEDeclarationService downloadEDeclaration)
         {
-            this.syncUI = syncUI;
             this.registerDLL = registerDLL;
             this.buildSyncHelper = buildSyncHelper;
             this.searchBuild = searchBuild;
@@ -33,7 +31,7 @@ namespace OptimaSync.Service
             DirectoryInfo versionToDownload = null;
             try
             {
-                syncUI.EnableElementsOnForm(false);
+                SyncUI.EnableElementsOnForm(false);
 
                 if (buildVersion)
                 {
@@ -44,7 +42,7 @@ namespace OptimaSync.Service
                     if (!DataForBuildVersionAreValid(out extractionPath, out versionToDownload))
                         return;
                 }
-                else if (!buildVersion)
+                else
                 {
                     server = AppConfigHelper.GetConfigValue("ProductionServer");
                     if (!NetworkDrive.HaveAccessToHost(server))
@@ -56,7 +54,7 @@ namespace OptimaSync.Service
                 if (DownloadOptima(versionToDownload, extractionPath))
                 {
                     if(buildVersion)
-                        searchBuild.SetLastDownloadedVersion(versionToDownload);
+                        SearchOptimaBuildService.SetLastDownloadedVersion(versionToDownload);
                     registerDLL.RegisterOptima(extractionPath);
                 }
 
@@ -68,7 +66,7 @@ namespace OptimaSync.Service
             }
             finally
             {
-                syncUI.EnableElementsOnForm(true);
+                SyncUI.EnableElementsOnForm(true);
             }
         }
 
@@ -81,27 +79,27 @@ namespace OptimaSync.Service
                 if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.BASIC.ToString() &&
                     !Directory.Exists(extractionPath))
                 {
-                    DirectoryInfo directoryInfo = Directory.CreateDirectory(extractionPath);
+                    Directory.CreateDirectory(extractionPath);
                 }
 
-                if (!buildSyncHelper.DoesLockFileExist(extractionPath))
+                if (!DownloadServiceHelper.DoesLockFileExist(extractionPath))
                 {
-                    buildSyncHelper.CreateLockFile(extractionPath);
+                    DownloadServiceHelper.CreateLockFile(extractionPath);
                 }
 
-                syncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
+                SyncUI.ChangeProgressLabel(Messages.DOWNLOADING_BUILD);
                 foreach (string dir in Directory.GetDirectories(versionToDownload.ToString(), "*", SearchOption.AllDirectories))
                 {
                     Directory.CreateDirectory(dir.Replace(versionToDownload.ToString(), extractionPath));
                 }
 
-                syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", 0, files.Length));
+                SyncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", 0, files.Length));
                 int i = 0;
 
                 foreach (string file in files)
                 {
                     File.Copy(file, file.Replace(versionToDownload.ToString(), extractionPath), true);
-                    syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", ++i, files.Length));
+                    SyncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", ++i, files.Length));
                 }
 
                 Logger.Write(LogEventLevel.Information, "Skopiowano " + versionToDownload.Name);
@@ -110,13 +108,13 @@ namespace OptimaSync.Service
             catch (Exception ex)
             {
                 Logger.Write(LogEventLevel.Error, ex.Message);
-                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
-                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
+                SyncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
+                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.notificationType.Error));
                 return false;
             }
         }
 
-        public Dictionary<string, string> GetListOfProd()
+        public static Dictionary<string, string> GetListOfProd()
         {
             var listOfBuilds = new Dictionary<string, string>();
             DirectoryInfo directory;
@@ -140,7 +138,7 @@ namespace OptimaSync.Service
             foreach (DirectoryInfo prod in prodVersions)
             {
                 listOfBuilds.Add(prod.Name, prod.ToString());
-            };
+            }
 
             return listOfBuilds;
         }
@@ -152,7 +150,7 @@ namespace OptimaSync.Service
 
             if (versionToDownload == null || string.IsNullOrEmpty(extractionPath) || haveLatestVersion(versionToDownload, extractionPath))
             {
-                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                SyncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return false;
             }
             return true;
@@ -160,30 +158,30 @@ namespace OptimaSync.Service
 
         private bool DataForProductionVersionAreValid(out string extractionPath, out DirectoryInfo versionToDownload, string prodVersionPath)
         {
-            versionToDownload = new DirectoryInfo(prodVersionPath); ;
+            versionToDownload = new DirectoryInfo(prodVersionPath);
             extractionPath = buildSyncHelper.ChooseExtractionPath(versionToDownload);
 
-            if (versionToDownload == null || string.IsNullOrEmpty(extractionPath))
+            if (!versionToDownload.Exists || string.IsNullOrEmpty(extractionPath))
             {
-                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                SyncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return false;
             }
             return true;
         }
 
-        private string[] filesToCopy(DirectoryInfo lastBuildDir)
+        private static string[] filesToCopy(DirectoryInfo lastBuildDir)
         {
             return Directory.GetFiles(lastBuildDir.ToString(), "*.*", SearchOption.AllDirectories);
         }
 
         private bool haveLatestVersion(DirectoryInfo lastBuildDir, string extractionPath)
         {
-            if (!buildSyncHelper.DoesLockFileExist(extractionPath) &&
-                buildSyncHelper.BuildVersionsAreSame(lastBuildDir.ToString(), lastBuildDir.Name))
+            if (!DownloadServiceHelper.DoesLockFileExist(extractionPath) &&
+                DownloadServiceHelper.BuildVersionsAreSame(lastBuildDir.ToString(), lastBuildDir.Name))
             {
-                SyncUI.Invoke(() => MainForm.Notification(Messages.YOU_HAVE_LATEST_BUILD, NotificationForm.enumType.Informaton));
+                SyncUI.Invoke(() => MainForm.Notification(Messages.YOU_HAVE_LATEST_BUILD, NotificationForm.notificationType.Informaton));
                 Logger.Write(LogEventLevel.Information, Messages.YOU_HAVE_LATEST_BUILD);
-                syncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
+                SyncUI.ChangeProgressLabel(Messages.OSA_READY_TO_WORK);
                 return true;
             }
             return false;

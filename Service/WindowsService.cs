@@ -14,11 +14,8 @@ namespace OptimaSync.Service
         public static readonly string SOA_SERVICE = "ComarchAutomatSynchronizacji";
         public static readonly string SOA_PROCESS = "ComarchOptimaSerwisOperacjiAutomatycznych";
 
-        SyncUI syncUI;
-
-        public WindowsService(SyncUI syncUI)
+        public WindowsService()
         {
-            this.syncUI = syncUI;
         }
 
         public bool SoaIsStopped()
@@ -26,7 +23,7 @@ namespace OptimaSync.Service
             return StopSOAService();
         }
 
-        public bool DoesSOAServiceExist()
+        public static bool DoesSOAServiceExist()
         {
             ServiceController windowsServices = ServiceController.GetServices()
                 .FirstOrDefault(s => s.ServiceName == SOA_SERVICE);
@@ -46,7 +43,7 @@ namespace OptimaSync.Service
             {
                 try
                 {
-                    syncUI.ChangeProgressLabel(Messages.STOPPING_SOA_SERVICE);
+                    SyncUI.ChangeProgressLabel(Messages.STOPPING_SOA_SERVICE);
                     SoaService.Stop();
                     SoaService.WaitForStatus(ServiceControllerStatus.Stopped);
 

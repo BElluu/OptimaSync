@@ -11,14 +11,10 @@ namespace OptimaSync.Service
 {
     public class RegisterOptimaService
     {
-        SyncUI syncUI;
-        DownloadServiceHelper buildSyncHelper;
-        RunOptimaService runOptima;
+        private readonly RunOptimaService runOptima;
 
-        public RegisterOptimaService(SyncUI syncUI, DownloadServiceHelper buildSyncHelper, RunOptimaService runOptima)
+        public RegisterOptimaService(RunOptimaService runOptima)
         {
-            this.syncUI = syncUI;
-            this.buildSyncHelper = buildSyncHelper;
             this.runOptima = runOptima;
         }
         public void RegisterOptima(string path)
@@ -44,7 +40,7 @@ namespace OptimaSync.Service
         {
             try
             {
-                syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_INPROGRESS);
+                SyncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_INPROGRESS);
                 Process proc = new Process();
                 proc.StartInfo.WorkingDirectory = path;
                 proc.StartInfo.FileName = registerFile;
@@ -54,15 +50,15 @@ namespace OptimaSync.Service
                 proc.Start();
                 proc.WaitForExit();
                 Logger.Write(LogEventLevel.Information, Messages.OPTIMA_REGISTERED);
-                buildSyncHelper.DeleteLockFile(path);
-                syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_SUCCESSFUL);
-                SyncUI.Invoke(() => MainForm.Notification(Messages.REGISTER_OPTIMA_SUCCESSFUL, NotificationForm.enumType.Success));
+                DownloadServiceHelper.DeleteLockFile(path);
+                SyncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_SUCCESSFUL);
+                SyncUI.Invoke(() => MainForm.Notification(Messages.REGISTER_OPTIMA_SUCCESSFUL, NotificationForm.notificationType.Success));
 
             }
             catch (Exception ex)
             {
                 Logger.Write(LogEventLevel.Error, ex.Message);
-                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
+                SyncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
                 MessageBox.Show(Messages.REGISTER_OPTIMA_ERROR, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

@@ -1,6 +1,6 @@
 ﻿namespace OptimaSync.Common
 {
-    class SoundPlayer
+    static class SoundPlayer
     {
         public static void PlayNotificationSound()
         {

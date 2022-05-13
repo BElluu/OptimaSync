@@ -18,14 +18,14 @@ namespace OptimaSync
             InitializeComponent();
         }
 
-        public enum enumAction
+        public enum notificationAction
         {
             wait,
             start,
             close
         }
 
-        public enum enumType
+        public enum notificationType
         {
             Success,
             Warning,
@@ -33,24 +33,24 @@ namespace OptimaSync
             Informaton
         }
 
-        private NotificationForm.enumAction action;
+        private NotificationForm.notificationAction action;
         private int x, y;
 
         private void notificationButton_Click(object sender, EventArgs e)
         {
             timer1.Interval = 1;
-            action = enumAction.close;
+            action = notificationAction.close;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             switch (this.action)
             {
-                case enumAction.wait:
+                case notificationAction.wait:
                     timer1.Interval = 5000;
-                    action = enumAction.close;
+                    action = notificationAction.close;
                     break;
-                case enumAction.start:
+                case notificationAction.start:
                     timer1.Interval = 1;
                     this.Opacity += 0.1;
                     if (this.x < this.Location.X)
@@ -61,11 +61,11 @@ namespace OptimaSync
                     {
                         if (this.Opacity == 1.0)
                         {
-                            action = enumAction.wait;
+                            action = notificationAction.wait;
                         }
                     }
                     break;
-                case enumAction.close:
+                case notificationAction.close:
                     timer1.Interval = 1;
                     this.Opacity -= 0.1;
                     this.Left -= 3;
@@ -77,7 +77,7 @@ namespace OptimaSync
             }
         }
 
-        public void showNotification(string notificationMessage, enumType notificationType)
+        public void showNotification(string notificationMessage, notificationType notificationType)
         {
             this.Opacity = 0.0;
             this.StartPosition = FormStartPosition.Manual;
@@ -101,22 +101,22 @@ namespace OptimaSync
 
             switch (notificationType)
             {
-                case enumType.Success:
+                case notificationType.Success:
                     this.notificationPicture.Image = Resources.icons8_ok_45px_1;
                     this.BackColor = Color.SeaGreen;
                     break;
 
-                case enumType.Warning:
+                case notificationType.Warning:
                     this.notificationPicture.Image = Resources.icons8_warning_shield_45px;
                     this.BackColor = Color.DarkOrange;
                     break;
 
-                case enumType.Error:
+                case notificationType.Error:
                     this.notificationPicture.Image = Resources.icons8_sad_cloud_45px;
                     this.BackColor = Color.DarkRed;
                     break;
 
-                case enumType.Informaton:
+                case notificationType.Informaton:
                     this.notificationPicture.Image = Resources.info_icon;
                     this.BackColor = Color.RoyalBlue;
                     break;
@@ -124,7 +124,7 @@ namespace OptimaSync
 
             this.notificationLabel.Text = notificationMessage;
             this.Show();
-            this.action = enumAction.start;
+            this.action = notificationAction.start;
 
             this.timer1.Interval = 1;
             timer1.Start();

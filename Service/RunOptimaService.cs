@@ -9,7 +9,7 @@ namespace OptimaSync.Service
 {
     public class RunOptimaService
     {
-        SyncUI syncUI;
+        private readonly SyncUI syncUI;
         public RunOptimaService(SyncUI syncUI)
         {
             this.syncUI = syncUI;
@@ -30,8 +30,8 @@ namespace OptimaSync.Service
                 catch (Exception ex)
                 {
                     Logger.Write(LogEventLevel.Warning, ex.Message);
-                    syncUI.ChangeProgressLabel("Nie udało się uruchomić O!");
-                    SyncUI.Invoke(() => MainForm.Notification("Nie udało się uruchomić O!", NotificationForm.enumType.Warning));
+                    SyncUI.ChangeProgressLabel("Nie udało się uruchomić O!");
+                    SyncUI.Invoke(() => MainForm.Notification("Nie udało się uruchomić O!", NotificationForm.notificationType.Warning));
                 }
             }
         }

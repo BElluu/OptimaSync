@@ -7,7 +7,7 @@ namespace OptimaSync.UI
 {
     public class ValidatorUI
     {
-        public bool DestPathIsValid()
+        public static bool DestPathIsValid()
         {
             string DestPath = MainForm.Instance.DestTextBox.Text;
             if (string.IsNullOrEmpty(DestPath))
@@ -19,7 +19,7 @@ namespace OptimaSync.UI
             return true;
         }
 
-        public bool DestSOAPathIsValid()
+        public static bool DestSOAPathIsValid()
         {
             string SOAPath = MainForm.Instance.OptimaSOATextBox.Text;
             if (string.IsNullOrEmpty(SOAPath))

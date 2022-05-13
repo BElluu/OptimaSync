@@ -11,16 +11,14 @@ namespace OptimaSync.Service
 {
     public class SearchEDeclarationBuildService
     {
-        SyncUI syncUI;
-        public SearchEDeclarationBuildService(SyncUI syncUI)
+        public SearchEDeclarationBuildService()
         {
-            this.syncUI = syncUI;
         }
         public DirectoryInfo FindLastEDeclarationBuild()
         {
             try
             {
-                syncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);
+                SyncUI.ChangeProgressLabel(Messages.SEARCHING_FOR_BUILD);
                 var eDeclarationLocation = new DirectoryInfo(AppConfigHelper.GetConfigValue("eDeclarationPath"));
                 var lastEDeclarationBuildFirstStage = eDeclarationLocation.GetDirectories()
                     .Where(q => !q.Name.Contains("Deklaracje", StringComparison.InvariantCultureIgnoreCase))
@@ -32,16 +30,15 @@ namespace OptimaSync.Service
                     .First();
 
                 var lastEDeclarationBuildDirectory = lastEDeclarationBuildSecondStage.GetDirectories()
-                    .Where(q => q.Name.Contains("unpacked"))
-                    .First();
+                    .First(q => q.Name.Contains("unpacked"));
 
                 return lastEDeclarationBuildDirectory;
             }
             catch (Exception ex)
             {
                 Logger.Write(LogEventLevel.Error, ex.Message);
-                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
-                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
+                SyncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
+                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.notificationType.Error));
                 return null;
             }
         }

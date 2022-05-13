@@ -10,7 +10,7 @@ namespace OptimaSync
 {
     public class ApplicationController: WindowsFormsApplicationBase
     {
-        private MainForm mainForm;
+        private readonly MainForm mainForm;
 
         public ApplicationController(MainForm form)
         {
