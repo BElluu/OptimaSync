@@ -12,7 +12,11 @@ namespace OptimaSync.UI
     public class SyncUI
     {
         static readonly string USER_MANUAL = "https://osync.devopsowy.pl/Instrukcja.pdf";
+        #pragma warning disable S1075
         static readonly string EXPLORER_PATH = @"C:\Windows\explorer.exe";
+        #pragma warning restore S1075
+
+        protected SyncUI() { }
         public static void Invoke(Action action)
         {
             MainForm mainForm = Application.OpenForms.Cast<MainForm>().FirstOrDefault();

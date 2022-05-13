@@ -14,7 +14,7 @@ namespace OptimaSync.Service
         {
         }
 
-        public bool DownloadEDeclaration(string extractionPath)
+        public static bool DownloadEDeclaration(string extractionPath)
         {
             var eDeclarationToDownload = SearchEDeclarationBuildService.FindLastEDeclarationBuild();
             var files = DownloadServiceHelper.filesToCopy(eDeclarationToDownload);

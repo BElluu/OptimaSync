@@ -129,7 +129,7 @@ namespace OptimaSync.Helper
             return Directory.GetFiles(lastBuildDir.ToString(), "*.*", SearchOption.AllDirectories);
         }
 
-        private bool SOARequirementsAreMet()
+        private static bool SOARequirementsAreMet()
         {
             if (!ValidatorUI.DestSOAPathIsValid())
             {

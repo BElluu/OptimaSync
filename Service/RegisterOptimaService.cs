@@ -14,7 +14,7 @@ namespace OptimaSync.Service
         public RegisterOptimaService()
         {
         }
-        public void RegisterOptima(string path)
+        public static void RegisterOptima(string path)
         {
             string registerFile = "Rejestr.bat";
 

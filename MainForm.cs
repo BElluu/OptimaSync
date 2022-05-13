@@ -16,13 +16,11 @@ namespace OptimaSync
         private static string AUTO_UPDATE_CONFIG = "https://osync.devopsowy.pl/AutoUpdater.xml";
 
         private readonly DownloadOptimaService downloaderService;
-        private readonly SearchOptimaBuildService searchBuildService;
 
         private static MainForm _instance = null;
-        public MainForm(DownloadOptimaService buildSyncService, SearchOptimaBuildService searchBuildService)
+        public MainForm(DownloadOptimaService buildSyncService)
         {
-            this.downloaderService = buildSyncService;
-            this.searchBuildService = searchBuildService;
+            downloaderService = buildSyncService;
 
             InitializeComponent();
             SetValuesFromConfig();
@@ -215,7 +213,7 @@ namespace OptimaSync
 
         private void backgroundWorkerNotification_DoWork(object sender, DoWorkEventArgs e)
         {
-            searchBuildService.AutoCheckNewVersion();
+            SearchOptimaBuildService.AutoCheckNewVersion();
         }
 
         private void InitCheckVersionTimer()

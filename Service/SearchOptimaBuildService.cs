@@ -48,7 +48,7 @@ namespace OptimaSync.Service
             string lastDownloadedBuildCommonDllVersion = lastDownloadedBuildVersionFile.ProductVersion.ToString();
             AppConfigHelper.SetConfigValue("LatestVersionChecked", lastDownloadedBuildCommonDllVersion);
         }
-        public void AutoCheckNewVersion()
+        public static void AutoCheckNewVersion()
         {
             if (!Convert.ToBoolean(AppConfigHelper.GetConfigValue("AutoCheckVersion")))
             {

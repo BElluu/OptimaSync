@@ -11,15 +11,11 @@ namespace OptimaSync.Service
 {
     public class DownloadOptimaService
     {
-        private readonly RegisterOptimaService registerDLL;
         private readonly DownloadServiceHelper buildSyncHelper;
-        private readonly DownloadEDeclarationService downloadEDeclaration;
 
-        public DownloadOptimaService(RegisterOptimaService registerDLL, DownloadServiceHelper buildSyncHelper, DownloadEDeclarationService downloadEDeclaration)
+        public DownloadOptimaService(DownloadServiceHelper buildSyncHelper)
         {
-            this.registerDLL = registerDLL;
             this.buildSyncHelper = buildSyncHelper;
-            this.downloadEDeclaration = downloadEDeclaration;
         }
 
         public void GetOptima(bool buildVersion, string prodVersionPath, bool shouldDownloadEDeclaration)
@@ -53,12 +49,12 @@ namespace OptimaSync.Service
                 {
                     if(buildVersion)
                         SearchOptimaBuildService.SetLastDownloadedVersion(versionToDownload);
-                    registerDLL.RegisterOptima(extractionPath);
+                    RegisterOptimaService.RegisterOptima(extractionPath);
                 }
 
                 if(shouldDownloadEDeclaration)
                 {
-                    downloadEDeclaration.DownloadEDeclaration(extractionPath);
+                    DownloadEDeclarationService.DownloadEDeclaration(extractionPath);
                 }
 
             }

@@ -18,14 +18,9 @@ namespace OptimaSync
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            SyncUI syncUI = new SyncUI();
-            WindowsService windowsService = new WindowsService();
             DownloadServiceHelper downloadHelper = new DownloadServiceHelper();
-            RegisterOptimaService registerDLL = new RegisterOptimaService();
-            SearchOptimaBuildService searchOptimaBuild = new SearchOptimaBuildService();
-            DownloadEDeclarationService downloadEDeclaration = new DownloadEDeclarationService();
-            DownloadOptimaService downloadOptima = new DownloadOptimaService(registerDLL, downloadHelper,downloadEDeclaration);
-            var controller = new ApplicationController(new MainForm(downloadOptima, searchOptimaBuild));
+            DownloadOptimaService downloadOptima = new DownloadOptimaService(downloadHelper);
+            var controller = new ApplicationController(new MainForm(downloadOptima));
             controller.Run(Environment.GetCommandLineArgs());
         }
     }

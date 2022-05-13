@@ -6,6 +6,8 @@ namespace OptimaSync.Helper
 {
     public class SearchBuildServiceHelper
     {
+
+        protected SearchBuildServiceHelper() { }
         public static string GetProgrammerVersion()
         {
             string programmerCommonDllPath = AppConfigHelper.GetConfigValue("ProgrammerDestination") + Path.DirectorySeparatorChar + DownloadServiceHelper.CHECK_VERSION_FILE;

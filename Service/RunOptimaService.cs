@@ -10,7 +10,7 @@ namespace OptimaSync.Service
 {
     public class RunOptimaService
     {
-        public RunOptimaService()
+        protected RunOptimaService()
         {
         }
         public static void Start(string path)

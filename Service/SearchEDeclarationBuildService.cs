@@ -11,7 +11,7 @@ namespace OptimaSync.Service
 {
     public class SearchEDeclarationBuildService
     {
-        public SearchEDeclarationBuildService()
+        protected SearchEDeclarationBuildService()
         {
         }
         public static DirectoryInfo FindLastEDeclarationBuild()

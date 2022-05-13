@@ -14,7 +14,7 @@ namespace OptimaSync.Service
         public static readonly string SOA_SERVICE = "ComarchAutomatSynchronizacji";
         public static readonly string SOA_PROCESS = "ComarchOptimaSerwisOperacjiAutomatycznych";
 
-        public WindowsService()
+        protected WindowsService()
         {
         }
 
