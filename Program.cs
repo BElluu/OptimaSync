@@ -18,8 +18,7 @@ namespace OptimaSync
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            DownloadServiceHelper downloadHelper = new DownloadServiceHelper();
-            DownloadOptimaService downloadOptima = new DownloadOptimaService(downloadHelper);
+            DownloadOptimaService downloadOptima = new DownloadOptimaService();
             var controller = new ApplicationController(new MainForm(downloadOptima));
             controller.Run(Environment.GetCommandLineArgs());
         }

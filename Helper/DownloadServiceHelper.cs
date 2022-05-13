@@ -69,7 +69,7 @@ namespace OptimaSync.Helper
             return BuildVersionIsSameAsOwned(buildPath,buildVersions);
         }
 
-        public string ChooseExtractionPath(DirectoryInfo dir)
+        public static string ChooseExtractionPath(DirectoryInfo dir)
         {
             if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.SOA.ToString() &&
                 !SOARequirementsAreMet())

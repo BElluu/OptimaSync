@@ -11,7 +11,7 @@ namespace OptimaSync.Service
 {
     public class RegisterOptimaService
     {
-        public RegisterOptimaService()
+        protected RegisterOptimaService()
         {
         }
         public static void RegisterOptima(string path)

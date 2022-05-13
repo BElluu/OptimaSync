@@ -10,7 +10,7 @@ namespace OptimaSync.Service
 {
     public class DownloadEDeclarationService
     {
-        public DownloadEDeclarationService()
+        protected DownloadEDeclarationService()
         {
         }
 

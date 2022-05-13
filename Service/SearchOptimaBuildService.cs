@@ -15,7 +15,7 @@ namespace OptimaSync.Service
     {
         static string[] EXCLUDED_STRINGS = { "CIV", "SQL", "test", "rar", "FIXES", "sPrint" };
 
-        public SearchOptimaBuildService()
+        protected SearchOptimaBuildService()
         {
         }
         public static DirectoryInfo FindLastOptimaBuild()

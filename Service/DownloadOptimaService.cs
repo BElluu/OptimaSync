@@ -11,11 +11,8 @@ namespace OptimaSync.Service
 {
     public class DownloadOptimaService
     {
-        private readonly DownloadServiceHelper buildSyncHelper;
-
-        public DownloadOptimaService(DownloadServiceHelper buildSyncHelper)
+        public DownloadOptimaService()
         {
-            this.buildSyncHelper = buildSyncHelper;
         }
 
         public void GetOptima(bool buildVersion, string prodVersionPath, bool shouldDownloadEDeclaration)
@@ -140,7 +137,7 @@ namespace OptimaSync.Service
         private bool DataForBuildVersionAreValid(out string extractionPath, out DirectoryInfo versionToDownload)
         {
             versionToDownload = SearchOptimaBuildService.FindLastOptimaBuild();
-            extractionPath = buildSyncHelper.ChooseExtractionPath(versionToDownload);
+            extractionPath = DownloadServiceHelper.ChooseExtractionPath(versionToDownload);
 
             if (versionToDownload == null || string.IsNullOrEmpty(extractionPath) || haveLatestVersion(versionToDownload, extractionPath))
             {
@@ -153,7 +150,7 @@ namespace OptimaSync.Service
         private bool DataForProductionVersionAreValid(out string extractionPath, out DirectoryInfo versionToDownload, string prodVersionPath)
         {
             versionToDownload = new DirectoryInfo(prodVersionPath);
-            extractionPath = buildSyncHelper.ChooseExtractionPath(versionToDownload);
+            extractionPath = DownloadServiceHelper.ChooseExtractionPath(versionToDownload);
 
             if (!versionToDownload.Exists || string.IsNullOrEmpty(extractionPath))
             {
