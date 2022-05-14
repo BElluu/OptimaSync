@@ -17,7 +17,7 @@ namespace OptimaSync.Helper
         public static readonly string LOCK_FILE = "osync.lock";
         public static readonly string CHECK_VERSION_FILE = "Common.dll";
 
-        public DownloadServiceHelper() { }
+        protected DownloadServiceHelper() { }
 
         public static bool BuildVersionsAreSame(string buildPath, string buildDirectoryName)
         {

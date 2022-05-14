@@ -134,7 +134,7 @@ namespace OptimaSync.Service
             return listOfBuilds;
         }
 
-        private bool DataForBuildVersionAreValid(out string extractionPath, out DirectoryInfo versionToDownload)
+        private static bool DataForBuildVersionAreValid(out string extractionPath, out DirectoryInfo versionToDownload)
         {
             versionToDownload = SearchOptimaBuildService.FindLastOptimaBuild();
             extractionPath = DownloadServiceHelper.ChooseExtractionPath(versionToDownload);
@@ -147,7 +147,7 @@ namespace OptimaSync.Service
             return true;
         }
 
-        private bool DataForProductionVersionAreValid(out string extractionPath, out DirectoryInfo versionToDownload, string prodVersionPath)
+        private static bool DataForProductionVersionAreValid(out string extractionPath, out DirectoryInfo versionToDownload, string prodVersionPath)
         {
             versionToDownload = new DirectoryInfo(prodVersionPath);
             extractionPath = DownloadServiceHelper.ChooseExtractionPath(versionToDownload);
