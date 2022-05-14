@@ -15,13 +15,9 @@ namespace OptimaSync
     {
         private static string AUTO_UPDATE_CONFIG = "https://osync.devopsowy.pl/AutoUpdater.xml";
 
-        private readonly DownloadOptimaService downloaderService;
-
         private static MainForm _instance = null;
-        public MainForm(DownloadOptimaService buildSyncService)
+        public MainForm()
         {
-            downloaderService = buildSyncService;
-
             InitializeComponent();
             SetValuesFromConfig();
             FillProductionVersionList();
@@ -118,7 +114,7 @@ namespace OptimaSync
             {
                 prodVersionPath = prodVersionDropMenu.SelectedValue.ToString();
             }));
-            downloaderService.GetOptima(buildVersion, prodVersionPath, Convert.ToBoolean(AppConfigHelper.GetConfigValue("DownloadEDeclaration")));
+            DownloadOptimaService.GetOptima(buildVersion, prodVersionPath, Convert.ToBoolean(AppConfigHelper.GetConfigValue("DownloadEDeclaration")));
         }
 
         private void OpenLogsButton_Click(object sender, EventArgs e)

@@ -15,7 +15,7 @@ namespace OptimaSync.Service
         {
         }
 
-        public void GetOptima(bool buildVersion, string prodVersionPath, bool shouldDownloadEDeclaration)
+        public static void GetOptima(bool buildVersion, string prodVersionPath, bool shouldDownloadEDeclaration)
         {
             string server = string.Empty;
             string extractionPath = string.Empty;
