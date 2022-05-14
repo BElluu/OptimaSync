@@ -11,7 +11,7 @@ namespace OptimaSync.Service
 {
     public class DownloadOptimaService
     {
-        public DownloadOptimaService()
+        protected DownloadOptimaService()
         {
         }
 
