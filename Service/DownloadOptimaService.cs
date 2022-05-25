@@ -6,6 +6,7 @@ using OptimaSync.Helper;
 using OptimaSync.Common;
 using Serilog.Events;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OptimaSync.Service
 {
@@ -107,7 +108,7 @@ namespace OptimaSync.Service
 
         public static Dictionary<string, string> GetListOfProd()
         {
-            var listOfBuilds = new Dictionary<string, string>();
+            Dictionary<string, string> listOfBuilds = new Dictionary<string, string>();
             DirectoryInfo directory;
             DirectoryInfo[] prodVersions;
             try
@@ -123,14 +124,11 @@ namespace OptimaSync.Service
                 listOfBuilds.Add("", "");
                 return listOfBuilds;
             }
-            
-            prodVersions = directory.GetDirectories();
 
-            foreach (DirectoryInfo prod in prodVersions)
+            foreach (DirectoryInfo prod in prodVersions.Reverse())
             {
                 listOfBuilds.Add(prod.Name, prod.ToString());
             }
-
             return listOfBuilds;
         }
 
