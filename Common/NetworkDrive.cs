@@ -20,14 +20,14 @@ namespace OptimaSync.Common
                     return true;
                 }else
                 {
-                    SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do " + HostName, NotificationForm.enumType.Error));
+                    SyncUI.Invoke(() => MainForm.Notification("Brak dostępu do " + HostName, NotificationForm.notificationType.Error));
                     Logger.Write(LogEventLevel.Error, "Brak dostępu do " + HostName + "! Sprawdź czy masz internet lub połączenie VPN.");
                 }
                 return false;
             }
             catch (Exception ex)
             {
-                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
+                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.notificationType.Error));
                 Logger.Write(LogEventLevel.Error, ex.Message);
                 return false;
             }

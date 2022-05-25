@@ -12,6 +12,11 @@ namespace OptimaSync.UI
     public class SyncUI
     {
         static readonly string USER_MANUAL = "https://osync.devopsowy.pl/Instrukcja.pdf";
+        #pragma warning disable S1075
+        static readonly string EXPLORER_PATH = @"C:\Windows\explorer.exe";
+        #pragma warning restore S1075
+
+        protected SyncUI() { }
         public static void Invoke(Action action)
         {
             MainForm mainForm = Application.OpenForms.Cast<MainForm>().FirstOrDefault();
@@ -20,7 +25,7 @@ namespace OptimaSync.UI
             else
                 action();
         }
-        public void PathToTextbox(TextBox textBox)
+        public static void PathToTextbox(TextBox textBox)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
@@ -28,20 +33,20 @@ namespace OptimaSync.UI
             textBox.AppendText(folderBrowserDialog.SelectedPath);
         }
 
-        public void ChangeProgressLabel(string status)
+        public static void ChangeProgressLabel(string status)
         {
             Invoke(() => MainForm.Instance.ProgressLabelStatus = "Status: " + status);
             Invoke(() => MainForm.Instance.labelProgress.Refresh());
         }
 
-        public string GetAppVersion()
+        public static string GetAppVersion()
         {
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             var versionWithoutRevision = version[..8];
             return versionWithoutRevision;
         }
 
-        public void EnableElementsOnForm(bool state)
+        public static void EnableElementsOnForm(bool state)
         {
             Invoke(() => MainForm.Instance.downloadBuildButton.Enabled = state);
             Invoke(() => MainForm.Instance.SOACheckBox.Enabled = state);
@@ -68,7 +73,7 @@ namespace OptimaSync.UI
             }
         }
 
-        public void OpenLogsDirectory()
+        public static void OpenLogsDirectory()
         {
             string logsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "OSync");
             if (!Directory.Exists(logsDirectory))
@@ -77,15 +82,15 @@ namespace OptimaSync.UI
                 MessageBox.Show(Messages.LOGS_DIRECTORY_NOT_EXIST, Messages.ERROR_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            System.Diagnostics.Process.Start("explorer.exe", logsDirectory);
+            System.Diagnostics.Process.Start(EXPLORER_PATH, logsDirectory);
         }
 
-        public void OpenUserManual()
+        public static void OpenUserManual()
         {
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(USER_MANUAL) { UseShellExecute = true });
         }
 
-        public void DisableElementsWhileProgrammer()
+        public static void DisableElementsWhileProgrammer()
         {
             bool state;
             if (AppConfigHelper.GetConfigValue("DownloadType") == DownloadType.PROGRAMMER.ToString())
@@ -110,7 +115,7 @@ namespace OptimaSync.UI
             MainForm.Instance.buttonOptimaSOADirectory.Enabled = state;
         }
 
-        private void SetStateOfRunOptimaCheckBox(bool state)
+        private static void SetStateOfRunOptimaCheckBox(bool state)
         {
             MainForm.Instance.RunOptimaCheckBox.Checked = state;
             MainForm.Instance.RunOptimaCheckBox.Enabled = state;

@@ -15,19 +15,12 @@ namespace OptimaSync
     {
         private static string AUTO_UPDATE_CONFIG = "https://osync.devopsowy.pl/AutoUpdater.xml";
 
-        DownloadOptimaService downloaderService;
-        SyncUI syncUI;
-        SearchOptimaBuildService searchBuildService;
-
-        private static MainForm _instance;
-        public MainForm(DownloadOptimaService buildSyncService, SyncUI syncUI, SearchOptimaBuildService searchBuildService)
+        private static MainForm _instance = null;
+        public MainForm()
         {
-            this.downloaderService = buildSyncService;
-            this.syncUI = syncUI;
-            this.searchBuildService = searchBuildService;
-
             InitializeComponent();
             SetValuesFromConfig();
+            MaximizeBox = false;
             FillProductionVersionList();
             _instance = this;
             AutoUpdater.Start(AUTO_UPDATE_CONFIG);
@@ -44,7 +37,7 @@ namespace OptimaSync
 
         private void MainForm_Shown(Object sender, EventArgs e)
         {
-            syncUI.DisableElementsWhileProgrammer();
+            SyncUI.DisableElementsWhileProgrammer();
             prodVersionDropMenu.Enabled = false;
         }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -54,7 +47,7 @@ namespace OptimaSync
                 e.Cancel = true;
                 this.Hide();
                 notifyIcon.Visible = true;
-                SyncUI.Invoke(() => Notification(Messages.OSA_WORKING_IN_BACKGROUND, NotificationForm.enumType.Informaton));
+                SyncUI.Invoke(() => Notification(Messages.OSA_WORKING_IN_BACKGROUND, NotificationForm.notificationType.Informaton));
             }
         }
 
@@ -100,13 +93,13 @@ namespace OptimaSync
 
         private void ButtonDestinationDirectory_Click(object sender, EventArgs e)
         {
-            syncUI.PathToTextbox(DestTextBox);
+            SyncUI.PathToTextbox(DestTextBox);
             AppConfigHelper.SetConfigValue("Destination", DestTextBox.Text);
         }
 
         private void ButtonOptimaSOADirectory_Click(object sender, EventArgs e)
         {
-            syncUI.PathToTextbox(OptimaSOATextBox);
+            SyncUI.PathToTextbox(OptimaSOATextBox);
             AppConfigHelper.SetConfigValue("SOADestination", OptimaSOATextBox.Text);
         }
 
@@ -122,14 +115,14 @@ namespace OptimaSync
             {
                 prodVersionPath = prodVersionDropMenu.SelectedValue.ToString();
             }));
-            downloaderService.GetOptima(buildVersion, prodVersionPath, Convert.ToBoolean(AppConfigHelper.GetConfigValue("DownloadEDeclaration")));
+            DownloadOptimaService.GetOptima(buildVersion, prodVersionPath, Convert.ToBoolean(AppConfigHelper.GetConfigValue("DownloadEDeclaration")));
         }
 
         private void OpenLogsButton_Click(object sender, EventArgs e)
         {
             try
             {
-                syncUI.OpenLogsDirectory();
+                SyncUI.OpenLogsDirectory();
             }
             catch (Exception ex)
             {
@@ -138,12 +131,12 @@ namespace OptimaSync
             }
         }
 
-        public static void Notification(string message, NotificationForm.enumType notificationType)
+        public static void Notification(string message, NotificationForm.notificationType notificationType)
         {
             NotificationForm notificationForm = new NotificationForm();
             notificationForm.showNotification(message, notificationType);
 
-            if (Convert.ToBoolean(AppConfigHelper.GetConfigValue("NotificationSound")) == true)
+            if (Convert.ToBoolean(AppConfigHelper.GetConfigValue("NotificationSound")))
             {
                 SoundPlayer.PlayNotificationSound();
             }
@@ -151,7 +144,7 @@ namespace OptimaSync
 
         private void OpenManualButton_Click(object sender, EventArgs e)
         {
-            syncUI.OpenUserManual();
+            SyncUI.OpenUserManual();
         }
 
         private void ProgrammerCheckbox_Click(object sender, EventArgs e)
@@ -159,12 +152,12 @@ namespace OptimaSync
             if (programmerCheckbox.Checked)
             {
                 AppConfigHelper.SetConfigValue("DownloadType", DownloadType.PROGRAMMER.ToString());
-                syncUI.DisableElementsWhileProgrammer();
+                SyncUI.DisableElementsWhileProgrammer();
             }
             else
             {
                 AppConfigHelper.SetConfigValue("DownloadType", DownloadType.BASIC.ToString());
-                syncUI.DisableElementsWhileProgrammer();
+                SyncUI.DisableElementsWhileProgrammer();
             }
         }
 
@@ -217,7 +210,7 @@ namespace OptimaSync
 
         private void backgroundWorkerNotification_DoWork(object sender, DoWorkEventArgs e)
         {
-            searchBuildService.AutoCheckNewVersion();
+            SearchOptimaBuildService.AutoCheckNewVersion();
         }
 
         private void InitCheckVersionTimer()
@@ -238,7 +231,7 @@ namespace OptimaSync
 
         private void FillProductionVersionList()
         {
-            var dict = downloaderService.GetListOfProd();
+            var dict = DownloadOptimaService.GetListOfProd();
             prodVersionDropMenu.DropDownStyle = ComboBoxStyle.DropDownList;
             prodVersionDropMenu.DataSource = new BindingSource(dict, null);
             prodVersionDropMenu.DisplayMember = "Key";
@@ -249,7 +242,7 @@ namespace OptimaSync
         {
             this.DestTextBox.Text = AppConfigHelper.GetConfigValue("Destination");
             this.OptimaSOATextBox.Text = AppConfigHelper.GetConfigValue("SOADestination");
-            this.versionLabelValue.Text = syncUI.GetAppVersion();
+            this.versionLabelValue.Text = SyncUI.GetAppVersion();
             this.RunOptimaCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("RunOptima"));
             this.newVersionNotificationCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("AutoCheckVersion"));
             this.turnOnSoundNotificationCheckBox.Checked = Convert.ToBoolean(AppConfigHelper.GetConfigValue("NotificationSound"));

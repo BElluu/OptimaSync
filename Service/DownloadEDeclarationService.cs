@@ -10,20 +10,14 @@ namespace OptimaSync.Service
 {
     public class DownloadEDeclarationService
     {
-        SearchEDeclarationBuildService searchEDeclaration;
-        DownloadServiceHelper downloadHelper;
-        SyncUI syncUI;
-        public DownloadEDeclarationService(SearchEDeclarationBuildService searchEDeclarationBuildService, DownloadServiceHelper downloadServiceHelper, SyncUI syncUI)
+        protected DownloadEDeclarationService()
         {
-            searchEDeclaration = searchEDeclarationBuildService;
-            downloadHelper = downloadServiceHelper;
-            this.syncUI = syncUI;
         }
 
-        public bool DownloadEDeclaration(string extractionPath)
+        public static bool DownloadEDeclaration(string extractionPath)
         {
-            var eDeclarationToDownload = searchEDeclaration.FindLastEDeclarationBuild();
-            var files = downloadHelper.filesToCopy(eDeclarationToDownload);
+            var eDeclarationToDownload = SearchEDeclarationBuildService.FindLastEDeclarationBuild();
+            var files = DownloadServiceHelper.filesToCopy(eDeclarationToDownload);
             var declarationDirectory = extractionPath + "\\Deklaracje";
 
             try
@@ -34,23 +28,23 @@ namespace OptimaSync.Service
                     DirectoryInfo directoryInfo = Directory.CreateDirectory(declarationDirectory);
                 }
 
-                syncUI.ChangeProgressLabel("Pobieranie e-Deklaracji");
+                SyncUI.ChangeProgressLabel("Pobieranie e-Deklaracji");
                 foreach (string dir in Directory.GetDirectories(eDeclarationToDownload.ToString(), "*", SearchOption.AllDirectories))
                 {
                     Directory.CreateDirectory(dir.Replace(eDeclarationToDownload.ToString(), declarationDirectory));
                 }
 
-                syncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", 0, files.Length));
+                SyncUI.ChangeProgressLabel(string.Format(Messages.DOWNLOADING_BUILD + " {0}/{1}", 0, files.Length));
                 int i = 0;
 
                 foreach (string file in files)
                 {
                     File.Copy(file, file.Replace(eDeclarationToDownload.ToString(), declarationDirectory), true);
-                    syncUI.ChangeProgressLabel(string.Format("Pobieranie e-Deklaracji" + " {0}/{1}", ++i, files.Length));
+                    SyncUI.ChangeProgressLabel(string.Format("Pobieranie e-Deklaracji" + " {0}/{1}", ++i, files.Length));
                 }
 
                 Logger.Write(LogEventLevel.Information, "Skopiowano " + "e-Deklaracje");
-                syncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_SUCCESSFUL);
+                SyncUI.ChangeProgressLabel(Messages.REGISTER_OPTIMA_SUCCESSFUL);
                 return true;
 
 
@@ -58,8 +52,8 @@ namespace OptimaSync.Service
             catch (Exception ex)
             {
                 Logger.Write(LogEventLevel.Error, ex.Message);
-                syncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
-                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.enumType.Error));
+                SyncUI.ChangeProgressLabel(Messages.ERROR_CHECK_LOGS);
+                SyncUI.Invoke(() => MainForm.Notification(Messages.ERROR_CHECK_LOGS, NotificationForm.notificationType.Error));
                 return false;
             }
         }

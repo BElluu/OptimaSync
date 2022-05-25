@@ -78,13 +78,16 @@ namespace OptimaSync
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.SyncTab);
             this.tabControl1.Controls.Add(this.SettingsTab);
             this.tabControl1.Controls.Add(this.HelpTab);
             this.tabControl1.Location = new System.Drawing.Point(-1, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(306, 238);
+            this.tabControl1.Size = new System.Drawing.Size(318, 245);
             this.tabControl1.TabIndex = 0;
             // 
             // SyncTab
@@ -99,7 +102,7 @@ namespace OptimaSync
             this.SyncTab.Location = new System.Drawing.Point(4, 24);
             this.SyncTab.Name = "SyncTab";
             this.SyncTab.Padding = new System.Windows.Forms.Padding(3);
-            this.SyncTab.Size = new System.Drawing.Size(298, 210);
+            this.SyncTab.Size = new System.Drawing.Size(310, 217);
             this.SyncTab.TabIndex = 0;
             this.SyncTab.Text = "Sync";
             this.SyncTab.UseVisualStyleBackColor = true;
@@ -184,7 +187,7 @@ namespace OptimaSync
             this.SettingsTab.Location = new System.Drawing.Point(4, 24);
             this.SettingsTab.Name = "SettingsTab";
             this.SettingsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.SettingsTab.Size = new System.Drawing.Size(298, 210);
+            this.SettingsTab.Size = new System.Drawing.Size(310, 217);
             this.SettingsTab.TabIndex = 1;
             this.SettingsTab.Text = "Ustawienia";
             this.SettingsTab.UseVisualStyleBackColor = true;
@@ -195,7 +198,7 @@ namespace OptimaSync
             this.notificationGroupBox.Controls.Add(this.newVersionNotificationCheckBox);
             this.notificationGroupBox.Location = new System.Drawing.Point(0, 146);
             this.notificationGroupBox.Name = "notificationGroupBox";
-            this.notificationGroupBox.Size = new System.Drawing.Size(295, 64);
+            this.notificationGroupBox.Size = new System.Drawing.Size(307, 68);
             this.notificationGroupBox.TabIndex = 12;
             this.notificationGroupBox.TabStop = false;
             this.notificationGroupBox.Text = "Powiadomienia";
@@ -203,7 +206,7 @@ namespace OptimaSync
             // turnOnSoundNotificationCheckBox
             // 
             this.turnOnSoundNotificationCheckBox.AutoSize = true;
-            this.turnOnSoundNotificationCheckBox.Location = new System.Drawing.Point(156, 23);
+            this.turnOnSoundNotificationCheckBox.Location = new System.Drawing.Point(163, 23);
             this.turnOnSoundNotificationCheckBox.Name = "turnOnSoundNotificationCheckBox";
             this.turnOnSoundNotificationCheckBox.Size = new System.Drawing.Size(139, 19);
             this.turnOnSoundNotificationCheckBox.TabIndex = 1;
@@ -234,7 +237,7 @@ namespace OptimaSync
             this.generalGroupBox.Controls.Add(this.soaDestDirectoryLabel);
             this.generalGroupBox.Location = new System.Drawing.Point(0, 0);
             this.generalGroupBox.Name = "generalGroupBox";
-            this.generalGroupBox.Size = new System.Drawing.Size(295, 140);
+            this.generalGroupBox.Size = new System.Drawing.Size(307, 140);
             this.generalGroupBox.TabIndex = 11;
             this.generalGroupBox.TabStop = false;
             this.generalGroupBox.Text = "Ogólne";
@@ -322,7 +325,7 @@ namespace OptimaSync
             this.HelpTab.Controls.Add(this.versionLabel);
             this.HelpTab.Location = new System.Drawing.Point(4, 24);
             this.HelpTab.Name = "HelpTab";
-            this.HelpTab.Size = new System.Drawing.Size(298, 210);
+            this.HelpTab.Size = new System.Drawing.Size(310, 217);
             this.HelpTab.TabIndex = 2;
             this.HelpTab.Text = "Pomoc";
             this.HelpTab.UseVisualStyleBackColor = true;
@@ -331,7 +334,7 @@ namespace OptimaSync
             // 
             this.authorLabel.AutoSize = true;
             this.authorLabel.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.authorLabel.Location = new System.Drawing.Point(10, 190);
+            this.authorLabel.Location = new System.Drawing.Point(10, 195);
             this.authorLabel.Name = "authorLabel";
             this.authorLabel.Size = new System.Drawing.Size(176, 12);
             this.authorLabel.TabIndex = 4;
@@ -361,7 +364,7 @@ namespace OptimaSync
             // 
             this.versionLabelValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.versionLabelValue.AutoSize = true;
-            this.versionLabelValue.Location = new System.Drawing.Point(237, 188);
+            this.versionLabelValue.Location = new System.Drawing.Point(249, 195);
             this.versionLabelValue.Name = "versionLabelValue";
             this.versionLabelValue.Size = new System.Drawing.Size(49, 15);
             this.versionLabelValue.TabIndex = 1;
@@ -371,7 +374,7 @@ namespace OptimaSync
             // 
             this.versionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.versionLabel.AutoSize = true;
-            this.versionLabel.Location = new System.Drawing.Point(192, 188);
+            this.versionLabel.Location = new System.Drawing.Point(204, 195);
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(48, 15);
             this.versionLabel.TabIndex = 0;
@@ -428,13 +431,13 @@ namespace OptimaSync
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(301, 236);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.ClientSize = new System.Drawing.Size(314, 241);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(317, 275);
-            this.MinimumSize = new System.Drawing.Size(317, 275);
+            this.MaximumSize = new System.Drawing.Size(330, 280);
+            this.MinimumSize = new System.Drawing.Size(330, 280);
             this.Name = "MainForm";
             this.Text = "OptimaSync";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);

@@ -6,9 +6,11 @@ namespace OptimaSync.Helper
 {
     public class SearchBuildServiceHelper
     {
-        public string GetProgrammerVersion()
+
+        protected SearchBuildServiceHelper() { }
+        public static string GetProgrammerVersion()
         {
-            string programmerCommonDllPath = AppConfigHelper.GetConfigValue("ProgrammerDestination") + "\\" + DownloadServiceHelper.CHECK_VERSION_FILE;
+            string programmerCommonDllPath = AppConfigHelper.GetConfigValue("ProgrammerDestination") + Path.DirectorySeparatorChar + DownloadServiceHelper.CHECK_VERSION_FILE;
 
             if (!File.Exists(programmerCommonDllPath))
             {
@@ -21,9 +23,9 @@ namespace OptimaSync.Helper
             return programmerCommonDllVerson;
         }
 
-        public string GetSoaVersion()
+        public static string GetSoaVersion()
         {
-            string soaCommonDllPath = AppConfigHelper.GetConfigValue("SOADestination") + "\\" + DownloadServiceHelper.CHECK_VERSION_FILE;
+            string soaCommonDllPath = AppConfigHelper.GetConfigValue("SOADestination") + Path.DirectorySeparatorChar + DownloadServiceHelper.CHECK_VERSION_FILE;
 
             if (!File.Exists(soaCommonDllPath))
             {
@@ -36,7 +38,7 @@ namespace OptimaSync.Helper
             return soaCommonDllVerson;
         }
 
-        public string GetBasicVersion()
+        public static string GetBasicVersion()
         {
 
             string lastBuildCommonDllPath = null;
@@ -47,7 +49,7 @@ namespace OptimaSync.Helper
 
             if (lastBuild != null) 
             { 
-            lastBuildCommonDllPath = lastBuild.ToString() + "\\" + DownloadServiceHelper.CHECK_VERSION_FILE;
+            lastBuildCommonDllPath = lastBuild.ToString() + Path.DirectorySeparatorChar + DownloadServiceHelper.CHECK_VERSION_FILE;
             }
 
             if (!File.Exists(lastBuildCommonDllPath))
