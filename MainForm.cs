@@ -20,6 +20,7 @@ namespace OptimaSync
         {
             InitializeComponent();
             SetValuesFromConfig();
+            MaximizeBox = false;
             FillProductionVersionList();
             _instance = this;
             AutoUpdater.Start(AUTO_UPDATE_CONFIG);
